@@ -22,3 +22,5 @@
 
 # Binary Data file
 *.dat
+*/*.dat
+*/*/*.dat
