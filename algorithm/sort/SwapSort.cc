@@ -92,6 +92,11 @@ void SimpleSelect(T* inPtr, int seqLen)
     }
 }
 
+/**
+ * @brief [brief description]
+ */
+
+
 int main(int argc, char const *argv[])
 {
     const int seqLen = 10;
