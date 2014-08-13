@@ -1,5 +1,4 @@
 #include "Sort.hpp"
-
 using namespace std;
 
 static int swapCounter = 0;
@@ -118,25 +117,72 @@ void SimpleSelect(T* inPtr, int seqLen)
 template <typename T>
 int Partion(T* inPtr, int lowIdx, int highIdx)
 {
-    int tmpIdx = lowIdx;
-    
+    int tmpEle = inPtr[lowIdx];
+    // std::cout<<"tmpEle = "<<tmpEle<<std::endl;
+    while(highIdx != lowIdx)
+    {
+        for (int i = highIdx; i > lowIdx; --i)
+        {
+            // std::cout<<"inPtr["<<i<<"] = "<<inPtr[i]<<std::endl;
+            if(inPtr[i] < tmpEle)
+            {
+                inPtr[lowIdx++] = inPtr[i];
+                highIdx = i;
+                break;
+            }
+            else
+                --highIdx;
+        }
+        // std::cout<<"highIdx = "<<highIdx<<"\tlowIdx="<<lowIdx<<endl;
+        for (int i = lowIdx; i < highIdx; ++i)
+        {
+            if(inPtr[i] > tmpEle)
+            {
+                inPtr[highIdx--] = inPtr[i];
+                lowIdx = i;
+                break;
+            }
+            else
+                ++lowIdx;
+        }
+    }
+    inPtr[lowIdx] = tmpEle;
+    return lowIdx;
 }
+template <typename T>
+void QuickSort(T* inPtr,int lowIdx, int highIdx)
+{
+    if(lowIdx<highIdx)
+    {
+        int n = Partion(inPtr,lowIdx,highIdx);
+        QuickSort(inPtr,lowIdx,n);
+        QuickSort(inPtr,n+1,highIdx);
+    }
 
+}
 int main(int argc, char const *argv[])
 {
-    const int seqLen = 10;
+    const int seqLen = 1000;
     int seq[seqLen] = {0};
     int seqb[seqLen] = {0};
     RandSeqGenerator(seq,seqLen,0,seqLen);
-    // memcpy(seqb,seq,sizeof(int)*seqLen);
-    copy(seq, seq + seqLen, ostream_iterator<int>(cout,", ")); cout<<endl;
+    // int seq[10] = {5,1,2,3,0,6,7,8,4,9};
+    memcpy(seqb,seq,sizeof(int)*seqLen);
+    // copy(seq, seq + seqLen, ostream_iterator<int>(cout,", ")); cout<<endl;
+    CodeTiming ct;
+    ct.Start();
+    QuickSort(seq,0,seqLen-1);
+    ct.EndAndPrint("QuickSort");
+    // copy(seq, seq + seqLen, ostream_iterator<int>(cout,", ")); cout<<endl;
     // BubbleSortWithFlag2(seq,seqLen);
     // cout<<swapCounter<<endl;
-    // assert(IsUpOrdered(seq,seqLen));
+    assert(IsUpOrdered(seq,seqLen));
+    ct.Start();
+    BubbleSort(seqb,seqLen);
+    ct.EndAndPrint("BubbleSort");
     // swapCounter = 0;
-    // BubbleSort(seqb,seqLen);
     // cout<<swapCounter<<endl;
-    // assert(IsUpOrdered(seqb,seqLen));
+    assert(IsUpOrdered(seqb,seqLen));
     // copy(seq, seq + seqLen, ostream_iterator<int>(cout,", ")); cout<<endl;
     cout<<"\nMain Finished"<<endl;
     return 0;
