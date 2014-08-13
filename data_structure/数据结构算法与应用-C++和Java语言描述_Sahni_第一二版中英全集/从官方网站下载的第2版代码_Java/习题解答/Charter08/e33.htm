@@ -1,0 +1,92 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 8, Exercise 33<BR>
+<BR>
+</H1>
+<dl compact>
+We use the one-dimensional array mapping used for a lower triangular matrix
+(see the class <code class=code>LowerTriangularMatrix</code>).
+When accessing an element <code class=var>(i,j)</code>
+with <code class=var>i &gt;= j</code>, the mapping formula for an
+element in the lower triangle of a triangular matrix is used.
+When <code class=var>i &lt; j</code>, we are accessing an element
+in the upper triangle.  Since the matrix is symmetric, we
+access the equivalent element <code class=var>(j,i)</code>.
+<br><br>
+The code is given below.
+The complexity of each method is readily seen to be
+<code class=var>Theta(1)</code>.
+<HR class = coderule>
+<PRE class = code>
+public class LowerSymmetricMatrix
+{
+   // data members
+   int rows;            // matrix dimension
+   Object zero;         // zero element
+   Object [] element;   // element array
+
+   // constructor
+   public LowerSymmetricMatrix(int theRows, Object theZero)
+   {
+      // validate theRows
+      if (theRows &lt; 1)
+         throw new IllegalArgumentException
+               ("number of rows must be &gt; 0");
+   
+      // create and initialize the matrix
+      rows = theRows;
+      zero = theZero;
+      element = new Object [rows * (rows + 1) / 2];
+      for (int i = 0; i &lt;  rows * (rows + 1) / 2; i++)
+         element[i] = zero;
+   }
+   
+   // methods
+   /** throws IndexOutOfBoundsException when i &lt; 1
+     * or j &lt; 1 or i &gt; rows or j &gt; rows */
+   void checkIndex(int i, int j)
+   {
+      if (i &lt; 1 || j &lt; 1 || i &gt; rows || j &gt; rows)
+         throw new IndexOutOfBoundsException
+                   ("i = " + i + " j = " + j +
+                    " rows = " + rows + " cols = " + rows);
+   }
+
+   /** return the element this(i,j)
+     * throws IndexOutOfBoundsException when i or j invalid */
+   public Object get(int i, int j)
+   {
+      checkIndex(i, j);
+
+      if (i >= j)
+         return element[i * (i - 1) / 2 + j - 1];
+      else
+         // interchange roles of i and j
+         return element[j * (j - 1) / 2 + i - 1];
+   }
+   
+   /** set this(i,j) = newValue
+     * throws IndexOutOfBoundsException when i or j invalid */
+   public void set(int i, int j, Object newValue)
+   {
+      checkIndex(i, j);
+
+      // store newValue
+      if (i >= j)
+         element[i * (i - 1) / 2 + j - 1] = newValue;
+      else
+         // interchange roles of i and j
+         element[j * (j - 1) / 2 + i - 1] = newValue;
+   }
+}
+</pre>
+<HR class=coderule><BR><br>
+
+</FONT>
+</BODY>
+</HTML>

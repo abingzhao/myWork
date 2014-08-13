@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 5, Exercise 23<BR>
+<BR>
+</H1>
+<br><br>
+The codes for the new methods are
+<hr class=coderule>
+<pre class=code>
+// reset to start of list
+public void reset()
+   {nextIndex = 0;}
+
+// @return false iff at front of list
+public boolean hasPrevious()
+   {return nextIndex &gt; 0;}
+
+/** @return previous element in list
+  * @throws NoSuchElementException
+  * when there is no previous element */
+public Object previous()
+{
+   if (nextIndex &gt; 0)
+      return element[--nextIndex];
+   else throw new NoSuchElementException("No previous element");
+}
+</pre>
+<hr class=coderule>
+<br><br>
+These codes and
+sample test data appear in the class
+<code class=code>dataStructures.ArrayLinearListWithNewIterator</code>.
+
+</FONT>
+</BODY>
+</HTML>

@@ -1,0 +1,78 @@
+
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 6, Exercise 31<BR>
+<BR>
+</H1>
+<dl compact>
+<dt> (a)
+<dd>
+We can use essentially the same code as used in Exercise 17 to split two chains.
+We must change all occurrences of <code class=code>ExtendedChain</code>
+to <code class=code>CircularList</code>.
+The modified code is given below.
+
+<HR class = coderule>
+<PRE class = code>
+public class SplitCircularList
+{
+   /** split a into b and c */
+   public static void split(CircularList a, CircularList b,
+                            CircularList c)
+   {
+      // first empty out b and c
+      b.clear();
+      c.clear();
+   
+      // assign elements of a alternately to b and c using an
+      // iterator ia for a
+      Iterator ia = a.iterator();
+      while (ia.hasNext())
+      {
+         // first give b an element
+         b.add(ia.next());
+         if (!ia.hasNext()) break;
+
+         // now give c an element
+         c.add(ia.next());
+      }
+   }
+}
+<HR class = coderule>
+</pre>
+<br>
+
+<dl compact>
+<dt> 
+<dd>
+<br><br>
+
+<dt> (b)
+<dd>
+The time needed to empty the lists <code class=code>b</code>
+and <code class=code>c</code> is <code class=math>Theta(1)</code>.
+Each <code class=var>add</code> takes <code class=var>Theta(1)</code> time
+because the new element is added at the end of the list.
+The <code class=code>while</code> loop iterates
+at most
+<code class=var>ceil(a.size / 2)</code> times.  This loop
+may terminate earlier because it is possible for
+<code class=code>add</code> to fail for lack
+of memory.  So, the
+complexity is <code class=math>O(a.size)</code>.
+<br><br>
+<dt> (c)
+<dd>
+The codes and output are in the files <code class=code>SplitCircularList.*</code>.
+
+</dl>
+
+</FONT>
+</BODY>
+</HTML>

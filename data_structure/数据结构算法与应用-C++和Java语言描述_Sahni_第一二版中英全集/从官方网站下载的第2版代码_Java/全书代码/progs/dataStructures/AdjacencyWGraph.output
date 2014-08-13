@@ -1,0 +1,22 @@
+Edges = 0
+
+The graph is
+null 3 2 4 
+3 null null 5 
+2 null null null 
+4 5 null null 
+
+The graph after deleting (2,1) is
+null null 2 4 
+null null null 5 
+2 null null null 
+4 5 null null 
+
+existsEdge(3,1) = true
+inDegree(3) = 1
+outDegree(1) = 2
+Edges = 3
+
+Edges incident to vertex 4 are
+(4, 1, 4)
+(4, 2, 5)

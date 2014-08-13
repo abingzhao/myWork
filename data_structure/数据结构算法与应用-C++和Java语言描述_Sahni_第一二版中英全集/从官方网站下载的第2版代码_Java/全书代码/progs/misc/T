@@ -1,0 +1,12 @@
+
+public class FloatingFormat
+{
+   public static void main(String [] args)
+   {
+      NumberFormat nf = NumberFormat.getInstance();
+      nf.setMinimumFractionDigits(2);
+      nf.setMaximumFractionDigits(2);
+      double myNumber = 1234.5678;
+      System.out.println(myNumber + "  " + nf.format(MyNumber));
+   }
+}

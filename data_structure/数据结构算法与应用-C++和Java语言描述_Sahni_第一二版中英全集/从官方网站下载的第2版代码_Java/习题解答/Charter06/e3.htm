@@ -1,0 +1,42 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 6, Exercise 3<BR>
+<BR>
+</H1>
+The method <code class=code>dataStructures.ChainWithSet.set</code>
+is given below.
+<hr class=coderule>
+<pre class=code>
+/** set the element whose index is theIndex to theElement
+  * @throws IndexOutOfBoundsException when theIndex &amp;lt; 0
+  * or theIndex &gt;= size 
+  * @returns old element with index equal to theIndex */
+public Object set(int theIndex, Object theElement)
+{
+   checkIndex(theIndex);
+
+   // move to node with element whose index is theIndex
+   ChainNode currentNode = firstNode;
+   for (int i = 0; i &lt; theIndex; i++)
+      currentNode = currentNode.next;
+
+   Object elementToReturn = currentNode.element;
+   currentNode.element = theElement;
+   return elementToReturn;
+}
+</pre>
+<hr class=coderule>
+<br><br>
+The complexity is <code class=var>O(theIndex)</code> because it
+takes this much time to find the node whose <code class=code>element</code>
+field is to be set to <code class=code>theElement</code>.
+
+</FONT>
+</BODY>
+</HTML>

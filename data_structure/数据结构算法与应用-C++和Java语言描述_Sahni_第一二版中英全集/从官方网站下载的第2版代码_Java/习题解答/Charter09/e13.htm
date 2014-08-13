@@ -1,0 +1,57 @@
+<HTML>
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 9, Exercise 13<BR>
+<BR>
+</H1>
+
+We scan the expression from left to right keeping a count of the
+number of left parentheses that are yet to be matched. Whenever a
+left parenthesis is encountered, this count is increased by
+<code class=var>1</code>
+and whenever a right parenthesis is encountered, the count is decreased
+by <code class=var>1</code>. If the count ever becomes negative,
+we have seen more right parentheses than left and so the parentheses are
+not matched. If the count is positive when we are done
+scanning the expression, there are more left parentheses than right.
+So, the parentheses are not matched.
+
+<HR class = coderule>
+<PRE class = code>
+public class ParenthesisMatching2
+{
+   /** @return true iff all parentheses in the string expr are matched */
+   public static boolean matched(String expr)
+   {
+      int length = expr.length();
+      int count = 0;  // number of unmatched left parentheses so far
+   
+      // scan expression expr for ( and )
+      for (int i = 0; i &lt; length; i++)
+         if (expr.charAt(i) == '(')
+            count++;  // one more '(' to be matched later
+         else
+            if (expr.charAt(i) == ')')
+               if (count == 0)
+                return false;
+               else
+                  count--;  // taken care of 1 '('
+   
+      // remaining '(' are unmatched
+      return (count &gt; 0) ? false : true;
+   }
+}
+</pre>
+<HR class=coderule>
+
+The test program, input, and output are in the files
+<code class=code>ParenthesisMatching2.*</code>.
+
+</FONT>
+</BODY>
+</HTML>

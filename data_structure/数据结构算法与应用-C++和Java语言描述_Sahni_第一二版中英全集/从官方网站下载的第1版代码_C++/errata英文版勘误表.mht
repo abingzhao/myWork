@@ -1,0 +1,600 @@
+From: <ÓÉ Windows Internet Explorer 7 ±£´æ>
+Subject: 
+Date: Sat, 22 Jan 2011 02:58:09 +0800
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_0000_01CBB9E0.3364D490"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.5994
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_0000_01CBB9E0.3364D490
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mhhe.com/engcs/compsci/sahni/errata.mhtml
+
+=EF=BB=BF<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dutf-8"><LINK=20
+href=3D"http://www.mhhe.com/engcs/compsci/sahni/exer.css" =
+rel=3Dstylesheet>
+<META content=3D"MSHTML 6.00.6000.17093" name=3DGENERATOR></HEAD>
+<BODY><IMG =
+src=3D"http://www.mhhe.com/engcs/compsci/sahni/images/errata.gif">=20
+<H1>Data Structures, Algorithms, &amp; Applications in C++<BR>Errata=20
+1<BR><BR></H1>
+<OL>
+  <LI>Page 17, line -2. follwoing -&gt; following Pages 18 &amp; 19, =
+program=20
+  line 9. <CODE>int</CODE> -&gt; <CODE>T</CODE>=20
+  <LI>Page 20, line -8. types such -&gt; types such as=20
+  <LI>Page 21, line 21. can show -&gt; can let=20
+  <LI>Page 25, Program 1.17, line -3. 0.005 -&gt; 0.001=20
+  <LI>Page 38, line -12. /2a -&gt; /(2a) and sqrt(-d) -&gt; =
+sqrt(-d)/(2a)=20
+  <LI>Page 59, line -1. Equation 2.3 -&gt; Equation 1.3=20
+  <LI>Page 60, Program 2.6, line 5. n+1 -&gt; n=20
+  <LI>Page 67, line -1. in the worst -&gt; , and in the worst=20
+  <LI>Page 68, line 2. polgon -&gt; polygon=20
+  <LI>Page 78, Example 2.23. The codes should declare the loop variable =
+i=20
+  outside of the loop. This increases the best-case, worst-case, and =
+average=20
+  step counts by 1.=20
+  <LI>Page 91, line -12. n(m+1)+2 =3D Theta(mn) &gt;- 2n+2 =3D Theta(n)=20
+  <LI>Page 91, line -11. t_Add(m,n) =3D 2mn+2n+1 =3D Theta(mn) &gt;-=20
+  t_Add(rows,cols) =3D 2rows * cols + 2rows + 1 =3D Theta(rows * cols)=20
+  <BR>t_Transpose(n) =3D (n-1)(4n+2)/2 =3D Theta(n^2) &gt;- =
+t_Transpose(rows) =3D=20
+  rows^2 + rows + 1 =3D Theta(rows^2)=20
+  <LI>Page 95, Figure 2.22. Total steps for return i should be the same =
+as the=20
+  frequency.=20
+  <LI>Page 95, line -2. invariant &gt;- following invariant=20
+  <LI>Page 102, line 5. 486 &gt;- a 486=20
+  <LI>Page 102, line 4. data space &gt;- statically allocated=20
+  <LI>Page 139, line -10. <CODE>for</CODE> -&gt; <CODE>while</CODE>=20
+  <LI>Page 143, Exercise 29(a), line 5. two input -&gt; input=20
+  <LI>Page 144, Exercise 35, line 2. Your -&gt; You=20
+  <LI>Page 145, Exercise 42. Should be: Write a nonmember function to =
+reverse a=20
+  circular list with a head node. See Exercises 28 and 36.=20
+  <LI>Page 145, Exercises 44-46. Delete second sentence.=20
+  <LI>Page 145, Exercises 54 &amp; 55. Delete line 2.=20
+  <LI>Page 145, Exercise 56. Delete lines 2 and 3.=20
+  <LI>Page 161, Exercise 69, line 3. <CODE>SimSpace</CODE> -&gt;=20
+  <CODE>SimNode</CODE>=20
+  <LI>Page 178, line -7. Remove the sentence The code for ...=20
+  <LI>Page 180, lines 11, 14 and 15. All occurrences of =
+<CODE>size[]</CODE>=20
+  should be <CODE>node[].size</CODE>=20
+  <LI>Page 184, Ex. 77, line 2. 3.48 -&gt; 3.44=20
+  <LI>Page 208, line -18. To go the -&gt; To go to the=20
+  <LI>Page 226, line 24. repsentation -&gt; representation=20
+  <LI>Page 227, line 15. int [rows + 1]&lt;\code&gt; &gt;- <CODE>int =
+[cols +=20
+  1]</CODE>=20
+  <LI>Page 231, line -8. input &gt;- result=20
+  <LI>Page 234, line -8. delete (column i) + loop &gt;- loops=20
+  <LI>Page 238, line 12. desribed -&gt; described=20
+  <LI>Page 265, line -2. do &gt;- <CODE>for</CODE>=20
+  <LI>Page 281, Exercises 20-22. Programs 3.13 and 3.14 -gt&amp; Program =
+3.13=20
+  <LI>Page 310, Example 6.2. The number of jobs is 4 (not 6) and the =
+wait time=20
+  on machine 2 is 3 (not 0).=20
+  <LI>Page 311, Figure 6.14(b). In the line for time 15, 16 should be =
+19. In the=20
+  line for time 16, C C I 19 should be C 3 I L; and there should be a =
+new line=20
+  with time 17 whose entries are - - - I 3 I L 19 L=20
+  <LI>Page 329, line 8. <CODE>DistintInsert</CODE> -&gt;=20
+  <CODE>DistinctInsert</CODE>=20
+  <LI>Page 386, line 3. element, -&gt; element.=20
+  <LI>Page 390, Exercises 9 through 12. Do Exercise 1 -&gt; Do Exercise =
+8=20
+  <LI>Page 390, Exercises 13 and 14. structure -&gt; class=20
+  <LI>Page 401, line -5. Replace the line <BR><CODE =
+class=3Dcode>if</CODE> <EM=20
+  class=3Dvar>(D(j) + d(j)) &gt; tolerance)</EM> place a booster at <EM=20
+  class=3Dvar>j</EM>; <BR>with the line <BR><CODE class=3Dcode>if</CODE> =
+<EM=20
+  class=3Dvar>(D(j) + d(j)) &gt; tolerance)</EM> place a booster at <EM=20
+  class=3Dvar>j</EM> and update <EM class=3Dvar>D(i)</EM>;=20
+  <LI>Page 404, Program 8.14. <PRE class=3Dcode>void =
+PlaceBoosters(BinaryTreeNode&lt;Booster&gt; *x)
+{// Compute degradation at *x.  Place booster
+ // here if degradation exceeds tolerance.
+   BinaryTreeNode&lt;Booster&gt; *y =3D x-&gt;LeftChild;
+   int degradation;
+   x-&gt;data.D =3D 0;  // initialize degradation at x
+   if (y) {// compute from left child
+           degradation =3D y-&gt;data.D + y-&gt;data.d;
+           if (degradation &gt; tolerance)
+              {y-&gt;data.boost =3D true;
+               x-&gt;data.D =3D y-&gt;data.d;}
+           else x-&gt;data.D =3D degradation;
+          }
+   y =3D x-&gt;RightChild;
+   if (y) {// compute from right child
+           degradation =3D y-&gt;data.D + y-&gt;data.d;
+           if (degradation &gt; tolerance)
+              {y-&gt;data.boost =3D true;
+               degradation =3D y-&gt;data.d;}
+           if (x-&gt;data.D &lt; degradation)
+              x-&gt;data.D =3D degradation;
+          }
+}
+</PRE>
+  <LI>Page 415, Exercise 35, line 2. tree different -&gt; tree is =
+different=20
+  <LI>Page 415, Exercise 37. <CODE>PostPrint</CODE> -&gt;=20
+  <CODE>PostOutput</CODE>=20
+  <LI>Page 421, line 10. Eqation -&gt; Equation=20
+  <LI>Page 421, lines 2 and 10. 2.1 -&gt; 3.1=20
+  <LI>Page 429, Program 9.4, line 9. restucture -&gt; restructure=20
+  <LI>Page 429, Program 9.4, line 18. [ci] -&gt; [c]=20
+  <LI>Page 430, Program 9.5, line 19. [c]? -&gt; [c/2]?=20
+  <LI>Page 441, line -1. n &gt; 1 &gt; n &gt; 0=20
+  <LI>Page 446, line 20. This line should be set in black.=20
+  <LI>Page 456, line 3. (x,y) -&gt; (x,e)=20
+  <LI>Page 456, Exercise 20, line 2. to a -&gt; the=20
+  <LI>Page 457, Exercise 21, line 2. correction -&gt; correctness=20
+  <LI>Pages 466-468. The symbol <EM class=3Dvar>s</EM> used in the text =
+does not=20
+  agree with the variable <CODE class=3Dcode>s</CODE> used in Program =
+10.3. The=20
+  variable in the program is 2<SUP>symbol in text</SUP>.=20
+  <LI>Page 472, Exercise 3, line 2. necessary matches -&gt; matches that =
+are=20
+  necessary.=20
+  <LI>Page 474, line -4. 8.5.2 -&gt; 9.5.2=20
+  <LI>Page 488, line -11. 11.3 -&gt;&amp; 11.5=20
+  <LI>Page 490, ADT 11.1, line -2. Output -&gt; output=20
+  <LI>Page 491, ADT 11.2, line -2. Output -&gt; output=20
+  <LI>Page 491, last sentence. to make <CODE class=3Dcode>BSTree</CODE> =
+... -&gt;=20
+  to either make <CODE class=3Dcode>BSTree</CODE> a friend of <CODE=20
+  class=3Dcode>BinaryTree</CODE> or make <CODE class=3Dcode>root</CODE> =
+a protected=20
+  member of <CODE class=3Dcode>BinaryTree</CODE>.=20
+  <LI>Page 496, Section 11.1.7, line 4. . No other changes are needed. =
+-&gt; and=20
+  by changing the line <BR><CODE class=3Dcode>if (e &lt; pp-&gt;data)=20
+  pp-&gt;LeftChild =3D r;</CODE> <BR>to the line <BR><CODE =
+class=3Dcode>if (e &lt;=3D=20
+  pp-&gt;data) pp-&gt;LeftChild =3D r;</CODE> <BR>
+  <LI>Page 498, Exercise 2, line 1. <CODE class=3Dcode>DBSTree</CODE> =
+-&gt; <EM=20
+  class=3Dvar>DBSTree</EM>=20
+  <LI>Page 499, Exercise 9, line 1. <CODE class=3Dcode>whle</CODE> -&gt; =
+<CODE=20
+  class=3Dcode>while</CODE>=20
+  <LI>Page 499, Exercise 12, line 1. <CODE =
+class=3Dcode>BinarySearchTree</CODE>=20
+  -&gt; <CODE class=3Dcode>BSTree</CODE>=20
+  <LI>Page 501, line 10. Exercise 11 -&gt; Exercise 13=20
+  <LI>Page 507, line 11. D2 -&gt; D1=20
+  <LI>Page 518, lines 6 through 9. Delete parenthetical remarks.=20
+  <LI>Page 538, Exercise 31, line 4. for B -&gt; for a B=20
+  <LI>Page 539, Exercise 34 (d), line 1. 11.4.4 -&gt; 11.3.4=20
+  <LI>Page 552, Exercise 39 (b), line 2. <CODE>BestFit -&gt; =
+BestFitPack</CODE>=20
+  <LI>Page 561, lines 9 and 10. Delete last sentence.=20
+  <LI>Page 561, Figure 12.4(b). cost=3D100 -&gt; cost=3D110=20
+  <LI>Page 565, Exercise 5, line 3. <EM>h</EM> -&gt; <EM>H</EM>=20
+  <LI>Page 565, Exercise 7. Delete parts (c) and (d).=20
+  <LI>Page 570, line -4. 2(n + m + 1) &gt;- 2(n + 2m + 1)=20
+  <LI>page 570, line -2. n + 2 &gt;- n + 1=20
+  <LI>Page 572, Exercise 15, (a) and (b), line 2. Theta -&gt; O=20
+  <LI>Page 574, Exercise 22, line 2. 12.1 -&gt; 12.13=20
+  <LI>Page 574, Exercise 23, line 2. 12.1(a) and (b) -&gt; 12.13(b) and =
+(c)=20
+  <LI>Pages 576, 593, 594, and 597. The arrow heads in Figures 12.15 and =
+12.18=20
+  are inconsistent with those in Figures 12.16 and 12.17. For =
+consistency,=20
+  change those in Figures 12.15 and 12.18 to be at the other end.=20
+  <LI>Page 580, line -14. unweighted- -&gt; unweighted=20
+  <LI>Page 613, Exercise 48, lines 1 and 2. <CODE>Network -&gt;=20
+  Undirected</CODE>; network -&gt; undirected graph; and delete =
+(directed)=20
+  <LI>Page 613, Exercise 49, lines 6 and 7. Theta -&gt; O=20
+  <LI>Page 614, Exercise 50, line 1. Theta -&gt; O=20
+  <LI>Page 626, line -8. nondecreasing -&gt; nonincreasing=20
+  <LI>Page 645. Add the line <CODE>d[s] =3D 0; p[s] =3D s;</CODE> after =
+the first=20
+  <CODE>for</CODE> loop.=20
+  <LI>Page 649, line 13. one edge -&gt; one edge, <EM>e</EM>,=20
+  <LI>Page 653, Figure 13.14, line -5. E} -&gt; E=20
+  <LI>Page 656, Exercise 13, line 2. nondecreasing -&gt; nonincreasing=20
+  <LI>Page 657, Exercise 17, line 3. nondecreasing -&gt; nonincreasing=20
+  <LI>Page 657, Exercise 20. Trace the working of Program 13.3 on the =
+graph of=20
+  Figure 13.6.=20
+  <LI>Page 658, Exercise 22(c). <CODE>int C</CODE> &gt; <CODE>int =
+C[]</CODE>=20
+  <LI>Page 665, Equation 14.5. C_2 -&gt; C_4=20
+  <LI>Page 673, line -2. zero &gt; 1=20
+  <LI>Page 682, line -2. are to -&gt; to=20
+  <LI>Page 683, line 3. <CODE>*a</CODE> -&gt; <CODE>a[]</CODE>=20
+  <LI>Page 691, square root formula. remove last right parenthesis.=20
+  <LI>Page 693, Example 14.8, line 4. b, c, h, and n -&gt; b, c, h, i, =
+and n=20
+  <LI>Page 699, Program 14.11, line -16. fabs(Y[m] -&gt; fabs(X[m]=20
+  <LI>Page 701, Exercise 14, line 2. smaller -&gt; larger=20
+  <LI>Page 702, Exercise 22. 14.8 -&gt; 14.10=20
+  <LI>Page 709, Figure 14.19. 0:1 -&gt; 2:1 and 0:2 -&gt; 2:0=20
+  <LI>Page 710, Exercise 38(c), line 4. comparisons -&gt; comparisons in =
+the=20
+  worst case=20
+  <LI>Page 717, Program 15.2, line 5. <CODE>w[n]</CODE> -&gt;=20
+  <CODE>min(w[n]-1,c)</CODE>=20
+  <LI>Page 717, Program 15.2, line 11. <CODE>w[i]</CODE> -&gt;=20
+  <CODE>min(w[i]-1,c)</CODE>=20
+  <LI>page 726, lines -2 and -3. <EM>kj</EM> -&gt; <EM>k+1,j</EM>=20
+  <LI>Page 737, Example 15.18, line 1. 10.17 -&gt; 11.32=20
+  <LI>Page 737, Example 15.18, line 6 and Example 15.19 line1. 10.17 =
+-&gt; 15.7=20
+  <LI>Page 738, Equation 15.6. <EM>i</EM> -&gt; 1=20
+  <LI>Page 740, line 3. <CODE>MN</CODE> &gt;- <CODE>size</CODE>=20
+  <LI>Page 743, line 3. <EM>r<SUB>j</SUB>+1 -&gt; r<SUB>j+1</SUB></EM>=20
+  <LI>Page 743, line -2. obsrvation -&gt; observation=20
+  <LI>Page 745, lines 6 and 7. <EM>wmin</EM> -&gt; <EM>wmax</EM> and min =
+&gt;=20
+  max=20
+  <LI>Page 745, Equation 15.14. <EM>k</EM> -&gt; <EM>s</EM>=20
+  <LI>Page 747, Exercise 12, lines 2 and 3. &lt;<EM>i,j</EM>&gt; -&gt;=20
+  (<EM>i,j</EM>)=20
+  <LI><I,J>Page 757, line 17. -&gt; (i,j)=20
+  <LI>Page 769, line 7 and 8. 16.2 -&gt; 16.2.1=20
+  <LI>Page 770 and 772. Replace the sentence that begins: The complexity =
+...=20
+  with: The complexity of <CODE>Knap::Knapsack</CODE> is O(<EM>2 sup =
+n</EM>)=20
+  even though the bounding function has complexity O(<EM>n</EM>) and it =
+is=20
+  computed at O(<EM>2 sup n</EM>) right children. To see this note that =
+if, in=20
+  the computation of the bounding function, the <CODE>while</CODE> loop =
+of=20
+  <CODE>Bound</CODE> is entered <EM>q</EM> times, then this computation =
+of the=20
+  bounding function is followed by <EM>q</EM> left-child moves. So over =
+the=20
+  entire run of <CODE>Knap::Knapsack</CODE>, the <CODE>while</CODE> loop =
+of=20
+  <CODE>Bound</CODE> cannot be entered more times than the number of =
+left-child=20
+  moves that are made. This number is O(<EM>2 sup n</EM>). Therefore, =
+the total=20
+  time spent computing the bounding function is O(<EM>2 sup 2</EM>).=20
+  <LI>Page 774, line -14. 15.6 -&gt; 15.2.5=20
+  <LI>Page 778, line 18 of code. <CODE>a[i]</CODE> &gt;- =
+<CODE>a[j]</CODE>=20
+  <LI>Page 785, Ex. 16(b), line 3. <CODE>x[i]</CODE> &gt;- =
+<CODE>x[j]</CODE>=20
+  <LI>Page 789, line 18. 6.11 -&gt; 6.9=20
+  <LI>Page 802, line -13. First <CODE>uprofit</CODE> &gt;- =
+<CODE>up</CODE>=20
+  <LI>Page 805, lines 8 and 9. delete stuff about <CODE>ch</CODE>=20
+  <LI>Page 809, line -17 of code. is x[1:0] &gt;- is x[0:0]=20
+  <LI>Page 812, line -11 of code. <CODE>{return bestd;}</CODE> &gt;-=20
+  <CODE>{break;}</CODE> </LI></OL>
+<CENTER><A href=3D"http://www.mhhe.com/engcs/compsci/sahni/">Home=20
+Page</A></CENTER><!--crfooter.mhtml-->
+<CENTER><IMG height=3D20 =
+src=3D"http://www.mhhe.com/catalogs/img/space.gif" width=3D10=20
+border=3D0>=20
+<P><FONT class=3Dsmalltext><A class=3Dlink=20
+href=3D"http://www.mhhe.com/catalogs/cust_serv/feedback.mhtml" =
+target=3D_top><FONT=20
+face=3D"verdana, arial, helvetica" size=3D1>feedback form</FONT></A> | =
+<A class=3Dlink=20
+href=3D"http://www.mhhe.com/catalogs/cust_serv/permissions.mhtml"=20
+target=3D_top><FONT face=3D"verdana, arial, helvetica" =
+size=3D1>permissions</FONT></A>=20
+| <A class=3Dlink href=3D"http://www.mhhe.com/catalogs/international"=20
+target=3D_top><FONT face=3D"verdana, arial, helvetica"=20
+size=3D1>international</FONT></A> | <A class=3Dlink=20
+href=3D"http://www.mhhe.com/catalogs/rep/" target=3D_top><FONT=20
+face=3D"verdana, arial, helvetica" size=3D1>locate your campus =
+rep</FONT></A> | <A=20
+class=3Dlink =
+href=3D"http://www.mhhe.com/catalogs/cust_serv/review1.mhtml"=20
+target=3D_top><FONT face=3D"verdana, arial, helvetica" size=3D1>request =
+a review=20
+copy</FONT></A> <BR><BR><A class=3Dlink=20
+href=3D"http://www.mhhe.com/catalogs/solutions/" target=3D_top><FONT=20
+face=3D"verdana, arial, helvetica" size=3D1>digital solutions</FONT></A> =
+| <A=20
+class=3Dlink href=3D"http://www.mhhe.com/catalogs/work/" =
+target=3D_top><FONT=20
+face=3D"verdana, arial, helvetica" size=3D1>publish with us</FONT></A> | =
+<A=20
+class=3Dlink href=3D"http://www.mhhe.com/catalogs/cust_serv/" =
+target=3D_top><FONT=20
+face=3D"verdana, arial, helvetica" size=3D1>customer service</FONT></A> =
+| <A=20
+class=3Dlink href=3D"http://www.mhhe.com/catalogs/index.mhtml" =
+target=3D_top><FONT=20
+face=3D"verdana, arial, helvetica" size=3D1>mhhe home</FONT></A>=20
+<P>
+<HR>
+
+<P><FONT face=3D"verdana, arial, helvetica" size=3D1>Copyright =
+=C2=A92001 The McGraw-Hill=20
+Companies.<BR>Any use is subject to the <A class=3Dlink=20
+href=3D"http://www.mcgraw-hill.com/copyrttm.htm" target=3D_new><FONT=20
+face=3D"verdana, arial, helvetica" size=3D1>Terms of Use</FONT></A> and =
+<A=20
+class=3Dlink href=3D"http://www.mhhe.com/catalogs/privacy_notice.mhtml"=20
+target=3D_new><FONT face=3D"verdana, arial, helvetica" size=3D1>Privacy=20
+Policy</FONT></A>.<BR>McGraw-Hill Higher Education is one of the many =
+fine=20
+businesses of the <A class=3Dlink href=3D"http://www.mcgraw-hill.com/"=20
+target=3D_new><FONT face=3D"verdana, arial, helvetica" size=3D1>The =
+McGraw-Hill=20
+Companies</FONT></A>. </FONT></FONT></CENTER></P></BODY></HTML>
+
+------=_NextPart_000_0000_01CBB9E0.3364D490
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Location: http://www.mhhe.com/engcs/compsci/sahni/images/errata.gif
+
+R0lGODlhEAI9APcAAP///xgYGFpaWt7e3ufn5+/v7/f397Wtrca9vXtzc4Rzc3tra4x7c4Rza3tr
+Y1pKQntrWlpKOYyEe2NSOZSEa3tzY3NjQoxzQlJKOUpCMYR7Y4RzQv/33r21nJyUe8a9nKWce4R7
+Usa1a/fvxq2le869a/fvvd7WpdbOnK2lc8a9hJyUY869Wt7WnLWtc5SMUntzOYR7OXNrMefWY+/n
+pefelO/nlL21c97WhMa9c7WtY8a9a721Y7WtWsa9Y62lUpSMQqWcSpyUQoyEOXtzMffvlO/njNbO
+c+fee87Ga97Wc9bOa+fec87GY+/nc9bOY7WtUt7WY721Uv//987Oxufn3v//73Nza7W1pYSEc3t7
+a0JCOff31jk5MefnxoyMc3t7Y5SUc+/vtWNjSoSEY1paQu/vrTk5KYyMY2trSoSEWpSUY3NzSoyM
+WufnlJycY0JCKYSEUq2ta+/vlGtrQpSUWqWlY1JSMbW1a4yMUjk5IZycWnNzQr29a87Oc0pKKZSU
+UtbWc5ycUq2tWsbGY2NjMc7OY5ycSmtrMVpaKZycQmNjKb3Ga4yUUoyUWnN7WkpSOVpjSufv3mNr
+WmtzY1JaSlpjWkpSSjlCOTE5MUpaUkJSSjlKQs7W1t7n573GxlJaWlpjY0pSUkJKSikxMSEpKTlK
+SjFCQhghISExMSlCSiE5QhgpMSExOSk5Qr3GzpylrVJjczlKWjFCUhghKaWttUpaa0JSYyk5SiEx
+QjE5QhAYIVJjezFCWlprhEpSY1pje2NrhFJac0pSazE5UjlCY2tzlEpSc0JKazE5WjE5Y+fn787O
+1tbW3t7e57W1va2ttb29xmtrc2Nja8bG1rW1zmNjc4yMpVpaa3t7lBAQGEJCYzExSkJCazk5a62l
+zr211rWtzpyUtYyEpXNrjKWcvYR7nM7G3q2lvZyUrZSMpaWctWtahFpKc1pCe1pCc9bO3q2ltYRz
+lGNSc2tShOfe72NKc2tac+/n7721va2lraWcpXNjc3Nja4RrcwAAACwAAAAAEAI9AAAI/wBdCRxI
+sKDBg6pOmTLFydSoTZsuXdo0amHDUwkPFlTFsaNHjq5UEVQ1I0rJkyZTzjjJUmXLlSZRwpz5smbM
+mzRx2szJc6dPnUB7Bv0ptOhJJjOQMlnKtKlTJkigIplKtarVqTWQZDVSg6vXr26M2HBjo6zZs2hp
+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
+X3d2b3d3f3d4j3d5V/eAAAA7
+
+------=_NextPart_000_0000_01CBB9E0.3364D490
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Location: http://www.mhhe.com/catalogs/img/space.gif
+
+R0lGODlhCgAKAID/AMDAwAAAACH5BAEAAAAALAAAAAAKAAoAQAIIhI+py+0PYysAOw==
+
+------=_NextPart_000_0000_01CBB9E0.3364D490
+Content-Type: text/css;
+	charset="gb2312"
+Content-Transfer-Encoding: 7bit
+Content-Location: http://www.mhhe.com/engcs/compsci/sahni/exer.css
+
+H1 {
+	COLOR: red; align: center
+}
+H2 {
+	COLOR: red; align: center
+}
+H3 {
+	COLOR: red; align: center
+}
+H4 {
+	COLOR: red; align: center
+}
+H5 {
+	COLOR: red; align: center
+}
+H6 {
+	COLOR: red; align: center
+}
+HR {
+	COLOR: blue
+}
+BODY {
+	BACKGROUND-COLOR: white
+}
+.code {
+	COLOR: blue
+}
+.var {
+	COLOR: blue
+}
+.def {
+	COLOR: red
+}
+.figure {
+	COLOR: red
+}
+.coderule {
+	COLOR: blue
+}
+
+------=_NextPart_000_0000_01CBB9E0.3364D490--

@@ -1,0 +1,893 @@
+From: <ÓÉ Windows Internet Explorer 7 ±£´æ>
+Subject: Towers of Hanoi Page
+Date: Sun, 20 Feb 2011 22:43:22 +0800
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_0000_01CBD14F.9422C7C0"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.5994
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_0000_01CBD14F.9422C7C0
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/
+
+=EF=BB=BF<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Towers of Hanoi Page</TITLE>
+<META http-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8">
+<META content=3D"MSHTML 6.00.6000.17095" name=3DGENERATOR></HEAD>
+<BODY vLink=3D#551a8b aLink=3D#ff0000 link=3D#0000ff=20
+background=3Dhttp://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/whitemarb.g=
+if>
+<CENTER><IMG height=3D240 alt=3D"A Hanoi Tower"=20
+src=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/stack.gif" =
+width=3D200>
+<P></CENTER>
+<CENTER>
+<H2>The Towers of Hanoi<BR><A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo">Apostolos Syropoulos</A>=20
+</H2></CENTER><ALIGN=3DLEFT>
+<H2>Introduction</H2></ALIGN>I do not know of any other puzzle, that has =
+
+attracted more the attention of so many programmers around the globe, =
+than the=20
+classical ``Towers of Hanoi'' puzzle. But why is it so popular? =
+Unfortunately, I=20
+cannot speak of any other person but myself. Back in 1984, a Lecturer of =
+the=20
+Department of Mathematics of the University of Ioannina, Greece, gave me =
+a copy=20
+of an article about the Lisp programming language. In that article, the =
+author=20
+in order to present the capabilities of the language used the ``Towers =
+of=20
+Hanoi'' puzzle. This was a big surprise for me, because I always had the =
+wrong=20
+impression that computers are good only in performing arithmetic =
+operations.=20
+After that I tried to learn more about the puzzle. This search, in the =
+long=20
+term, gave me the opportunity to learn about many things I wasn't aware =
+of. But,=20
+who invented this puzzle and what is it about? The ``Towers of Hanoi'' =
+puzzle=20
+was invented by Edouard Lucas, a French mathematician, around 1883. The =
+puzzle=20
+can be stated as follows: There are 3 needles and a tower of disks on =
+the first=20
+one, with the smaller on the top and the bigger on the bottom. The =
+purpose of=20
+the puzzle is to move the whole tower from the first needle to the =
+second, by=20
+moving only one disk every time and by observing not to put a bigger =
+disk atop=20
+of a smaller one. The legend that is popularly attached to it appeared =
+in, among=20
+others, the ``Metamagical Themas'' column of the Scientific American =
+magazine <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/#SA">[1]</A>:=20
+<UL><I>In the great temple of Brahma in Benares, on a brass plate under =
+the=20
+  dome that marks the center of the world, there are 64 disks of pure =
+gold that=20
+  the priests carry one at a time between these diamond needles =
+according to=20
+  Brahma's immutable law: No disk may be placed on a smaller disk. In =
+the=20
+  begging of the world all 64 disks formed the Tower of Brahma on one =
+needle.=20
+  Now, however, the process of transfer of the tower from one needle to =
+another=20
+  is in mid course. When the last disk is finally in place, once again =
+forming=20
+  the Tower of Brahma but on a different needle, then will come the end =
+of the=20
+  world and all will turn to dust. </I></UL>There are many solutions to =
+the=20
+``Towers of Hanoi'' problem and this document is an effort to present =
+all of=20
+them. Here we describe the various solutions and we present their =
+implementation=20
+in the Java programming language. This work should by no means =
+considered=20
+<I>original</I>, but rather an <I>editorial work</I>. <ALIGN=3DLEFT>
+<H2><A name=3Drecursive>Solving the Problem</A></H2></ALIGN>The ``Towers =
+of=20
+Hanoi'' problem can be solved by a simple <I>problem-reduction</I> =
+approach. One=20
+way of reducing the original ``Towers of Hanoi'' problem, i.e., that of =
+moving a=20
+tower of <I>n</I> disks from pole <B>A</B> to pole <B>B</B> by using =
+pole=20
+<B>C</B>, to a set of of simpler problems involves the following chain =
+of=20
+reasoning:=20
+<OL>
+  <LI>In order to move all of the disks to pole <STRONG>B</STRONG> we =
+must=20
+  certainly move the biggest disk there, and pole <STRONG>B</STRONG> =
+must be=20
+  empty just prior to moving the biggest disk to it.=20
+  <LI>Now looking at the initial configuration, we can't move the =
+biggest disk=20
+  anywhere until all other disks are first removed. Furthermore, the =
+other disks=20
+  had better not be moved to pole <STRONG>B</STRONG> since then we would =
+not be=20
+  able to move the biggest disk there. Therefore we should first move =
+all other=20
+  disks to pole <STRONG>C</STRONG>.=20
+  <LI>Then we can complete the key step of moving the biggest disk from =
+pole=20
+  <STRONG>A</STRONG> to pole <STRONG>B</STRONG> and go on to solve the =
+problem=20
+  </LI></OL>In this way we have reduced the problem of moving a tower to =
+the one=20
+of moving a tower with height one less and that of moving the biggest =
+disk. This=20
+solution can be most effectively rendered as a <I>recursive</I> =
+procedure, i.e.,=20
+a procedure that is defined in terms of it self. Program <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/hanoiA.html">han=
+oiA</A>=20
+implements the recursive solution suggested by the above solution. =
+<ALIGN=3DLEFT>
+<H2><A name=3Dnon-recursive>Removing Recursion</A></H2></ALIGN>Every =
+recursive=20
+subroutine can be transformed into a non-recursive one by a series of =
+simple=20
+steps. The necessary steps are described in many good text books on Data =
+
+Structures, e.g., <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/#data">[2]</A>. =
+The=20
+transformation assumes that our programming language supports =
+<TT>goto</TT>s. In=20
+case it doesn't (as it is usually the case today), we can transform it =
+to some=20
+pseudo-language and then simply replace the <I>unconditional jumps</I> =
+with=20
+iterative constructs, e.g., <TT>while</TT> loops. The following rules =
+assume=20
+that the labels <TT>1</TT>, <TT>2</TT>,..., <TT>k</TT> are not used in =
+the=20
+recursive subroutine. Moreover, <TT>k</TT> is one more than the number =
+recursive=20
+calls in a given subroutine.=20
+<OL>
+  <LI>At the beginning of the subroutine, code is inserted which =
+declares=20
+  <I>stacks</I> associated with each formal parameter, each local =
+variable, and=20
+  the return address for each recursive call. Initially all stacks are =
+empty.=20
+  <LI>The label <TT>1</TT> is attached to the first executable program=20
+  statement.=20
+  <LI>If the subroutine is a <I>function</I>, i.e., returns some value, =
+then we=20
+  must replace all <TT>return</TT> statements with <I>assignment</I> =
+statements,=20
+  i.e., we introduce a fresh variable, say <TT>z</TT>, which has the =
+same type=20
+  as that of the function, and replace each <TT>return e</TT> statement =
+with a=20
+  <TT>z=3De</TT> statement.=20
+  <P>Now, each recursive call is replaced by a set of instructions which =
+do the=20
+  following:
+  <P></P>
+  <LI>Store the values of all parameters and local variables in their =
+respective=20
+  stacks. The <I>stack pointer</I> is the same for all stacks.=20
+  <LI>Create the i-the label, <STRONG>i</STRONG>, and store =
+<STRONG>i</STRONG>=20
+  in the address stack. The value <STRONG>i</STRONG> of this label will =
+be used=20
+  as the return address. This label is placed in the subroutine as =
+described in=20
+  rule <A =
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/#viii">8</A>.=20
+  <LI>Evaluate the arguments of this call (they may be expressions) and =
+assign=20
+  these values to the appropriate formal parameters.=20
+  <LI>Insert an unconditional branch to the beginning of the subroutine. =
+
+  <LI><A name=3Dviii>If</A> this is a procedure, add the label created =
+above to=20
+  the statement immediately following the unconditional branch. If this =
+is a=20
+  function then follow the unconditional branch by code to use the value =
+of the=20
+  variable <TT>z</TT> in the same way a <TT>return</TT> statement was =
+handled=20
+  earlier. The first statement of this code is given the label that was =
+created=20
+  above.=20
+  <P>These steps are sufficient to remove all recursive calls from a =
+subroutine.=20
+  Finally, we need to append code just after the last executable =
+statement to do=20
+  the following:
+  <P></P>
+  <LI>If the recursion stacks are empty, then return the value of =
+<TT>z</TT>,=20
+  i.e., <TT>return z</TT>, in case this is a function, or else simply=20
+  <TT>return</TT>.=20
+  <LI>If the stacks are not empty, then restore the value of all =
+parameters and=20
+  of all local variables. These are at the top of the each stack. Use =
+the return=20
+  label from the corresponding stack and execute a branch to this label. =
+This=20
+  can be done using a <TT>switch</TT> statement. </LI></OL>The above =
+rules can be=20
+used to transform the recursive solution into an <I>iterative</I> one. =
+Program=20
+<A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/hanoiB.html">han=
+oiB</A>=20
+has all the details. <ALIGN=3DLEFT>
+<H2><A name=3DFGS>The Fourth Grade Solution</A></H2></ALIGN>Let <I>m</I> =
+be a=20
+natural binary number with at most <I>n</I> digits, then <I>m</I> lies =
+in the=20
+range 0..2<SUP><I>n</I></SUP>-1. Moreover, let <I>m</I> have exactly =
+<I>n</I>=20
+digits, with the rightmost digits having index 1 and the leftmost having =
+index=20
+<I>n</I>. If we increment <I>m</I> by one, then exactly one digit =
+changes from=20
+'0' to '1'. Furthermore, it can be proved that we need =
+2<SUP><I>n</I></SUP>-1=20
+moves to solve the Towers of Hanoi puzzle, for a tower of height =
+<I>n</I>. The=20
+combination of these remarks are the idea behind the <I>Fourth Grade=20
+Solution</I> (FGS) <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/#SIGPLAN1">[3]</=
+A>: if=20
+the number <I>m</I> is set initially to zero, each time we increment it =
+by one,=20
+the index of the digit that changes from '0' to '1' corresponds to the =
+disk that=20
+has to be moved. This means that we use the successive values of =
+<I>m</I> to=20
+determine which disk to move. Now we must determine where to move each =
+disk. The=20
+description provided in <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/#SIGPLAN1">[3]</=
+A>,=20
+slightly edited, follows:=20
+<UL><I>Disk 1 is initially placed on pole <B>B</B> for odd n and pole =
+<B>C</B>=20
+  for even n.
+  <P>If we need to move disk 1, we have two choices, since we never =
+violate the=20
+  rule of having to place a smaller on a larger disk. Disk 1 <B>is</B> =
+the=20
+  smallest. We have to remember where 1 was before, and if we know where =
+1 is=20
+  now, there is only possibility left. Here we use the observation that =
+all=20
+  disks move in cycles. The cycle once started by a disk is maintained =
+until=20
+  completion.
+  <P>If we move a disk different from 1, then we know that all such =
+moves are=20
+  dictated by the position of disk 1, since we cannot move on top of it. =
+Because=20
+  of this restriction and since we may not leave a disk at the old =
+place, there=20
+  is again only one choice left. So, to calculate where to move we use =
+the=20
+  following formula, based one the position of disk 1 and the disk =
+currently to=20
+  be moved.=20
+  <CENTER><TT>to_position :=3D 6 - where_1_is -=20
+  where_disk_is</TT><BR><TT>to_position :=3D 6 - Hold[1] - =
+Hold[Disk]</TT>=20
+  </CENTER></UL></I>Program <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/hanoiC.html">han=
+oiC</A>=20
+has all the details. <ALIGN=3DLEFT>
+<H2><A name=3DFS>The French Solution</A></H2></ALIGN>The French Solution =
+<A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/#SIGPLAN2">[4]</=
+A>,=20
+called so because its inventors are French, is essentially equivalent to =
+the=20
+FGS. The solution is based on the observation that for a recursive =
+procedure a=20
+tree can be associated. In the case of the <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/hanoiA.html">rec=
+ursive=20
+solution</A> of the puzzle, the associated tree is a binary one. Each =
+node of=20
+this tree has a label of the form <I>x-&gt;y</I>, which denotes a move =
+of a disk=20
+from pole <I>x</I> to pole <I>y</I>. The values of <I>x</I> and <I>y</I> =
+depend=20
+on which recursive call they correspond, i.e., the first recursive call =
+swaps=20
+arguments <TT>withPole</TT> and <TT>toPole</TT> and so the label of the =
+root is=20
+<I>A-&gt;B</I> (the second recursive call swaps arguments =
+<TT>fromPole</TT> with=20
+<TT>withPole</TT>). Furthermore, we label each edge of the tree "Y" or =
+"X"=20
+depending on which of the of the swaps takes place on the destination of =
+the=20
+edge. An in-order traversal of the tree solves the puzzle, i.e., =
+execution of=20
+the procedure can be viewed as in-order traversal of the tree.
+<P>Let us now define the <B><I>level</I></B> of a node of this tree to =
+be 1 if=20
+the node is a leaf, 2 if it is the parent of a leaf, etc. Moreover, let=20
+<I>S</I><SUB>n</SUB> be the sequence of the levels of the nodes =
+encountered=20
+during the traversal. It follows that <I>S</I><SUB>n</SUB> has =
+2<SUP>n</SUP>-1=20
+elements and satisfies:=20
+<UL>
+  <LI><I>S</I><SUB>0</SUB> =3D <I>empty</I>=20
+  <LI><I>S</I><SUB><I>i</I></SUB> =3D <I>S</I><SUB><I>i-1</I></SUB> i=20
+  <I>S</I><SUB><I>i-1</I></SUB> (<I>i</I>&gt;0) </LI></UL>Thus=20
+<I>S</I><SUB>1</SUB> =3D &lt;1&gt;, <I>S</I><SUB>2</SUB> =3D &lt;1 2 =
+1&gt;,=20
+<I>S</I><SUB>3</SUB> =3D &lt;1 2 1 3 1 2 1&gt;, etc. An interesting =
+remark is that=20
+the sequence <I>S</I><SUB>n</SUB> and <I>C</I><SUB>n</SUB> are =
+identical, where=20
+<I>C</I> is the sequence whose n-th element <I>C</I><SUB>n</SUB> is the =
+sequence=20
+of indexes (counted from the rightmost position) of the rightmost ones =
+in the=20
+binary representations of the numbers 1, 2, 3, ..., 2<SUP>n</SUP>-1. =
+That is,=20
+<I>C</I><SUB>2</SUB> =3D &lt;1 2 1&gt; denotes the position of the =
+rightmost one=20
+of the binary representation of the numbers 1, 2, and 3, as can be =
+verified from=20
+the following table:=20
+<CENTER>
+<TABLE border=3D1 NOSAVE>
+  <TBODY>
+  <TR>
+    <TD>Number</TD>
+    <TD>Binary representation</TD>
+    <TD>Position of rightmost one</TD></TR>
+  <TR>
+    <TD>
+      <CENTER>1</CENTER></TD>
+    <TD>
+      <CENTER>1</CENTER></TD>
+    <TD>
+      <CENTER>1</CENTER></TD></TR>
+  <TR>
+    <TD>
+      <CENTER>2</CENTER></TD>
+    <TD>
+      <CENTER>10</CENTER></TD>
+    <TD>
+      <CENTER>2</CENTER></TD></TR>
+  <TR>
+    <TD>
+      <CENTER>3</CENTER></TD>
+    <TD>
+      <CENTER>11</CENTER></TD>
+    <TD>
+      <CENTER>1</CENTER></TD></TR></TBODY></TABLE></CENTER>Coming back =
+to the binary=20
+tree representing the execution of the procedure, it follows from the =
+definition=20
+of the procedure that, during the traversal, leaves and interior nodes =
+are=20
+alternatively visited. Let's consider what happens when a node <I>E</I> =
+with an=20
+even-umbered level is visited and try to understand the way a program =
+can reach=20
+such a node. <I>E</I> may only be an interior node; thus the preceding =
+one was a=20
+leaf, say <I>L</I>. If <I>L</I> is a left child, then <I>E</I> is its =
+parent and=20
+the swap to perform is a "Y", i.e., swap arguments <TT>withPole</TT> and =
+
+<TT>toPole</TT>; otherwise, to go from <I>L</I> to <I>E</I>, a program =
+has to go=20
+up the tree <I>x</I> times, performing <I>x</I> swaps of the "X" type, =
+i.e.,=20
+swaps arguments <TT>fromPole</TT> with <TT>withPole</TT>, then up one =
+"Y". But=20
+<I>E</I> is at an even level, <I>L</I> is at an odd level, so the =
+difference=20
+between their levels in the tree, which is <I>x</I>+1, must be odd; thus =
+
+<I>x</I> is even, which means that the "X" swaps cancel out and that has =
+to be=20
+done is one "Y" swap.=20
+<P>For interior nodes on odd-numbered levels, the same line of reasoning =
+shows=20
+the swap to be "X" if the previous node was on an even level, and "XY" =
+("X"=20
+followed by "Y") otherwise. The combination of the previous ideas leads =
+to=20
+program <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/hanoiD.html">han=
+oiD</A>.=20
+<ALIGN=3DLEFT>
+<H2><A name=3DRohl>A Response to a Challenge by =
+Hayes</A></H2></ALIGN>The=20
+solution(s) presented in this section are a response of J.S. Rohl (<A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/#COMPJOUR1">[5]<=
+/A>) to a=20
+challenge thrown down by P. J. Hayes (<A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/#COMPJOUR2">[6]<=
+/A>):=20
+<UL><I>It would be a very nontrivial exercise to convert (the recursive=20
+  version) to (the non-recursive version), let alone convert it =
+mechanically. In=20
+  fact... I hereby offer it as a challenge to optimistic optimizers, and =
+to=20
+  those who make it their business to prove that equivalent programs =
+area=20
+  equivalent. </I></UL>Rohl has derived some very interesting =
+non-recursive=20
+solutions to the problem by eliminating the recursion from the recursive =
+
+solution (if you haven't reviewed the <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/hanoiA.html">rec=
+ursive</A>=20
+solution, now it's time to do it).=20
+<P>He starts the program transformation by removing all but the first =
+parameter=20
+of the recursive solution. In his recursive version the pegs are =
+represented by=20
+the integers 1 (<TT>fromPole</TT>), 2 (<TT>toPole</TT>), and 3=20
+(<TT>withPole</TT>). According to this scheme we can eliminate=20
+<TT>withPole</TT>, simply because=20
+<CENTER><TT>fromPole</TT>+<TT>toPole</TT>+<TT>withPole</TT>=3D6 =
+</CENTER>Now it's=20
+the turn of parameter <TT>toPole</TT> to be eliminated. If we think the =
+three=20
+pegs in a triangular arrangement, then we can replace <TT>toPole</TT> by =
+its=20
+direction, i.e., <I>clockwise</I> or <I>anticlockwise</I> from=20
+<TT>fromPole</TT>. This means that we have to modify procedures=20
+<TT>moveDisk</TT> and <TT>hanoi</TT>, so that they can calculate the =
+destination=20
+of the move from <TT>fromPole</TT> and <TT>dir</TT>. Under these =
+considerations=20
+the solution is rephrased as follows:=20
+<UL>In order to move a tower of height k from peg <TT>fromPole</TT> to =
+its=20
+  neighbor in direction <TT>dir</TT>, we must first move the tower of =
+height=20
+  <TT>k-1</TT> to to its neighbor in the <IT>opposite</I> direction; =
+then we=20
+  move the bottom disk to the its neighbor in direction <TT>dir</TT>, =
+and=20
+  finally we move the tower of height <TT>k-1</TT> in the =
+<I>opposite</I>=20
+  direction. </UL>These observations lead to program <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/hanoiE.html">han=
+oiE1</A>.=20
+
+<P><A name=3DRohl2>It</A> is interesting to note that at each recursive =
+call we=20
+decrease the height of the tower by one and we invert the direction. =
+Thus, the=20
+direction is redutant since it can be defined by the parity of the =
+current=20
+height (<TT>k</TT>). Consequently, we don't need function =
+<TT>Opposite</TT> and=20
+so the definition of the <TT>hanoi</TT> procedure is <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/hanoiE.html#Sol2=
+">simplified=20
+</A>.=20
+<P><A name=3DRohl3>We</A> can go a step further and eliminate the second =
+argument=20
+too. How? Simply by observing that a disk always moves at the same =
+direction,=20
+and that odd-numbered disks move in one direction while the =
+even-numbered disks=20
+move in the opposite direction. The elimination of the second argument =
+is based=20
+on the following observation:=20
+<UL><I>Any parameter called by value can be replaced by a global =
+variable,=20
+  provided there exists an inverse for each expression used as an actual =
+
+  parameter for it.</I> </UL>So, we have to first identify the =
+expression and then=20
+to discover its inverse. Then we we create a global variable and assign =
+to it=20
+its value before a recursive call and reassign to it its original value =
+after=20
+the recursive call by using the inverse expression. This remarks lead us =
+in an=20
+even more simplified <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/hanoiE.html#Sol3=
+">solution</A>.=20
+
+<P><A name=3DRohl4>Now</A>, we turn our attention to the complete =
+removal of=20
+recursion. By using the techniques of section "<A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/#non-recursive">=
+Removing=20
+Recursion</A>", we can easily remove the recursive calls. First, we move =
+the=20
+assignments to the global variable that substituted the second argument =
+to the=20
+procedure that prints the moves. Next, we design our stack-based =
+solution based=20
+on principles that have been exposed previously. The resulting procedure =
+can be=20
+further simplified by replacing the stack with a set, which in turn can =
+be=20
+replaced by an integer! This way we get a very simple <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/hanoiE.html#Sol4=
+">solution</A>.=20
+
+<P>Solutions that resemble the solution of this section have been =
+proposed by=20
+Walsh <A =
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/#IPL1">[7]</A>=20
+in and Buneman and Levy in <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/#IPL2">[8]</A>. =
+
+<H2><A name=3DRadix6>The ``Radix 6 Number'' =
+Solution</A></H2></ALIGN>Gault and=20
+Clint in <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/#COMPJOUR3">[9]<=
+/A>=20
+present a solution that computes the solution in n steps instead of=20
+2<SUP>n</SUP>-1 steps, but still this solution needs a storage of length =
+
+2<SUP>n</SUP>-1. The solution is based on the observation that there are =
+six=20
+different possible moves and so a sequence of disk transfers may be =
+encoded as=20
+number of radix 6. Each digit of this number corresponds to a single =
+move. The=20
+following tables present the encoding:=20
+<CENTER>
+<TABLE noborder>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE border=3D1 NOSAVE>
+        <TBODY>
+        <TR>
+          <TD>Clockwise moves</TD>
+          <TD>Code</TD></TR>
+        <TR>
+          <TD>
+            <CENTER>From A to B</CENTER></TD>
+          <TD>
+            <CENTER>1<SUB>6</SUB></CENTER></TD></TR>
+        <TR>
+          <TD>
+            <CENTER>From C to A</CENTER></TD>
+          <TD>
+            <CENTER>2<SUB>6</SUB></CENTER></TD></TR>
+        <TR>
+          <TD>
+            <CENTER>From B to C</CENTER></TD>
+          <TD>
+            =
+<CENTER>3<SUB>6</SUB></CENTER></TD></TR></TBODY></TABLE></TD>
+    <TD>
+      <TABLE border=3D1 NOSAVE>
+        <TBODY>
+        <TR>
+          <TD>Anticlockwise moves</TD>
+          <TD>Code</TD></TR>
+        <TR>
+          <TD>
+            <CENTER>From B to A</CENTER></TD>
+          <TD>
+            <CENTER>4<SUB>6</SUB></CENTER></TD></TR>
+        <TR>
+          <TD>
+            <CENTER>From A to C</CENTER></TD>
+          <TD>
+            <CENTER>5<SUB>6</SUB></CENTER></TD></TR>
+        <TR>
+          <TD>
+            <CENTER>From C to B</CENTER></TD>
+          <TD>
+            =
+<CENTER>0<SUB>6</SUB></CENTER></TD></TR></TBODY></TABLE></TD></TR></TBODY=
+></TABLE></CENTER>Now,=20
+the solution can be expresses by the simple formula:=20
+<CENTER><I>H(n,x,y) =3D H(n-1,x,z) ++ H(1,x,y) ++ H(n-1,z,y)</I> =
+</CENTER>where=20
+<I>H(1,x,y)</I> is the code for the move from pole <I>x</I> to pole =
+<I>y</I> and=20
+<I>++</I> the string concatenation operator. The authors observed that =
+it is=20
+possible to define the operator <I>++</I> as follows:=20
+<CENTER>c<SUB>1</SUB> ++ c<SUB>2</SUB> =3D=20
+c<SUB>1</SUB>*10<SUB>6</SUB><SUP>n</SUP> + c<SUB>2</SUB>, </CENTER>where =
+
+c<SUB>2</SUB> represent a sequence of moves, i.e., a number of radix 6. =
+You can=20
+now <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/hanoiF.html">rea=
+d</A>=20
+more about this solution.=20
+<H2><A name=3Dbitwise>Using bitwise logical and shift=20
+operators</A></H2></ALIGN>Surprisingly if we treat a particular move as =
+a=20
+bitstring, then we can solve the problem very easy. The two solutions I =
+am=20
+presenting here had been brought to my attention by Adam Moorhouse and =
+Glenn C.=20
+Rhoads. The kernel of the solution by Glenn C. Rhoads is just the =
+following=20
+loop: <PRE>   for (int x=3D1; x &lt; (1 &lt;&lt; n); x++)
+   {
+       FromPole =3D (x&amp;x-1)%3;
+       ToPole =3D ((x|x-1)+1)%3;
+       moveDisk(FromPole,ToPole);
+   }
+</PRE>The expression <TT>1 &lt;&lt; n</TT> is actually equal to =
+2<SUP>n</SUP>.=20
+The operators <TT>&amp;</TT> and <TT>|</TT> perform the bitwise AND and =
+the=20
+bitwise inlcusive OR operations, respectively. The kernel of the =
+solution by=20
+Adam Moorhouse is the following loop: <PRE>for (int move =3D 1; move =
+&lt; (1 &lt;&lt; height) ; move++)=20
+{
+    int piece =3D (int)( Math.log( move ^ ( move - 1 )) / log2 )  + 1;
+    int fromPole =3D ( move &gt;&gt; piece ) * ( piece % 2 =3D=3D 0 ? 1 =
+: -1 ) % 3;
+    int toPole =3D ( from + (piece % 2 =3D=3D 0 ? 1 : -1)) % 3;
+    fromPole =3D (from +3) % 3;
+    toPole =3D (to + 3) % 3;
+    moveDisk(fromPole, toPole);
+}
+</PRE>The operator <TT>^</TT> performs the bitwise exlusive OR =
+operation. You=20
+can now <A=20
+href=3D"http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/hanoiG.html">rea=
+d</A>=20
+more about these solutions. <!--         --><!-- COMMENT --><!--         =
+-->
+<H2><A name=3DRefer>References</A></H2></ALIGN>
+<DL compact>
+  <DT><A name=3DSA><STRONG>1</STRONG></A>
+  <DD>R.&nbsp;Douglas Hofstadter. Metamagical themas. <EM>Scientific=20
+  American</EM>, 248(2):16-22, March 1983.=20
+  <P></P>
+  <DT><A name=3Ddata><STRONG>2</STRONG></A>
+  <DD>Ellis Horowitz and Sartaj Sahni. <EM>Fundamentals of Data =
+Structures in=20
+  Pascal</EM>. Computer Science Press, Rockville, MD, USA, 1984.=20
+  <P></P>
+  <DT><A name=3DSIGPLAN1><STRONG>3</STRONG></A>
+  <DD>Herbert Mayer and Don Perkins. <EM>Towers of Hanoi Revisited</EM>. =
+
+  <EM>SIGPLAN Notices</EM>, 19(2):80-84, February 1984.=20
+  <P></P>
+  <DT><A name=3DSIGPLAN2><STRONG>4</STRONG></A>
+  <DD>Bertrand Meyer. <EM>A Note On Iterative Hanoi</EM>. <EM>SIGPLAN=20
+  Notices</EM>, 19(12), December 1984.=20
+  <P></P>
+  <DT><A name=3DCOMPJOUR1><STRONG>5</STRONG></A>
+  <DD>J. S. Rohl. <EM>Towers of Hanoi: The Derivation of Some Iterative=20
+  Versions</EM>. <EM>The Computer Journal</EM>, 30(1), 70-76, 1987.=20
+  <P></P>
+  <DT><A name=3DCOMPJOUR2><STRONG>6</STRONG></A>
+  <DD>P. J. Hayes. <EM>A note on the Towers of Hanoi Problem</EM>. =
+<EM>The=20
+  Computer Journal</EM>, 20(3), 282-285, 1977.=20
+  <P></P>
+  <DT><A name=3DIPL1><STRONG>7</STRONG></A>
+  <DD>T. R. Walsh. <EM>The Towers of Hanoi Revisited: Moving the rings =
+by=20
+  counting the moves</EM>. <EM>Information Processing Letters</EM>, =
+15(2), p-p,=20
+  1982.=20
+  <P></P>
+  <DT><A name=3DIPL2><STRONG>8</STRONG></A>
+  <DD>P. Buneman and L. Levy. <EM>The Towers of Hanoi Problem</EM>.=20
+  <EM>Information Processing Letters</EM>, 10(4,5), p-p, 1980.=20
+  <P></P>
+  <DT><A name=3DCOMPJOUR3><STRONG>9</STRONG></A>
+  <DD>D.Gault and M. Clint. <EM>A Fast Algorithm for the Towers of Hanoi =
+
+  Problem</EM>. <EM>The Computer Journal</EM>, 30(4), 376-378, 1987.=20
+</DD></DL></BODY></HTML>
+
+------=_NextPart_000_0000_01CBD14F.9422C7C0
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Location: http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/stack.gif
+
+R0lGODlhTgI6AsIAAAAAAH9/fxkZGf///+Xl5QAAAAAAAAAAACH5BAEAAAMALAAAAABOAjoCAAP+
+OLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s675wLM90bd94ru987//AoHBILBqPyKRyyWw6n9CodEqt
+Wq/YrHbL7Xq/4LB4TC6bz+i0es1uu9/wuHxOr9vv+Lx+z+/7/4CBgoOEhYaHiImKi4yNjo+QkZKT
+lJWWl5iZmpucnZ6foKGijgKlpqeoqaqrrKyjr7A+rbO0tba3qrG6ux64vr/Awa28xLzCx8jJx8XM
+msrP0NG4zdSN0tfY2avV3ILa3+Df3eN54ebn0uTqcujt7svr8Wvv9PW38vhn9vv8qfn/ZPoJtAew
+oJiBCNEZXNglgMMACSNiexiAocUrFB9K3Cj+LKPDiyCneMzIsSSrkRRDqnyCEqVJiS1Hrpy5JKZN
+iC/b3YxJs+eRnUAp5jwWtKjPo0OKKr0Jc6lTmUij+nhKtarVq1hbSt26I6vXr2DDpuRK1obYs2jT
+Ai3Ldobat3Dftp37Iq7du17p6l2Bt6/fpXsDn/hLuLBWwYhFGF7MOLHjD4wjE35MeYPky3gra76A
+uTPczaAneB6NNrTpB6RTgz3NeoHq11hbt4ZNm6ps1rVzK719WrfvnbxN/x5+OPhm4sgzGg8MoLnz
+58mjB3hOHcDykNWzPyfAXXpy7gS0i79OTXx18OjTg/eOXL177uapk+cUv/n7++7ZE8fPH3z+fevz
+NWJefwS+p99wBSaInnkBBjKgghCmd+BvEVYI33gN1pGdhRxKOKFuHYYYXnUZsrGhiCgS8CGIKYqY
+XYlinNhih6esmNspM4b4IoxaUJcjjarYWNsqP3IoH49U+FhkhbMISdssS1Z4JJJNbBdlhLU4CVst
+V0b4HJVLONclhLdo+dotYyroHJhI2Jdmgb+YSdovbxbYHJtEiFkngXHK6Rmde/a3Jp5AuBkofh35
+GZkwh/J3J6E/GNqoe0Qpatgxk973KKQ96JmpepVa6hemn6o3KKc8WFkqeMmIelcyqy4IwHSodjqr
+p7G26mpasMZ64ay01rpDcw6pmisyu4b+1auv0BUr7LDAFmtsqcoka5Uyvo7oXEYAPosDsR4peayu
+1jKFLbPNhuttDuCOJOOq1Zbr0bmxZhdTt+vW0O6952Ubr6j01lsdUPjmO8O+BPfr678fBryqvUsV
+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
+ADs=
+
+------=_NextPart_000_0000_01CBD14F.9422C7C0
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Location: http://obelix.ee.duth.gr/~apostolo/TowersOfHanoi/whitemarb.gif
+
+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
+Yy74aNxjScFQAQkAADsA
+
+------=_NextPart_000_0000_01CBD14F.9422C7C0--

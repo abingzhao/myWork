@@ -1,0 +1,161 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 11, Exercise 9<BR>
+<BR>
+</H1>
+Before we can delete the minimum element, we must verify that
+the structure is not empty.  When we have at least one element in the
+skip list, the minimum element is the first one in the level
+<code class=math>0</code>
+chain.
+Therefore, the minimum element can be removed by the invocation
+<code class=code>remove(headNode.next[0].key)</code>.
+<br><br>
+Before we can delete the maximum element, we need to verify that
+such an element exists.  This is so iff the structure is not empty.
+If there is a max element, it is in the last node on the
+level <code class=math>0</code> chain.  The max element is in the node with
+<code class=code>next[0]</code>
+equal to <code class=var>tailNode</code>.  We can find this node by invoking
+<code class=var>search(tailKey)</code>.
+Following this invocation, <code class=var>last[0]</code> points to
+the node just before the
+tail.  This node contains the max element.  This
+max element may be removed using the invocation
+<code class=code>return remove(last[0].key)</code>.
+<br><br>
+The code that implements the above strategy is given below.
+<br><br>
+<HR class = coderule>
+<pre class = code>
+public class ExtendedSkipList1 extends SkipList
+{
+   // constructor
+   public ExtendedSkipList1(Comparable largeKey, int maxElements, float theProb)
+      {super(largeKey, maxElements, theProb);}
+
+   /** @return element with smallest key and remove it
+     * @return null if no element */
+   public Object removeMinElement()
+   {
+      // make sure there is a min element
+      if (headNode.next[0] == tailNode)
+         // dictionary is empty
+         return null;
+   
+      // remove the minimum element
+      return remove(headNode.next[0].key); // min key
+   }
+   
+   /** @return element with largest key and remove it
+     * @return null if no element */
+   public Object removeMaxElement()
+   {
+      // make sure there is a maximum element
+      if (headNode.next[0] == tailNode)
+         // dictionary is empty
+         return null;
+    
+      // search for tail key
+      search(tailKey);
+      // remove element with largest key
+      return remove(last[0].key);
+   }
+}
+<hr class=coderule>
+</pre>
+
+The call to <code class=var>remove</code>
+in the above code for <code class=code>removeMinElement</code>
+results in a search
+for the element with key <code class=var>theKey</code>
+and the setting of the array
+<code class=var>last</code>.
+This is unneccessary as we know that the element is in
+<code class=var>headNode.next[0]</code>
+and that all <code class=var>last</code> values are <code class=var>headNode</code>.
+So we can eliminate the work done by the
+<code class=var>search</code> that is invoked
+by <code class=var>remove</code> and tailor the remainder of
+the code in <code class=var>remove</code> to
+our situtaion.
+<br><br>
+We can also make the code for <code class=code>removeMax</code>
+more efficient.  The new, more efficient, codes are given below.
+<br><br>
+<hr class=coderule>
+<pre class=code>
+public class ExtendedSkipList2 extends SkipList
+{
+   // constructor
+   public ExtendedSkipList2(Comparable largeKey, int maxElements, float theProb)
+      {super(largeKey, maxElements, theProb);}
+
+   /** @return element with smallest key and remove it
+     * @return null if no element */
+   public Object removeMinElement()
+   {
+      // make sure there is a min element
+      if (headNode.next[0] == tailNode)
+         // dictionary is empty
+         return null;
+   
+      // save pointer to node with min element
+      SkipNode minNode = headNode.next[0];
+   
+      // remove minNode from structure
+      for (int i = 0; i &lt;= levels &amp;&amp;
+               headNode.next[i] == minNode; i++)
+         headNode.next[i] = headNode.next[i].next[i];
+   
+      // update levels
+      while (levels &gt; 0 &amp;&amp; headNode.next[levels] == tailNode)
+         levels--;
+   
+      // return min element
+      return minNode.element;
+   }
+   
+   /** @return element with largest key and remove it
+     * @return null if no element */
+   public Object removeMaxElement()
+   {
+      // make sure there is a maximum element
+      if (headNode.next[0] == tailNode)
+         // dictionary is empty
+         return null;
+    
+      // search for max element
+      SkipNode y = headNode;
+      for (int i = levels; i &gt;= 0; i--)
+         while (y.next[i] != tailNode)
+            y = y.next[i];
+   
+      // remove element with largest key
+      return remove(y.key);
+   }
+}
+<hr class=coderule>
+</pre>
+
+<br><br>
+The expected complexity of
+<code class=var>removeMinElement</code> and
+<code class=var>removeMaxElement</code> is
+<code class=var>O(log n)</code>.
+Here <code class=var>n</code> is the number of elements in the
+skip list.
+<br><br>
+The test programs and output are in the files <code class=var>ExtendedSkipList1.*</code> and
+<code class=var>ExtendedSkipList2.*</code>.
+
+
+</FONT>
+</BODY>
+</HTML>

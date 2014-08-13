@@ -1,0 +1,246 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 6, Exercise 34<BR>
+<BR>
+</H1>
+<P ALIGN=LEFT>
+The code is given below (we have changed the class name
+to <code class=code>HeadCircularList</code> so that the names
+for the classes that extend this one will be a little shorter.
+We keep a pointer to both the header node and the last element/node
+of the linear/ordered list. Actually, only a pointer to the last node
+is necessary.
+The <code class=code>next<code> field of the last node points to the header
+node.
+The asymptotic
+complexity of each method is the same as for the corresponding
+method of the class <code class=var>Chain</code> or
+<code class=var>ExtendedChain</code>.
+The codes are somewhat simpler than for the class
+<code class=code>CircularList</code>.
+</P>
+<HR class = coderule>
+<PRE class = code>
+public class HeadCircularList implements ExtendedLinearList
+{
+   // data members
+   protected ChainNode headerNode;
+   protected ChainNode lastNode;
+   protected int size;
+
+   // constructors
+   /** create a list that is empty */
+   public HeadCircularList(int initialCapacity)
+   {
+       // create head node
+       headerNode = new ChainNode();
+       headerNode.next = headerNode;
+       lastNode = headerNode;
+       // the default initial value of size is 0
+   }
+
+   public HeadCircularList()
+      {this(0);}
+
+   // methods
+   /** return true iff list is empty */
+   public boolean isEmpty()
+      {return size == 0;}
+
+   /** return current number of iterator in list */
+   public int size()
+      {return size;}
+
+   /** throws IndexOutOfBoundsException when
+     * index is not between 0 and size - 1 */
+   void checkIndex(int index)
+   {
+      if (index &lt; 0 || index >= size)
+         throw new IndexOutOfBoundsException
+             ("index = " + index + "  size = " + size);
+   }
+
+   /** return element with specified index
+     * throws IndexOutOfBoundsException when
+     * index is not between 0 and size - 1 */
+   public Object get(int index)
+   {
+      checkIndex(index);
+
+      // move to desired node
+      ChainNode currentNode = headerNode.next;
+      for (int i = 0; i &lt; index; i++)
+         currentNode = currentNode.next;
+
+      return currentNode.element;
+   }
+   
+   /** return index of first occurrence of elem,
+     * return -1 if elem not in list */
+   public int indexOf(Object elem)
+   {
+      // put elem in head node
+      headerNode.element = elem;
+
+      // search the circular list for elem
+      ChainNode currentNode = headerNode.next;
+      int index = 0;  // index of currentNode
+      while (!currentNode.element.equals(elem))
+      {
+         // move to next node
+         currentNode = currentNode.next;
+         index++;
+      }
+
+      // make sure we found matching element
+      return (index == size) ? -1 : index;
+   }
+   
+   /** Remove the element with specified index.
+     * All iterator with higher index have their
+     * index reduced by 1.
+     * throws IndexOutOfBoundsException when
+     * index is not between 0 and size - 1
+     * return removed element */
+   public Object remove(int index)
+   {
+      checkIndex(index);
+
+      // use q to get to node that precedes node to be deleted
+      ChainNode q = headerNode;
+      for (int i = 0; i &lt; index; i++)
+         q = q.next;
+     
+      // check if lastNode is to be removed
+      if (q.next == lastNode)  // yes
+         lastNode = q;         // q will be the new last node
+
+      // remove the index'th node
+      Object removedElement = q.next.element;
+      q.next = q.next.next;
+      size--;
+      return removedElement;
+   }
+   
+   /** Insert an element with specified index.
+     * All iterator with equal or higher index
+     * have their index increased by 1.
+     * throws IndexOutOfBoundsException when
+     * index is not between 0 and size */
+   public void add(int index, Object theElement)
+   {
+      if (index &lt; 0 || index &gt; size)
+         // invalid list position
+         throw new IndexOutOfBoundsException
+                   ("index = " + index + "  size = " + size);
+
+      // find node that precedes new node
+      ChainNode p = headerNode;
+      for (int i = 0; i &lt; index; i++)
+         p = p.next;
+  
+      // insert after p
+      p.next = new ChainNode(theElement, p.next);
+      size++;
+
+      // see if new node is now the last node
+      if (p == lastNode)   // yes, lastNode has changed
+         lastNode = p.next;
+   }
+   
+   /** convert to a string */
+   public String toString()
+   {
+      StringBuffer s = new StringBuffer("["); 
+      if (size != 0)
+      {// nonempty list
+         // do first element
+         ChainNode currentNode = headerNode.next;
+         s.append(currentNode.element.toString());
+         // do remaining iterator
+         currentNode = currentNode.next;
+         while(currentNode != headerNode)
+         {
+            s.append(", " + currentNode.element.toString());
+            currentNode = currentNode.next;
+         }
+      }
+      s.append("]");
+
+      // create equivalent String
+      return new String(s);
+   }
+
+   /** create and return an iterator */
+   public Iterator iterator()
+      {return new HeadCircularListIterator();}
+
+   /** iterator */
+   private class HeadCircularListIterator implements Iterator
+   {
+      // data member
+      private ChainNode nextNode;
+   
+      // constructor
+      public HeadCircularListIterator()
+         {nextNode = headerNode.next;}
+   
+      // methods
+      /** return true iff list has more iterator */
+      public boolean hasNext()
+         {return nextNode != headerNode;}
+   
+      /** return next element in list
+        * throws NoSuchElementException
+        * when there is no next element */
+      public Object next()
+      {
+         if (nextNode != headerNode)
+         {
+            Object elementToReturn = nextNode.element;
+            nextNode = nextNode.next;
+            return elementToReturn;
+         }
+         else throw new NoSuchElementException("No next element");
+      }
+
+      /** unsupported method */
+      public void remove()
+      {
+         throw new UnsupportedOperationException
+                   ("remove not supported");
+      }   
+   }
+   
+   /** make the circular list empty */
+   public void clear()
+   {
+      headerNode.next = headerNode;
+      lastNode = headerNode;
+      size = 0;
+   }
+
+   /** add theElement to the right end of the circular list */
+   public void add(Object theElement)
+   {
+      ChainNode y = new ChainNode(theElement);
+      y.next = headerNode;
+      lastNode.next = y;
+      lastNode = y;
+      size++;
+   }
+}
+<HR class = coderule>
+</pre>
+<br>
+
+
+
+</FONT>
+</BODY>
+</HTML>

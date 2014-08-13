@@ -1,0 +1,114 @@
+
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 13, Exercise 5<BR>
+<BR>
+</H1>
+
+The code for the class <code class=code>IntegerMaxPriorityQueue</code>
+is given below.  A test program and output
+are given in the files
+<code class=var>IntegerMaxPriorityQueue.*</code>.
+
+
+<HR class = coderule>
+<pre class = code>
+public class IntegerMaxPriorityQueue
+{
+   ArrayQueue [] priority;  // queues of elements with same priority
+   int size;                // number of elements in queues
+   int highestNonEmpty;     // max nonempty queue
+
+   // constructors
+   /** create a priority queue with the given max priority
+     * throws IllegalArgumentException when maxPriority &lt; 1 */
+   public IntegerMaxPriorityQueue(int maxPriority)
+   {
+      if (maxPriority &lt; 1)
+         throw new IllegalArgumentException
+               ("Max priority must be >= 1, it is " + maxPriority);
+
+      // create the queues
+      priority = new ArrayQueue [maxPriority + 1];
+      for (int i = 1; i <= maxPriority; i++)
+         priority[i] = new ArrayQueue();
+
+      // size and highestNonEmpty are 0
+   }
+   
+   /** return true iff no elements */
+   public boolean isEmpty()
+      {return size == 0;}
+
+   /** return number of elements in all queues together */
+   public int size()
+      {return size;}
+
+   /** return maximum element
+     * return null if the priority queue is empty */
+   public Object getMax()
+   {
+      if (size == 0)
+         // priority queue is empty
+         return null;
+   
+      return priority[highestNonEmpty].getFrontElement();
+   }
+
+   /** put theElement into the priority queue
+     * throws IllegalArgumentException when thePriority &gt; maxPriority
+     * or thePriority &lt; 1 */
+   public void put(int thePriority, Object theElement)
+   {
+      if (thePriority &lt; 1 || thePriority >= priority.length)
+         throw new IllegalArgumentException
+               ("Priority must be between 1 and " + (priority.length - 1)
+                + " it is " + thePriority);
+
+      // put theElement into the proper queue
+      priority[thePriority].put(theElement);
+      size++;
+
+      if (thePriority &gt; highestNonEmpty)
+         highestNonEmpty = thePriority;
+   }
+
+   
+   /** remove max element and return it */
+   public Object removeMax()
+   {
+      // if priority queue is empty return null
+      if (size() == 0)
+         return null;
+   
+      // remove max element from priority queue
+      Object removedElement = priority[highestNonEmpty].remove();
+      size--;
+
+      if (priority[highestNonEmpty].isEmpty())
+         // update highestNonEmpty
+         if (size == 0)
+            highestNonEmpty = 0;
+         else
+            while (priority[--highestNonEmpty].isEmpty());
+   
+      return removedElement;
+   }
+}
+<hr class=coderule>
+</pre>
+
+Even though <code class=code>removeMax</code> takes <code class=var>O(maxPriority)</code>
+time to update <code class=code>highestNonEmpty</code> and the class constructor
+takes this much time to initialize the array <code class=code>priority</code>,
+this time is regarded as <code class=var>Theta(1)</code> because
+<code class=code>maxPriority></code> is a constant for the priority queue.
+</FONT>
+</BODY>
+</HTML>

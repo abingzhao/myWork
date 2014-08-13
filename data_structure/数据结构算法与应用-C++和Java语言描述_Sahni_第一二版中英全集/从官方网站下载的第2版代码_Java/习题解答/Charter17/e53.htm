@@ -1,0 +1,95 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 17, Exercise 53<BR>
+<BR>
+</H1>
+
+We can compute row
+<code class=code>tc[i][*]</code> for any
+<code class=code>i</code> by performing a depth-first or breadth-first
+search starting at vertex
+<code class=code>i</code>.  All vertices <code class=code>j</code>
+reached during this
+process have
+<code class=code>tc[i][j] = 1</code>.
+<br><br>
+The code is given below.
+Note that this code does not set
+<code class=code>tc[i][i]</code> correctly when the graph is undirected
+(but then, it is not intended for use with an undirected graph).
+A test program, input, and output appear in the files
+<code class=code>TestDirectedTransitiveClosure</code>.
+
+<HR class = coderule>
+<pre class = code>
+// class data members of Graph
+static int [][] tc;       // transitive closure array
+static int theRow;        // row of tc that is being computed
+
+/** @return the transitive closure of a directed graph */
+public int [][] directedTC()
+{
+   int n = vertices();
+   reach = new int [n + 1];
+
+   // create transitive closure array, default initial values are 0
+   tc = new int [n + 1][n + 1];
+
+   // compute tc row by row using depth first search
+   for (theRow = 1; theRow &lt;= n; theRow++)
+   {
+      // initialize reach
+      for (int j = 1; j &lt;= n; j++)
+         reach[j] = 0;
+
+      // set row i of tc
+      tcRow(theRow);
+   }
+   return tc;
+}
+
+/** set row theRow of transitive closure array tc
+  * @param v is vertex for depth first search */
+void tcRow(int v)
+{
+   reach[v] = 1;
+   Iterator iv = iterator(v);
+   while (iv.hasNext())
+   {// visit an adjacent vertex of v
+      int u = ((EdgeNode) iv.next()).vertex; 
+      if (reach[u] == 0)  
+      {// u is an unreached vertex
+         tc[theRow][u] = 1;
+         tcRow(u);
+      }
+      else
+         // u is reachable from theRow, need next line to catch tc[u][u]
+         tc[theRow][u] = 1;
+   }
+}
+<hr class=coderule>
+</pre>
+<br><br>
+
+It takes <code class=code>Theta(n<sup>2</sup>)</code> time to
+create the array <code class=code>tc</code>.
+Each invocation of
+<code class=code>tcRow</code> takes <code class=code>O(n<sup>2</sup>)</code>
+when adjacency matrices are used and
+<code class=code>O(n+e)</code>
+time if adjacency lists are used.
+The overall complexity is
+<code class=code>O(n<sup>3</sup>)</code> when adjacency matrices are used
+and
+<code class=code>O(n(n+e))</code>
+when adjacency lists are used.
+
+</FONT>
+</BODY>
+</HTML>

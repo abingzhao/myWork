@@ -1,0 +1,82 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in C++<BR>
+Chapter 7, Exercise 3<BR>
+<BR>
+</H1>
+<dl compact>
+The code to compute the ranks is
+very similar to Program 2.5.  The actual
+rearrangement is done by assigning the elements to bins
+according to their rank and then collecting the elements
+from the bins in rank order. The code is given below and
+in the file <code class=code>SimulatedChainWithRankSort.java</code>.
+</dl>
+<HR class = coderule>
+<PRE class = code>
+public class SimulatedChainWithRankSort extends SimulatedChain
+{
+   /** sort the chain using the rank sort method */
+   public void rankSort()
+   {
+      if (size == 0)
+         return;  // empty chain
+   
+      // r[i] will be rank of element i
+      int [] r = new int [size];
+   
+      // compute ranks by comparing all pairs of elements
+      int currentNode = firstNode;
+      for (int i = 0; i &lt; size; i++)
+      {// compare S.node[currentNode].element with all elements
+         int compareNode = firstNode;
+         for (int j = 0; j &lt; i; j++)
+         {// S.node[currentNode].element is element i and
+          // and S.node[compareNode].element is element j, j &lt; i
+            if (((Comparable) S.node[compareNode].element).compareTo
+                                     (S.node[currentNode].element) <= 0)
+               r[i]++;
+            else
+               r[j]++;
+            compareNode = S.node[compareNode].next;
+         }
+         currentNode = S.node[currentNode].next;
+      }
+   
+      // distribute nodes to bins by rank
+      int [] bin = new int [size];
+      currentNode = firstNode;
+      for (int i = 0; i &lt; size; i++)
+      {
+         bin[r[i]] = currentNode;
+         currentNode = S.node[currentNode].next;
+      }
+   
+      // collect from bins
+      firstNode = bin[0];
+      int lastNode = firstNode;  // last node on chain
+      for (int i = 1; i &lt; size; i++)
+         lastNode = S.node[lastNode].next = bin[i];
+      S.node[lastNode].next = -1;
+   }
+}
+<HR class = coderule>
+</pre>
+<br><br>
+For an <code class=math>n</code>
+node input chain, the time taken to rank the elements is
+<code class=math>Theta(n<sup>2</sup>)</code>.
+The ensuing assignment and collection from bins takes
+<code class=math>Theta(n)</code> time.
+Therefore, if an exception is not thrown, the complexity is
+<code class=math>Theta(n<sup>2</sup>)</code>.
+
+
+</FONT>
+</BODY>
+</HTML>

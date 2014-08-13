@@ -1,0 +1,11 @@
+all:
+	@echo "Building All Project"
+
+cyclic_buffer.o:
+	g++ -c cyclic_buffer.cc
+
+test_buffer:
+	g++ test_buffer.cc cyclic_buffer.o -o test_buffer.o
+
+clean:
+	rm *.o

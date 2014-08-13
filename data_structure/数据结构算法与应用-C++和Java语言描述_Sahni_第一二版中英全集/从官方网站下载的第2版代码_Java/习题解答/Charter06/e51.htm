@@ -1,0 +1,258 @@
+
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 6, Exercise 51<BR>
+<BR>
+</H1>
+<P ALIGN=LEFT>
+The code for the class <code class=code>HeadDoubleCircularList</code>
+is given below.
+The asymptotic
+complexity of each method is the same as for the corresponding
+method of the class <code class=var>Chain</code> or
+<code class=var>ExtendedChain</code>.
+</P>
+<HR class = coderule>
+<PRE class = code>
+public class HeadDoubleCircularList implements ExtendedLinearList
+{
+   // data members
+   protected DoubleNode headerNode;
+   protected int size;
+
+   // constructors
+   /** create a list that is empty */
+   public HeadDoubleCircularList(int initialCapacity)
+   {
+       // create head node
+       headerNode = new DoubleNode();
+       headerNode.next = headerNode;
+       headerNode.previous = headerNode;
+       // the default initial value of size is 0
+   }
+
+   public HeadDoubleCircularList()
+      {this(0);}
+
+   // methods
+   /** return true iff list is empty */
+   public boolean isEmpty()
+       {return size == 0;}
+
+   /** return current number of elements in list */
+   public int size()
+      {return size;}
+
+   /** throws IndexOutOfBoundsException when
+     * index is not between 0 and size - 1 */
+   void checkIndex(int index)
+   {
+      if (index &lt; 0 || index >= size)
+         throw new IndexOutOfBoundsException
+             ("index = " + index + "  size = " + size);
+   }
+
+   /** return element with specified index
+     * throws IndexOutOfBoundsException when
+     * index is not between 0 and size - 1 */
+   public Object get(int index)
+   {
+      checkIndex(index);
+
+      // move to desired node
+      DoubleNode currentNode = headerNode.next;
+      for (int i = 0; i &lt; index; i++)
+         currentNode = currentNode.next;
+
+      return currentNode.element;
+   }
+   
+   /** return index of first occurrence of elem,
+     * return -1 if elem not in list */
+   public int indexOf(Object theElement)
+   {
+
+      // search the circular list for theElement
+      DoubleNode currentNode = headerNode.next;
+      int index = 0;  // index of currentNode
+      headerNode.element = theElement;
+      while(!currentNode.element.equals(theElement))
+      {
+         // move to next node
+         currentNode = currentNode.next;
+         index++;
+      }
+
+      // make sure we found matching element
+      return (index == size) ? -1 : index;
+   }
+   
+   /** Remove the element with specified index.
+     * All elements with higher index have their
+     * index reduced by 1.
+     * throws IndexOutOfBoundsException when
+     * index is not between 0 and size - 1
+     * return removed element */
+   public Object remove(int index)
+   {
+      checkIndex(index);
+
+      DoubleNode currentNode;  // will point to node with element that is
+                               // to be removed
+
+      // move to element that is to be removed
+      if (index &lt; size / 2)
+      {// move from left to right
+         currentNode = headerNode.next;
+         for (int i = 0; i &lt; index; i++)
+            currentNode = currentNode.next;
+      }
+      else
+      {// move from right to left
+         currentNode = headerNode.previous;
+         int numberToMove = size - index - 1;
+         for (int i = 0; i &lt; numberToMove; i++)
+            currentNode = currentNode.previous;
+      }
+
+      // remove currentNode
+      currentNode.previous.next = currentNode.next;
+      currentNode.next.previous = currentNode.previous;
+
+      size--;
+      return currentNode.element;
+   }
+   
+   /** Insert an element with specified index.
+     * All elements with equal or higher index
+     * have their index increased by 1.
+     * throws IndexOutOfBoundsException when
+     * index is not between 0 and size */
+   public void add(int index, Object theElement)
+   {
+      if (index &lt; 0 || index &gt; size)
+         // invalid list position
+         throw new IndexOutOfBoundsException
+                   ("index = " + index + "  size = " + size);
+
+      // define a pointer that will eventually point to node
+      // just before insertion point
+      DoubleNode currentNode;
+      if (index <= size / 2)
+      {// move from left to right
+         currentNode = headerNode;
+         for (int i = 0; i &lt; index; i++)
+            currentNode = currentNode.next;
+      }
+      else
+      {// move from right to left
+         currentNode = headerNode.previous;
+         int numberToMove = size - index;
+         for (int i = 0; i &lt; numberToMove; i++)
+            currentNode = currentNode.previous;
+      }
+
+      // insert after currentNode
+      currentNode.next =
+             new DoubleNode(theElement, currentNode, currentNode.next);
+      currentNode.next.next.previous = currentNode.next;
+      size++;
+   }
+   
+   /** convert to a string */
+   public String toString()
+   {
+      StringBuffer s = new StringBuffer("["); 
+      if (size != 0)
+      {// nonempty list
+         // output first element
+         DoubleNode firstNode = headerNode.next;
+         s.append(firstNode.element.toString());
+
+         // output remaining elements
+         DoubleNode currentNode = firstNode.next;
+         while(currentNode != headerNode)
+         {
+            s.append(", " + currentNode.element.toString());
+            currentNode = currentNode.next;
+         }
+      }
+      s.append("]");
+
+      // create equivalent String
+      return new String(s);
+   }
+
+   /** create and return an iterator */
+   public Iterator iterator()
+      {return new HeadDoubleCircularIterator();}
+
+   /** iterator */
+   private class HeadDoubleCircularIterator implements Iterator
+   {
+      // data member
+      private DoubleNode nextNode;
+   
+      // constructor
+      public HeadDoubleCircularIterator()
+         {nextNode = headerNode.next;}
+   
+      // methods
+      /** return true iff list has a next element */
+      public boolean hasNext()
+         {return nextNode != headerNode;}
+   
+      /** return next element in list
+        * throws NoSuchElementException
+        * when there is no next element */
+      public Object next()
+      {
+         if (nextNode != headerNode)
+         {
+            Object elementToReturn = nextNode.element;
+            nextNode = nextNode.next;
+            return elementToReturn;
+         }
+         else throw new NoSuchElementException("No next element");
+      }
+
+      /** unsupported method */
+      public void remove()
+      {
+         throw new UnsupportedOperationException
+                   ("remove not supported");
+      }   
+   }
+   
+   /** Make the list empty. */
+   public void clear()
+   {
+      headerNode.next = headerNode.previous = headerNode;
+      size = 0;
+   }
+
+   /** Add theElement to the right end of the list. */
+   public void add(Object theElement)
+   {
+      DoubleNode newNode = new DoubleNode(theElement,
+                           headerNode.previous, headerNode);
+      headerNode.previous = newNode;
+      newNode.previous.next = newNode;
+      size++;
+   }
+}
+<HR class = coderule>
+</pre>
+<br>
+
+
+
+</FONT>
+</BODY>
+</HTML>

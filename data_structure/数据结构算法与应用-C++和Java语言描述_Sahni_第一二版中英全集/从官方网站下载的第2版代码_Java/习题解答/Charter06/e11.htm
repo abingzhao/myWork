@@ -1,0 +1,74 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 6, Exercise 11<BR>
+<BR>
+</H1>
+<dl compact>
+<dt> (a)
+<dd>
+A chain may be reversed by reversing the direction of the
+pointers in each node.  For this, we use three pointers to
+march through the chain from left to right.
+<code class=code>currentNode</code> points to the node whose
+pointer (link) we are about to reverse; <code class=code>lastNode</code> points to the
+node on its left (<code class=code>lastNode</code> is
+<code class=code>null</code> in case
+<code class=code>currentNode</code> is the first node);
+and <code class=code>nextNode</code> points to the node at the right of
+<code class=code>currentNode</code>
+(<code class=code>nextNode</code> is
+<code class=code>null</code> in case
+<code class=code>currentNode</code> is the last node of the chain).  The link
+in <code class=code>currentNode</code> is changed
+from <code class=code>nextNode</code> to
+<code class=code>lastNode</code>.  Then
+<code class=code>lastNode</code>,
+<code class=code>currentNode</code>,
+and <code class=code>nextNode</code> are advanced one node to the right.
+The code to reverse a chain is given below.
+
+<HR class = coderule>
+<PRE class = code>
+public void reverse()
+{
+   ChainNode lastNode = null,
+             currentNode = firstNode,
+             nextNode;
+
+   while (currentNode != null)
+   {
+      // change pointer direction
+      nextNode = currentNode.next;
+      currentNode.next = lastNode;
+
+      // move to next node
+      lastNode = currentNode;
+      currentNode = nextNode;
+   }
+   
+   firstNode = lastNode; // new first node
+}
+</pre>
+<HR class=coderule><BR><br>
+<dt> (b)
+<dd>
+The complexity is <code class=math>Theta(<code class=code>size</code>)</code>
+because the <code class=code>while</code> loop iterates
+<code class=code>size</code> times and each iteration takes
+<code class=math>Theta(1)</code> time.
+<br><br>
+<dt> (c)
+<dd>
+The above code together with  sample test program
+is in the file <code class=code>ChainWithReverse.java</code>.
+</dl>
+
+</FONT>
+</BODY>
+</HTML>

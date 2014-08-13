@@ -1,0 +1,42 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 1, Exercise 13<BR>
+<BR>
+</H1>
+Since <code class=code>Currency</code> does not override
+the method <code class=var>Object.equals</code>, the expression
+<code class=code>x.equals(y)</code> uses <code class=var>Object.equals</code>
+which checks the references <code class=var>x</code> and
+<code class=code>y</code> for equality. That is,
+<code class=code>x.equals(y)</code> is true iff
+<code class=var>x</code> and
+<code class=code>y</code> reference the same object.
+Therefore, when 
+<code class=var>x</code> and
+<code class=code>y</code> reference equal but different instances of
+<code class=code>Currency</code>,
+<code class=code>x.equals(y)</code> is false.
+<P ALIGN=LEFT>
+The method <code class=code>applications.CurrencyWithEquals.equals</code>
+which checks two instances for equality is given below.
+<BR>
+</P>
+<HR class = coderule>
+<PRE class = code>
+/** @return true iff this and theCurrency are equal */
+public boolean equals(CurrencyWithEquals theCurrency)
+   {return (getSign() == theCurrency.getSign() &amp;&amp;
+            getDollars() == theCurrency.getDollars() &amp;&amp;
+            getCents() == theCurrency.getCents());}
+</pre>
+<HR><BR>
+
+</FONT>
+</BODY>
+</HTML>

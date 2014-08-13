@@ -1,0 +1,31 @@
+enter number of edges in graph
+enter weighted edge 1
+enter weighted edge 2
+enter weighted edge 3
+enter weighted edge 4
+enter weighted edge 5
+enter weighted edge 6
+The graph is not connected
+exceptions.UndefinedMethodException: Graph.connected is for undirected graphs only
+The graph is not connected
+exceptions.UndefinedMethodException: Graph.connected is for undirected graphs only
+The graph is not connected
+exceptions.UndefinedMethodException: Graph.connected is for undirected graphs only
+The graph is not connected
+exceptions.UndefinedMethodException: Graph.connected is for undirected graphs only
+enter number of edges in graph
+enter weighted edge 1
+enter weighted edge 2
+enter weighted edge 3
+enter weighted edge 4
+enter weighted edge 5
+enter weighted edge 6
+enter weighted edge 7
+The graph is connected
+exceptions.UndefinedMethodException: Graph.connected is for undirected graphs only
+The graph is connected
+exceptions.UndefinedMethodException: Graph.connected is for undirected graphs only
+The graph is connected
+exceptions.UndefinedMethodException: Graph.connected is for undirected graphs only
+The graph is connected
+exceptions.UndefinedMethodException: Graph.connected is for undirected graphs only

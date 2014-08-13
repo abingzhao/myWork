@@ -1,0 +1,43 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 12, Exercise 23<BR>
+<BR>
+</H1>
+Since the elements are stored in the array by levels, a level
+order traversal may be done by examining the array from left
+to right.
+The code is given below.  The test program and output
+are in the files
+<code class=var>ArayBinaryTreeWithLevelOrder.*</code>.
+<HR class = coderule>
+<pre class = code>
+public class ArrayBinaryTreeWithLevelOrder
+{
+   static Object [] a;   // array that contains the tree
+
+   /** visit method that prints the element in a[i] */ 
+   public static void visit(int i)
+      {System.out.print(a[i] + " ");}
+
+   /** level order traversal */
+   public static void levelOrder(Object [] theArray, int last)
+   {
+      a = theArray;
+      for (int i = 1; i <= last; i++)
+         if (a[i] != null)
+            visit(i);  
+   }
+}
+<hr class=coderule>
+</pre>
+
+
+</FONT>
+</BODY>
+</HTML>

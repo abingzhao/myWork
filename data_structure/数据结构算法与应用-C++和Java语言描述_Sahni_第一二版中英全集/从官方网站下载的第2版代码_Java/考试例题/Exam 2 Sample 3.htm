@@ -1,0 +1,187 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>Data Structures & Algorithms</H1>
+
+<H2>Exam 2</H2>
+<H2>Sample 3, 75 Minutes</H2>
+<BR>
+</H1>
+Notes:
+<ol>
+<li>
+Write your name, social security number, and section in which you want your
+exam returned on each sheet.
+<li>
+Begin the answer to each question on a new sheet.
+</ol>
+<br><br>
+<ol>
+<li>
+[18]
+The classes
+<code class=code>MyBinaryTreeNode</code> and
+<code class=code>MyBinaryTree</code>
+are given below.
+Objects of type <code class=code>MyBinaryTree</code>
+are linked binary trees.
+<pre class=code>
+<hr class=coderule>
+public class MyBinaryTreeNode
+{
+   Object element;
+   BinaryTreeNode leftChild;    // left subtree
+   BinaryTreeNode rightChild;   // right subtree
+ }  
+
+public class MyBinaryTree
+{
+   BinaryTreeNode root;               // root node
+
+   // code you write will come here
+}
+<hr class=coderule>
+</pre>
+You are to write a public method <code class=var>maxHeightDifference()</code>.
+The invocation <code class=var>x.maxHeightDifference()</code>
+returns
+<code class=code>0</code>
+if the binary tree <code class=code>x</code>
+is empty;
+otherwise, it returns
+the maximum difference in the heights of the left and right subtrees
+of any node in the tree.
+<br><br>
+<code class=var>
+x.maxHeightDifference() = max<sub>y is a node of x</sub> {|height(left subtree of y) 
+<br>
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+- height(right subtree of y)|}
+</code>
+<br><br>
+<dl compact>
+<dt>(a)
+<dd>
+[16]
+Write Java code for the public method
+<code class=var>maxHeightDifference</code>.
+You may define, implement and create additional
+methods and variables as needed.
+You may use Java's methods <code class=code>Math.max</code>
+and <code class=code>Math.abs</code>. <code class=code>Math.max(a,b)</code>
+returns the larger of <code class=code>a</code> and <code class=code>b</code>,
+and <code class=code>Math.abs(a)</code> returns the absolute value of
+<code class=code>a</code>.
+You may not create any new nodes, new instances
+of <code class=var>MyBinaryTree</code>,  or invoke any methods
+(other than <code class=code>Math.max</code>
+and <code class=code>Math.abs</code>)
+for which you have not provided code.
+(Hint: use recursion.)
+<br><br>
+<dt>(b)
+<dd>
+[2] What is the time complexity of your code as a function
+of the number of nodes in the binary tree?
+</dl>
+<br><br><br>
+<li>
+<dl compact>
+<dt> (a)
+<dd> 
+[4] A 10 element complete binary tree is represented by the array
+[20, 15, 12, 8, 10, 6, 2, 4, 7, 1]. Draw the complete binary tree.
+Is this complete binary tree a max heap? Why?
+<br><br>
+<dt> (b)
+<dd>
+[4] There are eight players named <code class=code>a</code> through
+<code class=code>h</code> in a tournament. Their values are
+[1, 7, 4, 3, 5, 8, 9, 2]. When two players play a match,
+the one with <b>larger</b> value wins.
+Draw the winner tree for the tournament. Label internal nodes with
+player names and external nodes with player values and names.
+<br><br>
+<dt>(c)
+<dd>
+[4] Draw the loser tree (including overall winner)
+for the tournament described in (b).
+Label internal nodes with
+player names and external nodes with player values and names.
+</dl>
+
+<br><br><br>
+<li>
+<dl compact>
+<dt> (a)
+<dd>
+[8]
+Suppose you have a binary tree whose data fields are single characters.
+When the data fields of the nodes are output in inorder, the output is
+<code class=var>ABCDEFGHIJ</code>, and when they are output in level order,
+the output is
+<code class=var>BAIDJCFEHG</code>.
+Draw the binary tree showing the data in each node and the pointers between
+nodes.
+Show the steps used to arrive at the result.
+<br><br>
+<dt> (b)
+<dd>
+[8]
+Draw the height biased max leftist tree that results when the max element
+is removed from the following height biased
+max leftist tree
+(use the strategy
+used in the text).
+Show the steps used to arrive at the result.
+<br><br>
+<pre class=figure>
+                 60
+                /  \   
+               /    \ 
+              55    48
+             /  \  /  \
+           50  52  20  30
+           /            
+          40          
+</pre>
+<br><br>
+<dt> (c)
+<dd>
+[4]
+Consider the following binary search
+tree. Label each node with its balance factor.
+Is this tree an AVL search tree? Why?
+<br><br>
+<pre class=figure>
+                 30                        
+                /  \                      
+               /    \                   
+              20    50                
+             /  \  /  \              
+           10  25  40  60           
+           / \     /   / 
+          5  15  35   55            
+                      /
+                     54
+</pre>
+</dl>
+
+
+<center>
+<A href="s3.htm">Solutions</A>
+
+</html>

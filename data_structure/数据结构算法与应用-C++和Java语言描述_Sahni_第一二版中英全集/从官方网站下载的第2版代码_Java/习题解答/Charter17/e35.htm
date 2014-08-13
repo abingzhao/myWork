@@ -1,0 +1,159 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 17, Exercise 35<BR>
+<BR>
+</H1>
+
+First we input the number of vertices and edges in the new digraph;
+verify that these numbers are legitimate (i.e., neither is less
+than zero and the number of edges does not exceed the number of
+edges in a complete digraph with the given number of vertices);
+allocate an array
+<code class=code>h</code> of the needed size; and finally read in the
+edges one by one.  If each edge is added to the data structure
+being constructed using the method
+<code class=code>putEdge</code> as we did in Exercise 31 for the establishment
+of an adjacency matrix structure, the time complexity becomes
+<code class=var>O(ne)</code> because it takes <code class=var>O(n)</code>
+time to verify that each edge is not
+already in the digraph. 
+<br><br>
+We can reduce the complexity to <code class=code>O(n+e)</code>)
+by deferring the check for duplicate edges to the end.
+Once the edges have been input, we can scan the adjacency list for each
+vertex using an array <code class=code>seen[0:n]</code>.
+Initially, <code class=code>seen[v]</code> is
+<code class=code>false</code> for every vertex
+<code class=code>v</code>. If vertex <code class=code>v</code>
+is encountered on the adjacency list for vertex
+<code class=code>i</code>, we first check to see if
+<code class=code>seen[v]</code> is <code class=code>true</code>.
+If it is, then we are seeing <code class=code>v</code> for the second
+time on the adjacency list for vertex <code class=code>i</code>.
+Therefore, we have found a duplicate edge and we throw a
+<code class=code>MyInputException</code> exception.
+If
+<code class=code>seen[v]</code> is <code class=code>false</code>,
+then we are seeing <code class=code>v</code> for the first
+time and we set
+<code class=code>seen[v]</code> to <code class=code>true</code>.
+<br><br>
+The code is given below.
+
+
+
+<HR class = coderule>
+<pre class = code>
+public class ExtendedLinkedWDigraph extends LinkedWDigraph
+{
+   // constructors
+   public ExtendedLinkedWDigraph(int theVertices)
+      {super(theVertices);}
+   
+   // default is a 0 vertex graph
+   public ExtendedLinkedWDigraph()
+      {super(0);}
+
+   /** put edge e into the digraph, do not check if it is a duplicate */
+   public void putEdgeNoCheck(Object theEdge)
+   {
+      WeightedEdge edge =  (WeightedEdge) theEdge;
+      int v1 = edge.vertex1;
+      int v2 = edge.vertex2;
+      if (v1 &lt; 1 || v2 &lt; 1 || v1 &gt; n || v2 &gt; n || v1 == v2)
+         throw new IllegalArgumentException
+                   ("(" + v1 + "," + v2 + ") is not a permissible edge");
+
+      // put v2 at front of chain aList[v1]
+      aList[v1].add(0, new WeightedEdgeNode(v2, edge.weight));
+      e++;
+   }
+   
+   /** input a weighted digraph and store as this
+     * @param inputMethod input method to use
+     * @param inStream input stream for input */
+   public void input(Method inputMethod, MyInputStream inStream)
+   {
+      // input number of vertices and edges
+      System.out.println("Enter the number of vertices in the digraph");
+      n = inStream.readInteger();
+      if (n &lt; 0)
+         throw new MyInputException
+                   ("number of vertices must be &gt;= 0");
+
+      System.out.println("Enter the number of edges in the digraph");
+      int numOfEdges = inStream.readInteger();
+      if (numOfEdges &lt; 0)
+         throw new MyInputException
+                   ("number of edges must be &gt;= 0");
+
+      if (numOfEdges &gt; n * (n - 1))
+         throw new MyInputException("too many edges");
+
+      // create a new array aList for the adjacency chains
+      aList = new GraphChain [n + 1];
+      for (int i = 1; i &lt;= n; i++)
+         aList[i] = new GraphChain();
+      e = 0;    // reset current number of edges to zero
+   
+      // now input the edges and add them to a[][]
+      WeightedEdge newEdge = new WeightedEdge(0, 0, null);
+      Object [] inputMethodArgs = {inStream};
+      for (int i = 1; i &lt;= numOfEdges; i++)
+      {
+         System.out.println("Enter edge " + i);
+         newEdge.vertex1 = inStream.readInteger();
+         newEdge.vertex2 = inStream.readInteger();
+         try
+         {
+            newEdge.weight = 
+               (Operable) inputMethod.invoke(null, inputMethodArgs);
+         }
+         catch (Exception e)
+         {
+            throw new IllegalArgumentException
+                      ("static method input() not defined");
+         }
+         putEdgeNoCheck(newEdge);
+      }
+
+      // check for duplicate edges
+      boolean [] seen = new boolean [n + 1];
+      for (int i = 1; i &lt;= n; i++)
+      {// check vertex i
+         Iterator ig = iterator(i);
+         while (ig.hasNext())
+         {// not at list end 
+            int v = ((WeightedEdgeNode) ig.next()).vertex;
+            if (seen[v])
+               // duplicate edge
+               throw new MyInputException
+                         ("Duplicate edges encountered in input");
+            else seen[v] = true;
+         }
+   
+         // reset seen
+         ig = iterator(i);  
+         while (ig.hasNext())
+            // not at list end 
+            seen[((WeightedEdgeNode) ig.next()).vertex] = false;
+      }
+   }
+}
+<HR class = coderule>
+</pre>
+<br><br>
+
+
+
+
+
+</FONT>
+</BODY>
+</HTML>

@@ -1,0 +1,166 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 14, Exercise 11<BR>
+<BR>
+</H1>
+<dl compact>
+<dt> (a)
+<dd>
+The code is basically that of the text with the codes for the
+case when <code class=code>n</code> is odd omitted.
+The modified code is given below.
+
+<HR class = coderule>
+<pre class = code>
+public class CompleteEvenWinnerTree implements WinnerTree
+{
+   // data members
+   int m;                // m = n when n is even and n+1 otherwise
+   int lowExt;           // lowest-level external nodes
+   int offset;           // 2^log(m-1) - 1
+   int [] tree;          // array for winner tree
+   Playable [] player;   // array of players
+
+   // only default constructor available
+
+   /** @return the winner of the tournament
+     * @return 0 if there are no players */
+   public int getWinner()
+      {return (tree == null) ? 0 : tree[1];}
+
+   /** initialize winner tree for thePlayer[1:thePlayer.length-1] */
+   public void initialize(Playable [] thePlayer)
+   {
+      int n = thePlayer.length - 1;
+      if (n &lt; 2)
+         throw new IllegalArgumentException
+                   ("must have at least 2 players");
+
+      player = thePlayer;
+      if (n % 2 == 0)
+         // n is even
+         m = n;
+      else
+         // n is odd
+         m = n + 1;
+      tree = new int [m];
+   
+      // compute  s = 2^log (m-1)
+      int i, s;
+      for (s = 1; 2 * s &lt;= m - 1; s += s);
+   
+      lowExt = 2 * (m - s);
+      offset = 2 * s - 1;
+   
+      // play matches for lowest-level external nodes
+      for (i = 2; i &lt;= lowExt; i += 2)
+         play((offset + i) / 2, i - 1, i);
+   
+      // handle remaining external nodes
+      for (; i &lt;= m; i += 2)
+         play((i - lowExt + m - 1) / 2, i - 1, i);
+   }
+   
+   /** play matches beginning at tree[p]
+     * @param lc is left child of p
+     * @param rc is right child of p */
+   void play(int p, int lc, int rc)
+   {
+      if (rc &gt;= player.length)
+         tree[p] = lc;
+      else
+         tree[p] = player[lc].winnerOf(player[rc]) ? lc : rc;
+   
+      // more matches possible if at right child
+      while (p &gt; 1 &amp;&amp; p % 2 == 1)
+      {// at a right child
+         tree[p / 2] = player[tree[p - 1]].winnerOf(player[tree[p]]) ?
+                          tree[p - 1] : tree[p];
+         p /= 2;  // go to parent
+      }
+   }
+   
+   /** replay matches for player i */
+   public void rePlay(int i)
+   {
+      int n = player.length - 1;  // number of players
+      if (i &lt;= 0 || i &gt; n)
+         throw new IllegalArgumentException("No player " + i);
+   
+      int p,   // match node
+          lc,  // left child of p
+          rc;  // right child of p
+   
+      // find first match node and its children
+      if (i &lt;= lowExt)
+      {// begin at lowest level
+         p = (offset + i) / 2;
+         lc = 2 * p - offset; // left child of p
+         rc = lc + 1;
+      }
+      else
+      {
+         p = (i - lowExt + m - 1) / 2;
+         lc = 2 * p - m + 1 + lowExt;
+         rc = lc + 1;
+      }
+   
+      // play first match
+      if (rc &gt;= player.length)
+         tree[p] = lc;
+      else
+         tree[p] = player[lc].winnerOf(player[rc]) ? lc : rc;
+
+      // play remaining matches
+      p /= 2;  // move to parent
+      for (; p &gt;= 1; p /= 2)
+         tree[p] = player[tree[2 * p]].winnerOf(
+             player[tree[2 * p + 1]]) ? tree[2 * p] : tree[2 * p + 1];
+   }
+   
+   public void output()
+   {
+      int n = player.length - 1;
+      System.out.println("size = " + n  + " lowExt = "  + lowExt
+                          + " offset = "  + offset); 
+      System.out.println("Winner tree pointers are");
+      for (int i = 1; i &lt; m; i++)
+         System.out.print(tree[i] + " ");
+      System.out.println();
+   }
+}
+<hr class=coderule>
+</pre>
+<br><br>
+<dt> (b)
+<dd>
+The test code, sample input, and output are given in the files
+<code class=code>CompleteEvenWinnerTree.*</code>.
+<br><br>
+
+<dt> (c)
+<dd>
+The implementation of this exercise is quite a bit simpler than that
+of the text. This simplification
+has come at a cost of <code class=code>O(1)</code>
+memory. The run time for this implementation is about the same as that
+for the implementation of the text.  However, compared to the implementation
+of Exercise 9, the implementations of the text and of
+this exercise are expected to take less time
+because most of the
+matches played in the implementation of Exercise 9 require us
+to determine whether or not we have a right child player. Such a
+determination is not done either in the implementation of the text or that of
+this exercise.
+The implementation of Exercise 9 is the simplest of the three implementations,
+but it requires <code class=var>O(n)</code> additional space and it is
+slightly slower.
+</FONT>
+</BODY>
+</HTML>

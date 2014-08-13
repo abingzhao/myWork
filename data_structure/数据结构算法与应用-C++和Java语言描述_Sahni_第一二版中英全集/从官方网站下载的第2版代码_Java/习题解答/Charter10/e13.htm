@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 10, Exercise 13<BR>
+<BR>
+</H1>
+The code is given below.
+<HR class = coderule>
+<PRE class = code>
+public class LinkedQueueWithNodeOperations
+             extends LinkedQueue
+{
+   // constructors
+   /** create an empty queue */
+   public LinkedQueueWithNodeOperations(int initialCapacity)
+      {super(initialCapacity);}
+
+   public LinkedQueueWithNodeOperations()
+      {this(0);}
+
+   // new methods
+   /** insert theNode at the rear of the queue */
+   public void putNode(ChainNode theNode)
+   {
+      // append p to the chain
+      if (front == null)
+         front = theNode;                 // empty queue
+      else 
+         rear.next = theNode;             // nonempty queue
+
+      rear = theNode;
+      rear.next = null;
+   }
+
+   /** remove a node from the front of the queue
+     * @return removed node
+     * @return null if the queue is empty */
+   public ChainNode removeNode()
+   {
+      if (isEmpty())
+         return null;
+      ChainNode frontNode = front;
+      front = front.next;
+      return frontNode;
+   }
+}
+</pre>
+<HR class=coderule><BR><br>
+
+</FONT>
+</BODY>
+</HTML>

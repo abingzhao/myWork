@@ -1,0 +1,31 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 16, Exercise 63<BR>
+<BR>
+</H1>
+
+From the solution for Exercise 62 we know that it is possible to
+delete from a nonleaf node so that the worst-case number of disk
+acceses is the same as when
+deleting from a leaf node.  So, assume we are deleting from a leaf node.
+The worst-case access analysis is:
+<br><br>
+<code class=var>h</code> reads to find the leaf to delete from
+<br>
+<code class=var>+ 2(h - 1)</code> reads of nearest siblings
+<br>
+<code class=var>+ h - 2</code> writes at levels <code class=var>3</code> through <code class=var>h</code>
+<br>
+<code class=var>+ 3</code>
+<br><br>
+The total is <code class=var>4h - 1</code>.
+
+</FONT>
+</BODY>
+</HTML>

@@ -1,0 +1,122 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 6, Exercise 35<BR>
+<BR>
+</H1>
+<dl compact>
+<dt> (a)
+<dd>
+A circular list with a header node
+may be reversed by reversing the direction of the
+pointers in each node.  For this, we use three pointers to
+march through the circular list from
+left to right.  <code class=code>currentNode</code> points to the node whose
+pointer (link) we are about to reverse;
+<code class=code>previousNode</code> points to the
+node on its left;
+and <code class=code>nextNode</code> points to the node at the right of
+<code class=code>currentNode</code>.
+The link
+in <code class=code>currentNode</code> is changed
+from <code class=code>nextNode</code> to
+<code class=code>previousNode</code>.  Then
+<code class=code>previousNode</code>,
+<code class=code>currentNode</code>,
+and <code class=code>nextNode</code> are advanced one node to the right.
+The code for the member method to reverse a circular list with a header node is
+given below.
+</dl>
+
+<HR class = coderule>
+<PRE class = code>
+public class HeadCircularListWithReverse
+       extends HeadCircularList
+{
+   /** reverse the linear list */
+   public void reverse()
+   {
+      ChainNode previousNode = headerNode,
+                currentNode = headerNode.next,
+                nextNode;
+      lastNode = currentNode;  // will be when we are done
+
+      while (currentNode != headerNode)
+      {// change pointer direction
+         nextNode = currentNode.next;
+         currentNode.next = previousNode;
+   
+         // move to next node
+         previousNode = currentNode;
+         currentNode = nextNode;
+      }
+      currentNode.next = previousNode;
+   }
+}
+<HR class = coderule>
+</pre>
+<br>
+<dl compact>
+<dt> (b)
+<dd>
+The complexity is linear in the length of the circular list.
+<br><br>
+<dt> (c)
+<dd>
+A sample code to test this method is given in the file
+<code class=code>HeadCircularListWithReverse.java</code> and the
+output is given in the file
+<code class=code>HeadCircularListWithReverse.output</code>.
+<br><br>
+
+<dt>(d)
+<dd>
+The nonmember method to reverse a circular list with a header node
+is given below.
+<HR class = coderule>
+<PRE class = code>
+public class ReverseHeadCircularList
+{
+   public static void reverse(HeadCircularList x)
+   {
+      int sizeMinus1 = x.size() - 1;
+      for (int i = 0; i &lt; sizeMinus1; i++)
+      {
+         // retrieve and remove first element
+         Object y = x.remove(0);
+
+         // insert at proper place
+         x.add(sizeMinus1 - i, y);
+      }
+   }
+}
+</pre>
+<HR class=coderule><BR><br>
+<br><br>
+<dt> (e)
+<dd>
+Each invocation of <code class=code>remove</code> takes
+<code class=code>O(1)</code> time, and each invocation
+<code class=code>add(sizeMinus1 - i, y)</code> takes
+<code class=code>O(sizeMinus1 - i)</code> time.
+Therefore, each iteration
+of the
+<code class=code>for</code> loop takes
+<code class=code>O(sizeMinus1 - i)</code> time.
+The overall complexity is
+<code class=code>O( (sum from i = 0 to sizeMinus1 - 1) (sizeMinus1 - i) =
+O(size<sup>2</sup>)</code>.
+
+<br><br>
+<dt> (f)
+<dd>
+The test program and output appear in the files
+<code class=code>ReverseHeadCircularList.*</code>.
+</FONT>
+</BODY>
+</HTML>

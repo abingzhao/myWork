@@ -1,0 +1,64 @@
+
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 6, Exercise 47<BR>
+<BR>
+</H1>
+Two doubly-linked circular lists may be joined in
+<code class=var>O(1)</code> time as below.
+
+<HR class = coderule>
+<PRE class = code>
+public class DoubleCircularListWithJoin extends DoubleCircularList
+{
+   /** append list a to this
+     * following the join, a is empty */
+   public void join(DoubleCircularListWithJoin a)
+   {
+      // special cases
+      if (a.size == 0)
+         // a is empty, nothing to join to this
+         return;
+
+      if (size == 0)
+      {// this is empty,
+         // move all nodes of a to this
+         lastNode = a.lastNode;
+         size = a.size;
+
+         // make a empty
+         a.lastNode = null;
+         a.size = 0;
+
+         return;
+      }
+   
+      // neither this nor a is empty
+      // link a into end of this
+      DoubleNode firstNode = lastNode.next;
+      DoubleNode aFirstNode = a.lastNode.next;
+      lastNode.next = aFirstNode;
+      aFirstNode.previous = lastNode;
+      lastNode = a.lastNode;
+      firstNode.previous = lastNode;
+      lastNode.next = firstNode;
+      size += a.size;
+
+      // make a empty
+      a.clear();
+
+      return;
+   }
+}
+</pre>
+<HR class=coderule><BR><br>
+
+</FONT>
+</BODY>
+</HTML>

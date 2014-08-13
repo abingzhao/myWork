@@ -1,0 +1,121 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 12, Exercise 55<BR>
+<BR>
+</H1>
+It is convenient to define a new class
+<code class=var>TreeBooster</code> that derives from
+<code class=var>LinkedBinaryTree</code>.  Our code for the
+new class requires access to the root node of the binary tree
+and must also be able to access the fields of objects of type
+<code class=code>BinaryTreeNode</code>.
+The class <code class=code>TreeBooster</code> would normally be placed in the
+package <code class=code>applications</code>. Therefore, to provide the
+level of access needed, we must add accessor and mutator methods to
+the classes <code class=code>LinkedBinaryTree</code> and
+<code class=code>BinaryTreeNode</code>.
+<br><br>
+In the solution to this exercise, we have chosen not to make changes to the
+classes
+<code class=code>LinkedBinaryTree</code> and
+<code class=code>BinaryTreeNode</code>, because such changes would make these
+classes slightly different from those in the book.
+Rather, we have opted to make <code class=code>TreeBooster</code> a member
+of the package <code class=code>dataStructures</code>.
+<br><br>
+We write a public method
+<code class=var>placeBoosters</code> which invokes a recursive
+method <code class=var>thePlaceBoosters</code>.
+This recursive method has a single
+parameter, the root of the subtree in which boosters are to be placed.
+The recursive method is called initially with the root of the overall
+binary tree.
+<br><br>
+The recursive method places boosters as needed
+and also returns the
+maximum of the degradations from the parent (in the original distribution tree)
+of the subtree root to the nearest
+booster or leaf in each subtree (of the parent in the
+original distribution tree), including itself,
+that is a right sibling of this subtree
+root.
+<br><br>
+The code is given below.  A test program and output can be
+found in the files
+<code class=var>dataStructures.TreeBooster.*</code>.
+<HR class = coderule>
+<pre class = code>
+public class TreeBooster extends LinkedBinaryTree
+{
+   // top-level nested class
+   private static class Booster
+   {
+      // data members
+      int degradeToLeaf,       // degradation to leaf
+          degradeFromParent;   // degradation from parent
+      boolean boosterHere;     // true iff booster placed here
+
+      // constructor
+      public Booster(int toLeaf, int fromParent, boolean booster)
+         {degradeFromParent = fromParent;}
+
+      public String toString()
+         {return boosterHere + " " + degradeToLeaf + " " 
+                 + degradeFromParent;}
+   }
+   
+   // class data member of TreeBooster
+   static int tolerance;
+
+   /** public method to place boosters */
+   public void placeBoosters(int theTolerance)
+   {
+      tolerance = theTolerance;
+      thePlaceBoosters(root);
+   }
+
+   /** recursive method to place boosters in subtree with root theRoot
+     * @return max of degradations from parent of theRoot to nearest
+     * booster or leaf in each right sibling subtree of parent in
+     * the original distribution tree */
+   static int thePlaceBoosters(BinaryTreeNode theRoot)
+   {
+      if (theRoot == null)
+         // subtree is empty, parent must be a leaf
+         return 0; 
+                  
+      ((Booster) theRoot.element).degradeToLeaf =
+                                  thePlaceBoosters(theRoot.leftChild);
+
+      // compute max degradation from parent of theRoot to nearest booster
+      // or leaf in each subtree of theRoot in original distribution tree
+      int degrade = ((Booster) theRoot.element).degradeToLeaf
+                + ((Booster) theRoot.element).degradeFromParent;
+   
+      // see if we need a booster at theRoot
+      if (degrade &gt; tolerance)
+      {
+         ((Booster) theRoot.element).boosterHere = true;
+         degrade = ((Booster) theRoot.element).degradeFromParent;
+      }
+   
+      // compute max degradation for remaining children of parent of theRoot
+      // in original distribution tree; the max of this value
+      // and degrade is the degradation value for parent of theRoot
+      return Math.max(degrade, thePlaceBoosters(theRoot.rightChild));
+      
+   }
+}
+<hr class=coderule>
+</pre>
+<br><br>
+
+
+</FONT>
+</BODY>
+</HTML>

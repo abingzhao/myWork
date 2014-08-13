@@ -1,0 +1,103 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 17, Exercise 45<BR>
+<BR>
+</H1>
+
+When the breadth first search is performed we label each vertex
+that s reached by both its distance (<code class=code>distance[]</code>)
+from the source
+vertex <code class=var>s</code> and the adjacenct vertex
+(<code class=code>nbr[]</code>) used to
+reach the new vertex.
+The path is constructed after vertex <code class=var>d</code> is reached
+by doing a traceback from vertex <code class=var>d</code> to the
+source vertex using the <code class=var>nbr</code> values.
+The code is given below.
+
+<HR class = coderule>
+<pre class = code>
+/** find a path from s to d by using breadth first search
+  * @return the path in an array using positions 0 on up
+  * @return null if there is no path */
+public int [] findBFSPath(int s, int d)
+{
+   if (s == d)
+   {// trivial path of length 0
+      int [] path = new int [1];
+      path[0] = s;
+      return path;
+   }
+
+   // s != d, label vertices by distance until vertex d is labeled
+   ArrayQueue q = new ArrayQueue(10);
+                  // queue for breadth first search
+   int [] nbr = new int [vertices() + 1];
+                  // nbr[i] will be set to neighbor vertex from which
+                  // vertex i is reached during the breadth first search
+                  // by default nbr[i] = 0 initially
+   int [] distance = new int [vertices() + 1];
+                  // distance[i] will be set to distance from s to i
+
+   q.put(new Integer(s));
+   while (nbr[d] == 0 &amp;&amp; !q.isEmpty())
+   {// d has not been reached
+      // remove a labeled vertex from the queue
+      int w = ((Integer) q.remove()).intValue();
+
+      // mark all unreached vertices adjacent from w
+      Iterator iw = iterator(w);
+      while (iw.hasNext())
+      {// visit an adjacent vertex of w
+         int u = ((EdgeNode) iw.next()).vertex; 
+         if (nbr[u] == 0 &amp;&amp; u != s)
+         {// u is an unreached vertex
+            q.put(new Integer(u));
+            nbr[u] = w;
+            distance[u] = distance[w] + 1;
+         }
+      }
+   }
+
+   if (nbr[d] == 0)
+      // no path from s to d
+      return null;
+
+   // construct the path
+   path = new int [distance[d] + 1];
+   path[distance[d]] = d;
+   for (int i = distance[d] - 1; i &gt; 0; i--)
+      path[i] = nbr[path[i + 1]];
+   path[0] = s;
+
+   return path;
+}
+<hr class=coderule>
+</pre>
+<br><br>
+
+
+A test program and sample input and output appear in the files
+<code class=code>TestFindBFSPath.*</code>.
+<br><br>
+It is easy to see that the shortest path is found when
+<code class=code>s = d</code>. So assume that <code class=code>s != d</code>.
+The fact that the code actually finds the shortest path (i.e., the
+path with the fewest edges) follows from the following facts
+(1) if there is a path from <code class=code>s</code> to
+vertex <code class=code>d</code>, then
+<code class=code>nbr[d]</code> and <code class=code>distance[d]</code>
+get set to a nonzero value and (2) <code class=code>distance[i]</code>
+is correctly set to the
+length of the shortest path from <code class=code>s</code>
+to <code class=code>i</code> (provided, of course, that
+<code class=code>distance[i]</code> has a nonzero value upon termination).
+</FONT>
+</BODY>
+</HTML>

@@ -1,0 +1,76 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 12, Exercise 25<BR>
+<BR>
+</H1>
+In writing the cloning codes, we assume that we are not to make clones of
+the elements in the nodes.  Only the tree structure is to be cloned.
+In case the elements are also to be cloned, then we must replace
+all occurrences of <code class=code>element</code> by code
+to first cast <code class=code>element</code> into a
+<code class=code>CloneableObject</code>, and then invoke the
+method <code class=code>clone</code> on the reulting
+object.
+<br><br>
+The codes for the two cloning methods are given below.
+
+<HR class = coderule>
+<PRE class = code>
+public class BinaryTreeCloning
+{
+   /** preorder cloning
+     * @return root of clone */
+   public static BinaryTreeNode preOrderClone(BinaryTreeNode t)
+   {
+      if (t != null)
+      {// nonempty tree
+         // make a clone of the root
+         BinaryTreeNode ct = new BinaryTreeNode(t.element);
+
+         // now do the subtrees
+         ct.leftChild = preOrderClone(t.leftChild);    // clone left subtree
+         ct.rightChild = preOrderClone(t.rightChild);  // clone right subtree
+         return ct;
+      }
+      else
+         return null;
+   }
+
+   /** postorder cloning
+     * @return root of clone */
+   public static BinaryTreeNode postOrderClone(BinaryTreeNode t)
+   {
+      if (t != null)
+      {// nonempty tree
+         // clone left subtree
+         BinaryTreeNode cLeft = postOrderClone(t.leftChild);
+
+         // clone right subtree
+         BinaryTreeNode cRight = postOrderClone(t.rightChild);
+
+         // clone root
+         return new BinaryTreeNode(t.element, cLeft, cRight);
+      }
+      else
+         return null;
+   }
+}
+</pre>
+<HR class=coderule><BR><br>
+
+The recursion stack space needed by
+both the preorder and postorder copy methods is <code class=var>O(h)</code>,
+where <code class=var>h</code> is the height of the binary tree being cloned.
+
+<br><br>
+A test program and output can be found in the files
+<code class=var>BinaryTreeCloning.*</code>.
+</FONT>
+</BODY>
+</HTML>

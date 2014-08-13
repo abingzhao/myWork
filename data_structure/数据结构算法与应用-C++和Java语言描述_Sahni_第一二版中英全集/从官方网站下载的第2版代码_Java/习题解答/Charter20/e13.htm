@@ -1,0 +1,121 @@
+
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 20, Exercise 13<BR>
+<BR>
+</H1>
+
+We need only change the portion of the code that initializes
+the cost matrix <code class=code>c[][]</code>. The new code is given
+below. Changes from the code given in the text are shown
+in <font color=red>red</code>.
+
+<HR class = coderule>
+<pre class = code>
+public class LinkedWDigraphWithAllPairsShortestPaths extends LinkedWDigraph
+{
+   // constructors
+   public LinkedWDigraphWithAllPairsShortestPaths(int theVertices)
+      {super(theVertices);}
+   
+   // default is a 0 vertex graph
+   public LinkedWDigraphWithAllPairsShortestPaths()
+      {this(0);}
+   
+
+   /** dynamic programming all pairs shortest paths algorithm
+     * compute c[i][j] and kay[i][j] for all i and j */
+   public void allPairs(Operable [][] c, int [][] kay)
+   {
+      <font color=red>// first find a nonzero weight from which we can determine
+      // the zero element
+      Operable notNull = null;   // eventually a nonnull element
+      for (int i = 1; i &lt;= n; i++)
+         if (!aList[i].isEmpty())
+         {// vertex i has nonzero out degree
+            notNull = (Operable) ((WeightedEdgeNode) aList[i].get(0)).weight;
+            break;
+         }
+      if (notNull == null) // graph has no edges
+         return;
+      
+      // initialize c[i][j] = c(i,j,0)
+      // first set all to null
+      for (int i = 1; i &lt;= n; i++)
+         for (int j = 1; j &lt;= n; j++)
+            c[i][j] = null;
+      // now change the ones for which there is an edge in the graph
+      for (int i = 1; i &lt;= n; i++)
+      {
+         Iterator ii = aList[i].iterator();
+         while (ii.hasNext())
+         {
+            WeightedEdgeNode wEdge = (WeightedEdgeNode) ii.next();
+            c[i][wEdge.vertex] = (Operable) wEdge.weight;
+         }
+      }
+      // finally, set diagonal entries to zero
+      for (int i = 1; i &lt;= n; i++)
+         c[i][i] = (Operable) notNull.zero();</font>
+      
+      // compute c[i][j] = c(i,j,k)
+      for (int k = 1; k &lt;= n; k++)
+         for (int i = 1; i &lt;= n; i++)
+            for (int j = 1; j &lt;= n; j++)
+            {
+               Operable t1 = c[i][k];
+               Operable t2 = c[k][j];
+               Operable t3 = c[i][j];
+               if (t1 != null &amp;&amp; t2 != null &amp;&amp;
+                  (t3 == null || t3.compareTo(t1.add(t2)) &gt; 0))
+               {// smaller value for c[i][j] found
+                    c[i][j] = (Operable) t1.add(t2);
+                    kay[i][j] = k;
+               }
+            }
+   }
+
+   /** output shortest path from i to j */
+   public void outputPath(Operable [][] c, int [][] kay, int i, int j)
+   {
+      // validate i and j
+      if (i &lt; 0 || i &gt; n || j &lt; 0 || j &gt; n)
+         throw new IllegalArgumentException
+                   ("illegal vertex index(es)");
+
+      if (c[i][j] == null)
+         System.out.println("There is no path from " + i + " to " + j);
+      else
+      {
+         System.out.print("The path is " + i + " ");
+         outputPath(kay, i, j);
+         System.out.println();
+      }
+   }
+   
+   /** actual code to output i to j path */
+   public static void outputPath(int [][] kay, int i, int j)
+   {
+      if (i == j)
+         return;
+      if (kay[i][j] == 0)  // no intermediate vertices on path
+         System.out.print(j + " ");
+      else
+      {// kay[i][j] is an intermediate vertex on the path
+         outputPath(kay, i, kay[i][j]);
+         outputPath(kay, kay[i][j], j);
+      }
+   }
+}
+<hr class=coderule>
+</pre>
+
+</FONT>
+</BODY>
+</HTML>

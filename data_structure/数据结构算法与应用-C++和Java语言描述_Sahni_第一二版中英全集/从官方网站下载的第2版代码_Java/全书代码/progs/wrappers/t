@@ -1,0 +1,2 @@
+      {return value < ((MyInteger) x).value;}
+      {return value >= ((MyInteger) x).value;}

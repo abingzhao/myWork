@@ -1,0 +1,240 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>Data Structures & Algorithms</H1>
+
+<H2>Exam 3, Sample 3</H2>
+<H2>2 Hours</H2>
+<BR>
+</H1>
+
+<strong>Notes:</strong>
+<ol>
+<li>
+Points allocated to each part are shown in square brackets.
+Answers will be graded on correctness as well as efficiency,
+elegance, and other measures of quality.
+<li>
+Make sure you understand the problem before attempting to answer it.
+<li>
+Write partial answers when you cannot figure out a complete solution.
+</ol>
+
+<OL>
+<LI>
+[12]
+Define the length of a path to be the number of edges on the path.
+A shortest path is a path with fewest edges.
+You are to write a method
+<code class=code>public void nearest(int i, int d, int [] reach)</code>.
+The invocation <code class=code>g.nearest(theI, theD, theReach)</code>
+labels all
+vertices <code class=code>j</code> such that the shortest path from
+<code class=code>theI</code> to <code class=code>j</code> has at most
+<code class=code>theD</code> edges.
+You may assume that, initially,
+<code class=code>theReach[j] &gt; theD</code> for all vertices
+<code class=code>j</code>. When done,
+<code class=code>theReach[j]</code> equals the length of the shortest path
+from <code class=code>theI</code> for those vertices <code class=code>j</code>
+that have been labeled
+by your code. For the remaining vertices, <code class=code>theReach[j]</code>
+is unchanged.
+<dl compact>
+<dt> (a)
+<dd>
+[10]
+Write Java code for the method <code class=code>nearest</code>.
+If you need to use a stack or a queue, use
+either <code class=code>ArrayStack</code> (the relevant methods are
+<code class=code>empty</code>,
+<code class=code>push</code>,
+and <code class=code>pop</code>),
+or <code class=code>ArrayQueue</code>
+(the relevant methods are
+<code class=code>isEmpty</code>,
+<code class=code>put</code>,
+and <code class=code>remove</code>).
+Use iterators to move around the graph.
+The statement
+<br>
+<code class=code>Iterator iw = iterator(w);</code>
+<br>
+gets you an iterator for vertex <code class=code>w</code> of the graph, and
+the statement
+<br><code class=code>
+u = ((EdgeNode) iw.next()).vertex; 
+<br></code>
+gets you a vertex that is adjacent to vertex <code class=code>w</code>.
+<br>
+(Hint: one of the standard search methods may work.)
+<dt> (b)
+<dd>
+[2]
+What is the complexity of your labeling method as a function of the
+number of vertices that are labeled and of their out-degrees?
+Provide this complexity under the assumption that adjacency lists are used.
+Explain your analysis (a few lines only).
+</dl>
+<br>
+<LI>
+[8]
+Consider the following undirected graph.
+<center>
+<font color=blue>
+<img src=graph00.gif>
+</font>
+</center>
+<br><br>
+<dl compact>
+<dt> (a)
+<dd>
+[4]
+A minimum-cost spanning tree is to be constructed using
+Kruskal's method. Describe the working of Kruskal's method on this graph.
+Draw the spanning tree that is constructed and also give the steps (draw figures
+and state the dicision made at each step) used
+to arrive at
+this tree. What is the cost of the constructed tree?
+<dt> (b)
+<dd>
+[4]
+Do part (a) using Prim's method instead of Kruskal's method.
+</dl>
+<br>
+<LI>
+[12]
+The 1D array <code class=code>x[]</code> is a <em>sorted array</em> iff
+<code class=code>x[0] < x[1] < x[2] < ... < x[x.length - 1]</code>.
+A sorted aray has an <em>equilibrium point</code> iff there
+is an <code class=code>i</code>, <code class=code>0 <= i < x.length</code>
+for which <code class=code>x[i] = i</code>.
+<dl compact>
+<dt>(a)
+<dd>
+[10]
+Write Java code for the method
+<code class=code>public int equilibriumPoint(int [] x)</code>.
+You may assume that <code class=code>x</code> is a sorted array.
+If the sorted array has no equilibrium point, your method should return
+<code class=code>-1</code>. If the sorted array has an equilibrium
+point,
+your method should return an integer <code class=code>i</code>
+such that <code class=code>x[i] = i</code>.
+Use divide and conquer.
+<dt> (b)
+<dd>
+[2]
+What is the time complexity of your method? Explain how you arrived
+at this complexity.
+</dl>
+<br>
+<LI>
+[20]
+<dl compact>
+<dt> (a)
+<dd>
+[4]
+In the Bellman-Ford single-source all-destinations shortest-paths algorithm,
+<code class=code>d(v,k)</code> is the
+length of a shortest path from the source
+vertex to vertex <code class=code>v</code>,
+under the constraint that the path has at most <code class=code>k</code> edges;
+<code class=code>p(v,k)</code> is the
+vertex (if any) that comes just before vertex
+<code class=code>v</code> on this constrained shortest path.
+The <code class=code>p</code> matrix computed for a certain
+<code class=code>7</code> vertex graph is given below.
+<pre>
+                      v  ------>
+            [1] [2] [3] [4] [5] [6] [7]
+      [0]    -   -   -   -   -   -   -
+      [1]    -   1   1   -   -   1   1
+ k    [2]    -   1   6   2   6   1   6
+ |    [3]    -   1   6   2   3   1   4
+ |    [4]    -   1   6   5   3   1   5
+ V    [5]    -   4   6   5   3   1   5
+      [6]    -   4   6   5   3   1   2
+</pre>
+The source vertex is vertex <code class=code>1</code>.
+Determine the shortest path from the source to vertex <code class=code>7</code>.
+Show how you obtained your answer.
+<dt> (b)
+<dd>
+[4]
+Consider Floyd's all-pairs shortest-paths algorithm. This is based on the
+dynamic-programming recurrence:
+<br><br>
+<code class=code>
+c(i,j,k) = min{c(i,j,k-1), c(i,k,k-1) + c(k,j,k-1}, k > 0
+</code>
+<br><br>
+where <code class=code>c(i,j,k)</code> is the length of the shortest path
+from <code class=code>i</code> to <code class=code>j</code> that goes through
+no vertex larger than <code class=code>k</code>. Explain why the following
+pseudocode computes <code class=code>c(i,j) = c(i,j,n)</code> when started
+with <code class=code>c(i,j) = c(i,j,0)</code> (<code class=code>n</code> is the
+number of vertices in the graph).
+<code class=code>
+<pre>
+for (int k = 1; k <= n; k++)
+   for (int i = 1; i <= n; i++)
+      for (int j = 1; j <= n; j++)
+         c(i,j) = min{c(i,j), c(i,k) + c(k,j)}
+</pre>
+</code>
+<dt>(c)
+<dd>
+[4]
+<code class=code>n</code> items are to be packed into the fewest number of
+bins. The height of each bin is <code class=code>h</code>, and the
+height of item <code class=code>i</code> is <code class=code>h(i)</code>.
+<em>Each bin must contain a consecutive set of items.</em>
+For example, if items 2 and 5 are packed into the same bin, then
+items 3 and 4 must also be packed into this bin.
+<em>The items in a bin are packed in ascending order of item index from
+bottom to top.</em> For example, if items 2 through 5 are packed in a bin,
+then item 2 is at the bottom and item 5 at the top.
+Let <code class=code>p(i)</code> be the height of padding needed at the bin
+bottom (or top) when item <code class=code>i</code> is the
+bottom (top) item of the bin. So, items 2 through 5 can be packed
+into the same bin iff <code class=code>h(2) + h(3) + h(4) +
+h(5) + p(2) + p(5) <= h</code>. You may assume that
+<code class=code>h(i) + 2p(i) <= h</code> for all <code class=code>i</code>.
+Let <code class=code>bins(j)</code> be the minimum number of
+bins needed to pack items <code class=code>j</code> through <code class=code>n</code>.
+So <code class=code>bins(n+1) = 0</code>.
+Obtain a dynamic programming recurrence for <code class=code>bins(j)</code>,
+<code class=code>1 <= j <= n</code>.
+<dt>(d)
+<dd>
+[8]
+Students in an algorithms class obtained the following dynamic programming
+recurrence for a certain problem.
+<br><br>
+<code class=code>
+q(i,j) = 0, i = n+1 or j = m+1<br>
+q(i,j) = 1 + q(i+1, j+1), if a<sub>i</sub> = b<sub>j</sub><br>
+q(i,j) = max{q(i+1, j), q(i, j+1)}, otherwise
+</code>
+<br><br>
+Write a nonrecursive <code class=code>O(mn)</code> time algorithm to
+compute <code class=code>q(i,j)</code>, <code class=code>1 <= i <= n+1,
+1 <= j <= m+1</code>.
+Pseudocode
+will suffice.
+<code class=code>a<sub>1</sub>...a<sub>n</sub>,
+b<sub>1</sub>...b<sub>m</sub>, m</code> and <code class=code>n</code> are inputs
+to your algorithm.
+Show that the complexity of your algorithm is
+<code class=code>O(mn)</code>.
+
+</dl>
+
+<center>
+<A href="s3.htm">Solutions</A>
+
+</html>

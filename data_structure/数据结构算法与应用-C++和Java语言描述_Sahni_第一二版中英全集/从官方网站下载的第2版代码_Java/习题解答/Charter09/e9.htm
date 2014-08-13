@@ -1,0 +1,173 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 9, Exercise 9<BR>
+<BR>
+</H1>
+
+<dl compact>
+<dt> (a)
+<dd>
+We need to (1) add a data member that saves the initial capacity of the
+list and (2) add code to the <code class=code>pop</code> method
+so as to halve the size/length of the array <code class=code>stack</code>
+when the number of elements in this array falls below <code class=var>25%</code>
+of its current length.
+The code for the new class is given below. Most of the needed data members
+and methods are inherited from the class <code class=code>ArrayStack</code>.
+
+<HR class = coderule>
+<PRE class = code>
+public class ArrayStackWithDecreaseCapacity
+                           extends ArrayStack
+{
+   // additional data member
+   protected int initialCapacity;       // initial size of stack array
+
+   // constructors
+   /** create a stack with initial capacity theInitialCapacity */
+   public ArrayStackWithDecreaseCapacity(int theInitialCapacity)
+   {
+      super(theInitialCapacity);
+      initialCapacity = theInitialCapacity;
+   }
+
+   /** create a stack with initial capacity 10 */
+   public ArrayStackWithDecreaseCapacity()
+   {// use default capacity of 10
+      this(10);
+   }
+
+   /** overrides ArrayStack.pop */
+   public Object pop()
+   {
+      Object x = super.pop();
+  
+      // decrease size of stack array if occupancy is below 25%
+      if (top + 1 &lt; stack.length / 4 &amp;&amp; stack.length / 2 &gt;= initialCapacity)
+         // halve the size of the array
+         stack = ChangeArrayLength.changeLength1D
+                       (stack, top + 1, stack.length / 2);
+
+      return x;
+   }
+}
+</pre>
+<HR class=coderule><BR><br>
+
+<dt> (b)
+<dd>
+To obtain the cost of a sequence of stack list operations, we use
+the <strong class=def>cost amortization method</strong> in which
+the sum of the costs of a sequence is determined by first
+distributing costs from expensive operations to cheaper ones.
+As an example, consider computing the sum <code class=var>8 + 10 + 12</code>.
+The direct way is to add the first two numbers to get <code class=var>18</code>, and then
+add in the <code class=var>12</code> to get <code class=var>30</code>.  In cost amortization, we alter the numbers, keeping
+the sum the same.  We could shift two units from the <code class=var>12</code> to the <code class=var>8</code> to get
+the expression <code class=var>10 + 10 + 10</code>, which has the same value as the original
+expression.  Following this alteration of the numbers, the sum is more easily
+computed.<br>
+<br>
+
+We see that the step count for a sequence
+of <code class=var>n</code> stack operations
+is<br>
+<br>
+
+<center><code class=var>
+n + </code>sum of step counts for all invocations of <code class=var>changeLength1D</code>
+</center>
+<br>
+<br>
+
+To compute the step count, we shall amortize the
+cost of the <code class=var>changeLength1D</code> invocations
+over the push and pop operations.<br>
+When the size of an array is changed from <code class=var>s</code>
+to <code class=var>2s</code>, or vice versa,
+the step count is <code class=code>s</code>.
+<br>
+
+For every invocation of
+<code class=var>changeLength1D</code>
+other than the first, there is a most recent earlier invocation of
+<code class=var>changeLength1D</code>.
+The first invocation of
+<code class=var>changeLength1D</code> increases the size
+of the array
+<code class=var>stack</code>
+from <code class=var>initialCapacity</code> to <code class=var>2 * initialCapacity</code>
+and takes <code class=var>initialCapacity</code> steps.
+These steps may be distributed,
+at the rate of
+one step per
+push operation,
+to <code class=code>m = initialCapacity</code>
+of the at least <code class=code>m</code> push operations
+that
+must have been done
+since the start of the operation sequence. <br>
+<br>
+
+Now  consider any other invocation of
+<code class=var>changeLength1D</code>.
+If the size of the array
+<code class=var>stack</code>
+is increased from
+<code class=var>s</code>
+to
+<code class=var>2s</code>,
+then at least
+<code class=var>s/2</code> push operations (including the push
+that triggered the current invocation) must have taken place
+since the most recent earlier invocation of
+<code class=var>changeLength1D</code>.
+The step count for the current invocation is
+<code class=var>s</code>.  We can transfer this count to the
+push operations that occurred
+since the most recent earlier invocation of
+<code class=var>changeLength1D</code> and the current invocation.
+Each of these push operations is charged at most <code class=code>2</code>
+steps.<br>
+<br>
+
+
+If the size of the array
+<code class=var>stack</code>
+is decreased from
+<code class=var>2s</code>
+to
+<code class=var>s</code>,
+then at least
+<code class=var>s/2</code> pop operations (including the pop
+that triggered the current invocation) must have taken place
+since the most recent earlier invocation of
+<code class=var>changeLength1D</code>.
+The step count for the current invocation is
+<code class=var>s</code>.  We can transfer this count to the
+pop operations that occurred
+since the most recent earlier invocation of
+<code class=var>changeLength1D</code> and the current invocation.
+Each of these pop operations is charged at most 2 steps.<br>
+<br>
+
+The amortization scheme just described transfers the cost of the
+<code class=var>changeLength1D</code> invocations to some of the
+push and pop operations that have occurred.  No push/pop is charged
+more than <code class=var>2</code> steps.
+Since the number of push and pop operations is at most
+<code class=var>n</code>, the total cost transferred to the
+insert and remove operations is at most <code class=var>2n</code>.
+Consequently, the cost of the <code class=var>n</code> list operations is
+at most <code class=var>n + 2n = 3n</code>.
+Therefore, the time taken by any sequence of <code class=var>n</code>
+stack operations is <code class=var>O(n)</code>.
+ 
+</FONT>
+</BODY>
+</HTML>

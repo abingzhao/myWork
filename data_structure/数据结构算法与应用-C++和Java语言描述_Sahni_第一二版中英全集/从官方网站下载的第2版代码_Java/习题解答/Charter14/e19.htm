@@ -1,0 +1,118 @@
+
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 14, Exercise 19<BR>
+<BR>
+</H1>
+
+The data members of the new class are the same as those for the
+class <code class=code>CompleteWinnerTree</code> of the text.
+To initialize a loser tree, we use the strategy described in Exercise 14.17 (b).
+We first set <code class=code>tree[i]</code>
+for the nodes that lie between the players and the match nodes.
+Next, we play the matches at <code class=code>tree[i]</code>
+for <code class=code>i = n-1, n-2, ..., 1</code>, in that order and record the
+winners of these matches.
+Finally, we examine the match nodes in the order
+<code class=var> 1, 2, ... n-1</code> and replace the winners by the losers.
+<br><br>
+To replay matches when the overall winner changes, we
+play matches on the path from the grandparent of this winner to the root
+of the loser tree.
+<br><br>
+The code for the new implementation is given below.
+
+<HR class = coderule>
+<pre class = code>
+public class CompleteLoserTree2
+{
+   // data members
+   int lowExt;           // lowest-level external nodes
+   int offset;           // 2^log(n-1) - 1
+   int [] tree;          // array for winner tree
+   Playable [] player;   // array of players
+
+   // only default constructor available
+
+   /** @return the winner of the tournament
+     * @return 0 if there are no players */
+   public int getWinner()
+      {return (tree == null) ? 0 : tree[0];}
+
+   /** initialize loser tree for thePlayer[1:thePlayer.length-1] */
+   public void initialize(Playable [] thePlayer)
+   {
+      int n = thePlayer.length - 1;
+      if (n &lt; 2)
+         throw new IllegalArgumentException
+                   ("must have at least 2 players");
+
+      player = thePlayer;
+      tree = new int [2 * n];
+   
+      // compute  s = 2^log (n-1)
+      int s;
+      for (s = 1; 2 * s &lt;= n - 1; s += s);
+   
+      lowExt = 2 * (n - s);
+      offset = 2 * s - 1;
+   
+      // initialize nodes that lie between players and match nodes
+      for (int i = 1; i &lt;= lowExt; i ++)
+         tree[i + offset] = i;
+      for (int i = lowExt + 1; i &lt;= n; i++)
+         tree[i - lowExt + n - 1] = i;
+
+      // play matches
+      for (int i = n - 1; i &gt;= 1; i--)
+         tree[i] = player[tree[2 * i]].winnerOf(player[tree[2 * i + 1]]) ?
+                          tree[2 * i] : tree[2 * i + 1];
+
+      tree[0] = tree[1];  // overall winner
+      // replace winners by losers
+      for (int i = 1; i &lt; n; i++)
+         tree[i] = (tree[i] == tree[2 * i]) ? tree[2 * i + 1] : tree[2 * i];
+   }
+   
+   /** replay matches for previous winner */
+   public void rePlay()
+   {
+      if (player == null)
+         throw new IllegalArgumentException
+                   ("tree must be initialized first");
+
+      // set p to first match node
+      int p;
+      if (tree[0] &lt;= lowExt)
+         p = (tree[0] + offset) / 2;
+      else
+         p = (tree[0] - lowExt + player.length - 2) / 2;
+
+      // play matches from p to root
+      int currentWinner = tree[0];
+      for (; p &gt;= 1; p /= 2)
+         if (player[tree[p]].winnerOf(player[currentWinner]))
+         {// currentWinner loses the match at this node
+            int temp = tree[p];
+            tree[p] = currentWinner;
+            currentWinner = temp;
+         }
+
+      tree[0] = currentWinner;   // overall winner
+   }
+}
+<hr class=coderule>
+</pre>
+<br><br>
+A test program and sample input and output are given in the files
+<code class=code>CompleteLoserTree2.*</code>
+
+</FONT>
+</BODY>
+</HTML>

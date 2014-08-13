@@ -1,0 +1,86 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 6, Exercise 13<BR>
+<BR>
+</H1>
+<dl compact>
+<dt> (a)
+<dd>
+To complete the meld in linear time,
+we use two chain iterators <code class=code>ia</code>
+and <code class=code>ib</code>
+to march through the chains <code class=code>a</code>
+and <code class=code>b</code> respectively.  When we fall off of
+one chain, the balance of the remaining chain is copied over to the
+melded chain <code class=code>c</code>.
+Since elements from <code class=code>a</code>
+and <code class=code>b</code> are to be added to the end of the chain
+<code class=code>c</code>, we use the
+single parameter
+<code class=code>add</code> method of
+<code class=code>ExtendedChain</code> (this appends an element to the
+right end of the chain).
+The code is given below.
+<HR class = coderule>
+<PRE class = code>
+public class MeldExtendedChain
+{
+   /** meld alternately from a and b */
+   public static ExtendedChain meld(ExtendedChain a, ExtendedChain b)
+   {
+      // initialize iterators for a and b
+      Iterator ia = a.iterator();  // iterator for a
+      Iterator ib = b.iterator();  // iterator for b
+   
+      // create result chain
+      ExtendedChain c = new ExtendedChain();
+   
+      // do the meld
+      while (ia.hasNext() &amp;&amp; ib.hasNext())
+      {
+         c.add(ia.next());   // append at right end
+         c.add(ib.next());   // append at right end
+      }
+   
+      // append the rest
+      // at most one of a and b can be nonempty now
+      while (ia.hasNext())
+         c.add(ia.next());
+   
+      while (ib.hasNext())
+         c.add(ib.next());
+   
+      return c;
+   }
+}
+</pre>
+<HR class=coderule><BR><br>
+
+<dt> (b)
+<dd>
+Each invocation of <code class=code>add</code>,
+<code class=code>hasNext</code>,
+and <code class=code>next</code> takes <code class=math>Theta(1)</code> time.
+So, the time spent in all of the <code class=code>while</code> loops is
+linear in the
+sum of the lengths of the chains <code class=code>a</code>,
+and <code class=code>b</code>.  As a result, the
+complexity of <code class=code>meld</code> is linear in the sum of the
+lengths of the two input chains
+<code class=code>a</code>
+and <code class=code>b</code>.
+<br><br>
+<dt> (c)
+<dd>
+The test program and output are in the files <code class=code>MeldExtendedChain.*</code>.
+</dl>
+
+</FONT>
+</BODY>
+</HTML>

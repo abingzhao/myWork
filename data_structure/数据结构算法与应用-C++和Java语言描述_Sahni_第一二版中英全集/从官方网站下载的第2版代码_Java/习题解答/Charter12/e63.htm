@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 12, Exercise 63<BR>
+<BR>
+</H1>
+The code for path splitting is given below.
+A test program and output apear in the files
+<code class=var>applications.FastUnionFindWithPathSplitting.*</code>.
+<HR class = coderule>
+<pre class = code>
+/** @return root of the tree containing element e
+  * perform path splitting */
+public int find(int e)
+{
+   int current = e,  // current node
+       p,            // parent of current
+       gp;           // grandparent of current
+
+   // see if there are pointers to change
+   if (node[current].root)
+      // e is the tree root, no path to split
+      return current;
+   p = node[current].parent;
+   if (node[p].root)
+      // e is a level 2 node, no path to split
+      return p;
+   gp = node[p].parent;
+
+   // at least one pointer to change
+   // move to the root, splitting the path from e to the root
+   while(true)
+   {
+      node[current].parent = gp;  // path splitting
+      if (node[gp].root)
+         // no more parent pointers to change
+         return gp;
+
+      // move current, p, and gp one level up the tree
+      current = p;
+      p = gp;
+      gp = node[p].parent;
+   }
+}
+<hr class=coderule>
+</pre>
+<br><br>
+
+
+</FONT>
+</BODY>
+</HTML>

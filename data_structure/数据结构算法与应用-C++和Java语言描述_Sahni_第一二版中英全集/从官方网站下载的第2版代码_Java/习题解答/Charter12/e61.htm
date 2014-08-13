@@ -1,0 +1,171 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 12, Exercise 61<BR>
+<BR>
+</H1>
+One way to generate a sequence of union and find operations is to
+generate a sequence of <code class=code>n</code> combine operations
+(see page 245 of text). We use this strategy with <code class=code>m =
+1.5 * n</code> (this choice is rather arbitrary).
+For <code class=code>n</code> we use the values <code class=code>1000, 2000,
+4000, ..., 128000</code> (again, an arbitrary choice). For each
+<code class=code></code> we average over a minimum of <code class=code>10</code>
+sequences of combine operations. For some <code class=code>n</code> more than
+<code class=code>10</code> sequences are used, because, for timing
+accuracy reasons, we require that at least <code class=code>1</code> second
+be spent on each, code class=code>n</code>.
+The code for <code class=code>UnionFindWithTrees</code> is given below.
+To get the code for
+<code class=code>FastUnionFind</code> simply comment out the line
+<br>
+<code class=code>UnionFindWithTrees s = new UnionFindWithTrees(n[i]));</code>
+<br>
+and uncomment the preceding line.
+<HR class = coderule>
+<pre class = code>
+public class TimeUnionFind
+{
+   public static void main(String [] args)
+   {
+      int [] n = {1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000};
+                  // number elements
+      int numberOfNs = 8;
+      int minSequences = 10;  // average over at least this many sequences
+      int sequenceFactor = 5; // sequence length = sequenceFactor * n
+      for (int i = 0; i &lt; numberOfNs; i++)
+      {// find average time for n[i] elements
+         int counter = 0;  // number of sequences done so far
+         long startTime = System.currentTimeMillis();
+         int numberOfCombines = 5 * n[i];
+         Random r = new Random();
+
+         // use at least minSequences sequences of 5*n[i] combine operations
+         // also make sure at least 1 second has elapsed
+         while (counter &lt; minSequences ||
+                System.currentTimeMillis() - startTime &lt; 1000)
+         {
+            // initialize for n[i] elements
+            // FastUnionFind s = new FastUnionFind(n[i]);
+            UnionFindWithTrees s = new UnionFindWithTrees(n[i]);
+
+            // do the combine operations
+            for (int q = 0; q <= numberOfCombines; q++)
+            {
+               // select two elements at random
+               int u = r.nextInt(n[i]) + 1;             
+               int v = r.nextInt(n[i]) + 1;             
+
+               // do two find operations
+               int uSet = s.find(u);
+               int vSet = s.find(v);
+
+               // do a union only if uSet != vSet
+               if (uSet != vSet)
+                  s.union(uSet, vSet);
+            }
+            counter++;
+         }
+
+         long timePerSequence = (System.currentTimeMillis() - startTime)
+                                / counter;
+         
+         System.out.println("n = " + n[i] + "   number of sequences = "
+                            + counter + "   time/sequence = " +
+                            timePerSequence + " ms"); 
+      }
+   }
+}
+<hr class=coderule>
+</pre>
+<br><br>
+The measured times per sequence (in milliseconds) are given below.
+``-'' indicates the time was not measured because it is too much.
+<center>
+<font color=blue>
+<TABLE BORDER=1 WIDTH=450>
+<TR VALIGN=TOP ALIGN=RIGHT>
+<TH>n</TH>
+<TH>UnionFindWithTrees</TH>
+<TH>FastUnionFind</TH>
+</TR>
+
+<TR VALIGN=TOP ALIGN=RIGHT>
+
+<TD>
+1000
+</TD>
+<TD>14</TD>
+<TD>5</TD>
+</TR>
+<TR VALIGN=TOP ALIGN=RIGHT>
+<TD>
+2000
+</TD>
+<TD>43</TD>
+<TD>25</TD>
+</TR>
+<TR VALIGN=TOP ALIGN=RIGHT>
+<TD>
+4000
+</TD>
+<TD>176</TD>
+<TD>73</TD>
+</TR>
+<TR VALIGN=TOP ALIGN=RIGHT>
+<TD>
+8000
+</TD>
+<TD>1966</TD>
+<TD>137</TD>
+</TR>
+<TR VALIGN=TOP ALIGN=RIGHT>
+<TD>
+16000
+</TD>
+<TD>10485</TD>
+<TD>165</TD>
+</TR>
+<TR VALIGN=TOP ALIGN=RIGHT>
+<TD>
+32000
+</TD>
+<TD>50378</TD>
+<TD>258</TD>
+</TR>
+<TR VALIGN=TOP ALIGN=RIGHT>
+<TD>
+64000
+</TD>
+<TD>-</TD>
+<TD>626</TD>
+</TR>
+<TR VALIGN=TOP ALIGN=RIGHT>
+<TD>
+128000
+</TD>
+<TD>-</TD>
+<TD>1340</TD>
+</TR>
+
+</table>
+</center>
+<br><br>
+<font color=black>
+The times are plotted below. Bullets are used for <code class=code>UnionFindWithTrees</code>
+and deltas are used for <code class=code>FastUnionFind</code>.
+<center>
+<font color=blue>
+<img src=e61gp.gif>
+</font>
+</center>
+
+
+</FONT>
+</BODY>
+</HTML>

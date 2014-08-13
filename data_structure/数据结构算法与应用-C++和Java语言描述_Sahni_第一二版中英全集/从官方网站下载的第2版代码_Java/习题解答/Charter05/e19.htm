@@ -1,0 +1,49 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 5, Exercise 19<BR>
+<BR>
+</H1>
+The method <code class=code>dataStructures.ArrayLinearListWithLeftShift.leftShift</code>
+is given below.
+<hr class=coderule>
+<pre class=code>
+/** shift elements left by amountOfShift
+  * @throws IllegalArgumentException when amountOfShift &lt; 0 */
+public void leftShift(int amountOfShift)
+{
+   // empty list is easily shifted by any amount
+   if (size == 0)
+      return;
+
+   // validate shift amount
+   if (amountOfShift &lt; 0)
+      throw new IllegalArgumentException("shift amount must be &gt;= 0,"
+                       + " you have specified " + amountOfShift);
+
+   int newSize = 0;
+   if (amountOfShift &lt; size)
+   {// at least one element remains
+      newSize = size - amountOfShift;
+      System.arraycopy(element, amountOfShift, element, 0, newSize);
+   }
+
+   // set size and replace vacated slots with null
+   while (size != newSize)
+      element[--size] = null;   // enable garbage collection
+}
+</pre>
+<hr class=coderule>
+<br><br>
+The complexity is <code class=var>O(size)</code>, because the <code class=var>
+arrayCopy</code> and the <code class=code>while</code> loop each take
+this much time.
+
+</FONT>
+</BODY>
+</HTML>

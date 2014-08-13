@@ -1,0 +1,79 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 6, Exercise 33<BR>
+<BR>
+</H1>
+<dl compact>
+<dt> (a)
+<dd>
+The code to remove an arbitrary element is given below.
+For test purposes, we include a method that returns a pointer
+to the node at a particular position of the list.
+
+<HR class = coderule>
+<PRE class = code>
+public class CircularListWithRemove extends CircularList
+{
+   /** remove the element in the node x
+     * return removed element */
+   public Object remove(ChainNode x)
+   {
+      if (size == 1)
+         // list is empty after removal
+         lastNode = null;
+      else
+      {
+          // move successor of node x to node x and remove from list
+          ChainNode succ = x.next;
+          x.element = succ.element;
+          x.next = succ.next;
+
+         // update lastNode if it was removed
+         if (succ == lastNode)
+            lastNode = x;
+      }
+      size--;
+      return x.element;
+   }
+
+   /** return node with specified index
+     * throws IndexOutOfBoundsException when
+     * index is not between 0 and size - 1 */
+   public ChainNode node(int index)
+   {
+      checkIndex(index);
+
+      // move to desired node
+      ChainNode currentNode = lastNode.next;
+      for (int i = 0; i &lt; index; i++)
+         currentNode = currentNode.next;
+
+      return currentNode;
+   }
+}
+<HR class = coderule>
+</pre>
+<br><br>
+
+<dl compact>
+<dt> (b)
+<dd>
+The complexity of
+<code class=code>CircularListWithRemove.remove</code> is
+<code class=math>Theta(1)</code>.
+<br><br>
+<dt> (c)
+<dd>
+A sample test program and
+output appear in the files
+<code class=code>CircularListWithRemove.*</code>.
+</dl>
+
+</FONT>
+</BODY>
+</HTML>

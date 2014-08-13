@@ -1,0 +1,191 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 17, Exercise 37<BR>
+<BR>
+</H1>
+
+First we develop the class <code class=var>GraphArrayLinearList</code>,
+which is the counterpart of the class <code class=var>GraphChain</code>.
+This class is given below.
+<br><br>
+
+
+<HR class = coderule>
+<pre class = code>
+public class GraphArrayLinearList extends ArrayLinearList
+{
+   /** delete element with element.vertex = theVertex
+     * @return deleted element */
+   public Object removeElement(int theVertex)
+   {
+      // search for matching element
+      for (int i = 0; i &lt; size; i++)
+         if (((EdgeNode) element[i]).vertex == theVertex)
+         {// found matching element
+            // save matching element
+            Object theElement = element[i];
+
+            // remove matching element
+            System.arraycopy(element, i + 1, element, i, size - i - 1);
+            size--;
+
+            return theElement;
+         }
+
+      // no matching element
+      return null;
+   }
+}
+<HR class = coderule>
+</pre>
+<br><br>
+Now we can develop the code for the class <code class=code>ArrayDigraph</code>
+by making minor changes (shown in <font color=red>red</font>) to
+the code for the class <code class=code>LinkedDigraph</code>.
+The code is shown below.
+<HR class = coderule>
+<pre class = code>
+public class <font color=red>ArrayDigraph</font> extends Graph
+{
+   // data members
+   int n;                           // number of vertices
+   int e;                           // number of edges
+   <font color=red>GraphArrayLinearList</font> [] aList;   // adjacency lists
+   
+   // constructors
+   public <font color=red>ArrayDigraph</font>(int theVertices)
+   {
+      // validate theVertices
+      if (theVertices &lt; 0)
+         throw new IllegalArgumentException
+                   ("number of vertices must be &gt;= 0");
+      n = theVertices;
+      aList = new <font color=red>GraphArrayLinearList</font> [n + 1];
+      for (int i = 1; i &lt;= n; i++)
+         aList[i] = new <font color=red>GraphArrayLinearList</font>();
+
+      // default value of e is 0
+   }
+   
+   // default is a 0-vertex graph
+   public <font color=red>ArrayDigraph</font>()
+      {this(0);}
+   
+   // Graph methods
+   /** @return number of vertices */
+   public int vertices()
+      {return n;}
+
+   /** @return number of edges */
+   public int edges()
+      {return e;}
+
+   /** @return true iff (i,j) is an edge */
+   public boolean existsEdge(int i, int j)
+   {
+      if (i &lt; 1 || j &lt; 1 || i &gt; n || j &gt; n
+          || aList[i].indexOf(new EdgeNode(j)) == -1)
+         return false;
+      else
+         return true;
+   }
+   
+   /** put theEdge into the digraph
+     * @throws IllegalArgumentException when
+     * theEdge is invalid */
+   public void putEdge(Object theEdge)
+   {
+      Edge edge =  (Edge) theEdge;
+      int v1 = edge.vertex1;
+      int v2 = edge.vertex2;
+      if (v1 &lt; 1 || v2 &lt; 1 || v1 &gt; n || v2 &gt; n || v1 == v2)
+         throw new IllegalArgumentException
+               ("(" + v1 + "," + v2 + ") is not a permissible edge");
+
+      if (aList[v1].indexOf(new EdgeNode(v2)) == -1)  // new edge
+      {
+         <font color=red>// put v2 at end of aList[v1]
+         aList[v1].add(aList[v1].size(), new EdgeNode(v2));</font>
+         e++;
+      }
+   }
+
+
+   /** remove the edge (i,j) */
+   public void removeEdge(int i, int j)
+   {
+      if (i &gt;= 1 &amp;&amp; j &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &lt;= n)
+      {
+         Object v = aList[i].removeElement(j);
+         if (v != null)  // edge (i,j) did exist
+            e--;
+      }
+   }
+   
+   /** this method is undefined for directed graphs 
+     * @throws NoSuchMethodError */
+   public int degree(int i)
+       {throw new NoSuchMethodError();}
+
+   /** @return out-degree of vertex i 
+     * @throws IllegalArgumentException when
+     * i is an invalid vertex */
+   public int outDegree(int i)
+   {
+      if (i &lt; 1 || i &gt; n)
+         throw new IllegalArgumentException("no vertex " + i);
+
+      return aList[i].size();
+   }
+   
+   /** @return in-degree of vertex i 
+     * @throws IllegalArgumentException when
+     * i is an invalid vertex */
+   public int inDegree(int i)
+   {
+      if (i &lt; 1 || i &gt; n)
+         throw new IllegalArgumentException("no vertex " + i);
+
+      // count in edges at vertex i
+      int sum = 0;
+      for (int j = 1; j &lt;= n; j++)
+         if (aList[j].indexOf(new EdgeNode(i)) != -1)
+            sum++;
+
+      return sum;
+   }
+   
+   /** output the graph */
+   public void output()
+   {
+      for (int i = 1; i &lt;= n; i++)
+         System.out.println("Vertex " + i + " = " + aList[i]);
+   }
+
+   /** create and return an iterator for vertex i
+     * @throws IllegalArgumentException when
+     * i is an invalid vertex */
+   public Iterator iterator(int i)
+   {
+      if (i &lt; 1 || i &gt; n)
+         throw new IllegalArgumentException("no vertex " + i);
+
+      return aList[i].iterator();
+   }
+}
+<HR class = coderule>
+</pre>
+
+
+
+
+
+</FONT>
+</BODY>
+</HTML>

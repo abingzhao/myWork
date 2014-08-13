@@ -1,0 +1,171 @@
+
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H2>Exam 3, Sample 1</H2>
+<H2>70 Minutes</H2>
+<H2>Solutions</H2>
+<BR>
+</H1>
+<ol>
+<li>
+<dl compact>
+<dt>(a)
+<dd>
+For each <em class=var>i</em>, in the order 1, 2, ..., <em class=var>n</em>,
+set <em class=var>x[i]</em> to be the store from which item
+<em class=var>i</em> can be bought at the least cost from among the stores from
+which no item has been bought so far.
+Ties are broken arbitrarily.
+<dt> (b)
+<dd>
+The procedure does not guarantee optimal solutions.
+Consider the case when both <em class=var>n</em> and
+<em class=var>m</em> are 2 and the <em class=var>cost</em>
+matrix is
+<br>
+<center>
+<pre class=figure>
+3 6
+4 20
+</pre>
+</center>
+<br>
+The greedy algorithm purchases item 1 from store 1 and item 2 from store 2
+at a cost of 23.  If we purchase item 1 from store 2 and item 2
+from store 1, the cost is only 10.
+</dl>
+<br><br>
+<LI>
+<dl compact>
+<dt> (a)
+<dd>
+If <em class=var>n</em> &lt; 1, there is no maximum element.
+If <em class=var>n</em> = 1, the single element is the maximum.
+If <em class=var>n</em> &gt; 1, divide the elements into two
+groups; one group has <em class=var>ceil(n/2)</em> elements
+and the other has the remaining elements. Find the maximum
+of each group recursively.  Then compare the two maximums
+and return the larger element.  Break ties arbitrarily.
+<dt> (b)
+<dd>
+To make the analysis easy, assume that <em class=var>n</em> is a power of
+2.  Let <em class=var>c(n)</em> denote the number of element comparisons.
+We see that <em class=var>c(n)</em> is 0 when <em class=var>n</em> &lt; 2
+and is <em class=var>2c(n/2)+1</em> when <em class=var>n</em> &gt;= 2.
+Using repeated substitution, we get<br>
+<em class=var>c(n) = 2c(n/2)+1 = 4c(n/4) + 2 + 1 = ... = nc(0) + n/2 + n/4 + ...
++ 1 = n - 1<br></em>
+<br>
+The number of comparisons made by the divide-and-conquer algorithm is the
+same as that made by the simple algorithm.  However, the overhead is higher
+because of the splitting into two parts at each level of recursion and the
+recursive function calls.
+Therefore, we do not expect the divide-and-conquer algorithm to outperform
+the simple algorithm.
+</dl>
+<br><br>
+<LI>
+<dl compact>
+<dt> (a)
+<dd>
+Observe the longest path starts at some vertex and ends at some vertex.
+If for each vertex <code class=code>i</code>,
+we know the length, <code class=code>L[i]</code>,
+of the longest path that starts
+at this vertex, we can compute the length of the longest path in the graph
+by computing the maximum of the <code class=code>L[i]</code>s.
+For <code class=code>L[i]</code>, we obtain the following recurrence<br>
+<code class=code>L[i]</code> = 0 if <em class=var>S(i)</em> is empty;
+otherwise <code class=code>L[i]</code> is
+<em class=var>max{length[i][j] + L[j] | j is in S(i)}</em>.
+<br><br>
+Using this recurrence and the fact that the graph is acyclic and
+the vertices are numbered as stated, we arrive at the following algorithm:
+<br><br>
+<pre class=code>
+MaxLength = 0;
+for (int i = n; i > 0; i--) {
+   L[i] = 0;
+   for (each vertex j in S(i))
+      L[i] = max(L[i], length[i][j] + L[i]);
+   MaxLength = max(MaxLength, L[i]);
+   }
+</pre>
+<dt> (b)
+<dd>
+The total time spent in the inner loop is Theta(<em class=var>n+e</em>).
+The rest of the algorithm takes Theta(<em class=var>n</em>) time.
+So the overall complexity is Theta(<em class=var>n+e</em>).
+</dl>
+<br><br>
+<LI>
+<dl compact>
+<dt> (a)
+<dd>
+The solution space is a subset space.  We are looking for a subset
+of the vertices whose removal from the graph causes the graph to become acyclic.
+A solution may be described by the array <code class=code>x[]</code>
+where <code class=code>x[i]</code> is 1 if vertex <code class=code>i</code>
+is in the subset of deleted vertices and 0 if it is not in this subset.
+<dt> (b)
+<dd>
+The solution space members are {(0,0,0), (0,0,1), (0,1,0), (0,1,1),
+(1,0,0), (1,0,1), (1,1,0), (1,1,1)}
+<dt> (c)
+<dd>
+The tree organization is given in Figure 16.2 of the text.
+<dt> (d)
+<dd>
+Assume that left children are moved to before right ones.
+Using the vertex labels given in Figure 16.2, the nodes are reached in the order
+A, B, D, H, I, E, J, K, C, F, L, M, G, N, O.
+</dl>
+</ol>
+<CENTER><a href="q97.mhtml">BACK</a></CENTER>
+<!--crfooter.mhtml-->
+
+<CENTER>
+<IMG SRC="/catalogs/img/space.gif" WIDTH="10" HEIGHT="20" BORDER="0">
+<P>
+<font class="smalltext">
+<A HREF="/catalogs/cust_serv/feedback.mhtml" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">feedback form</font></A> |   
+<A HREF="/catalogs/cust_serv/permissions.mhtml" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">permissions</font></A> |   
+<A HREF="/catalogs/international" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">international</font></A> |
+<A HREF="/catalogs/rep/" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">locate your campus rep</font></A> |  
+<A HREF="/catalogs/cust_serv/review1.mhtml" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">request a review copy</font></A>
+<BR>
+<BR>
+<A HREF="/catalogs/solutions/" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">digital solutions</font></A> | 
+<A HREF="/catalogs/work/" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">publish with us</font></A> | 
+<A HREF="/catalogs/cust_serv/" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">customer service</font></A> |   
+<A HREF="/catalogs/index.mhtml" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">mhhe home</font></A>
+<P>
+<HR>
+<P>
+<font face="verdana, arial, helvetica" size="1">
+Copyright &copy;2001 The McGraw-Hill Companies.<BR>
+Any use is subject to the <A HREF="http://www.mcgraw-hill.com/copyrttm.htm" CLASS="link" TARGET="_new">
+<font face="verdana, arial, helvetica" size="1">Terms of Use</font></A> and <A HREF="/catalogs/privacy_notice.mhtml" 
+CLASS="link" TARGET="_new"><font face="verdana, arial, helvetica" size="1">Privacy Policy</font></A>.<BR>
+McGraw-Hill Higher Education is one of the many fine businesses of the 
+<A HREF="http://www.mcgraw-hill.com" CLASS="link" TARGET="_new"><font face="verdana, arial, helvetica" size="1">
+The McGraw-Hill Companies</font></A>.
+</font>
+</font>
+
+</CENTER>
+
+

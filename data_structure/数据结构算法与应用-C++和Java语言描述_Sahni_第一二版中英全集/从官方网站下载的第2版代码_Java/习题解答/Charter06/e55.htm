@@ -1,0 +1,206 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 6, Exercise 55<BR>
+<BR>
+</H1>
+<dl compact>
+<dt> (a)
+<dd>
+For the nonmember method,
+we can use essentially the same code as used in Exercise 15 to merge two chains.
+We must change all occurrences of <code class=code>ExtendedChain</code>
+to <code class=code>HeadDoubleCircularList</code>.
+The modified code is given below.
+
+<HR class = coderule>
+<PRE class = code>
+public class MergeHeadDoubleCircularList
+{
+   /** merge the sorted lists a and b */
+   public static HeadDoubleCircularList merge(HeadDoubleCircularList a,
+                                              HeadDoubleCircularList b)
+   {
+      // initialize iterators for a and b
+      Iterator ia = a.iterator();     // iterator for a
+      Iterator ib = b.iterator();     // iterator for b
+      Comparable elementA = null;     // current element of a
+      if (ia.hasNext())
+         elementA = (Comparable) ia.next();
+      Object elementB = null;         // current element of b
+      if (ib.hasNext())
+         elementB = ib.next();
+   
+      // create result chain
+      HeadDoubleCircularList c = new HeadDoubleCircularList();
+   
+      // do the merge
+      while (elementA != null && elementB != null)
+      {
+         if (elementA.compareTo(elementB) <= 0)
+         {// elementA goes next
+            c.add(elementA);
+            if (ia.hasNext())
+               elementA = (Comparable) ia.next();
+            else
+               elementA = null;
+         }
+         else
+         {// elementB goes next
+            c.add(elementB);
+            if (ib.hasNext())
+               elementB = ib.next();
+            else
+               elementB = null;
+         }
+      }
+   
+      // add remaining elements
+      if (elementA != null)
+         c.add(elementA);
+      if (elementB != null)
+         c.add(elementB);
+
+      // at most one of a and b can be nonempty now
+      while (ia.hasNext())
+         c.add(ia.next());
+   
+      while (ib.hasNext())
+         c.add(ib.next());
+   
+      return c;
+   }
+}
+<HR class = coderule>
+</pre>
+<br>
+
+<dl compact>
+<dt> 
+<dd>
+<br><br>
+
+<dt> (b)
+<dd>
+In each iteration of the first <code class=code>while</code> loop, we
+move one node right
+either in <code class=code>a</code> or
+either in <code class=code>b</code>.
+So, the complexity of this loop is
+<code class=math>O(a.size + b.size)</code>.
+The complexity of the second <code class=code>while</code> loop
+is <code class=math>O(a.size)</code>, and that of the third
+loop is <code class=math>O(b.size)</code>.
+So, the overall complexity is
+<code class=math>O(a.size + b.size)</code>.
+<br><br>
+<dt> (c)
+<dd>
+The test program
+and output are in the files <code class=code>MergeDoubleCircularList.*</code>.
+<br><br>
+<dt> (d)
+<dd>
+The code for the member method is given below.
+
+<HR class = coderule>
+<PRE class = code>
+public class HeadDoubleCircularListWithMerge extends HeadDoubleCircularList
+{
+   /** make this the result of merging the sorted lists a and b 
+     * following the merge, both a and b are empty */
+   public void merge(HeadDoubleCircularListWithMerge a,
+                     HeadDoubleCircularListWithMerge b)
+   {
+      DoubleNode
+                ca = a.headerNode.next,     // pointer to current node in a
+                cb = b.headerNode.next,     // pointer to current node in b
+                lastNode = headerNode;      // last node of this
+
+      // merge from a and b until one becomes empty
+      while (ca != a.headerNode && cb != b.headerNode)
+      {
+         if (((Comparable) ca.element).compareTo(cb.element) <= 0)
+         {// a element goes first
+            lastNode.next = ca;
+            ca.previous = lastNode;
+            lastNode = ca;
+            ca = ca.next;
+         }
+         else
+         {// b element is smaller
+            lastNode.next = cb;
+            cb.previous = lastNode;
+            lastNode = cb;
+            cb = cb.next;
+         }
+      }
+
+      // append the rest, at most one of a and b is nonempty now
+      if (ca != a.headerNode)
+      {
+         lastNode.next = ca;
+         ca.previous = lastNode;
+         lastNode = a.headerNode.previous;
+      }
+
+      if (cb != b.headerNode)
+      {
+         lastNode.next = cb;
+         cb.previous = lastNode;
+         lastNode = b.headerNode.previous;
+      }
+
+      size = a.size + b.size;
+      lastNode.next = headerNode;
+      headerNode.previous = lastNode;
+
+      // make a and b empty
+      a.clear();
+      b.clear();
+
+      return;
+   }
+}
+<HR class = coderule>
+</pre>
+<br>
+
+<dl compact>
+<dt> 
+<dd>
+<br><br>
+
+<dt> (e)
+<dd>
+In each iteration of the <code class=code>while</code> loop, we
+move one node right
+either in <code class=code>a</code> or
+in <code class=code>b</code>.
+So, the complexity of this loop is
+<code class=math>O(a.size + b.size)</code>.
+The remainder of the code takes
+<code class=math>Theta(1)</code> time.
+So, the overall complexity is
+<code class=math>O(a.size + b.size)</code>.
+<br><br>
+<dt> (f)
+<dd>
+The test program
+and output are in the files <code class=code>HeadDoubleCircularListWithMerge.*</code>.
+
+</dl>
+
+</FONT>
+</BODY>
+</HTML>
+
+</dl>
+
+</FONT>
+</BODY>
+</HTML>

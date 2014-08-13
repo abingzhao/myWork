@@ -1,0 +1,208 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H2>Exam 1</H2>
+<H2>Sample 2, 50 Minutes</H2>
+<H2>Solutions</H2>
+<BR>
+</H1>
+<ol>
+<li>
+(a)  The code is given below.
+The relevant files are <code class=var>klist.*</code>.
+<pre class=code>
+<hr class=coderule>
+template&lt;class T&gt;
+LinearList&lt;T&gt;&amp; LinearList&lt;T&gt;::InsertZero(int i, int k)
+{// Insert k zeroes after element i.
+ // Throw BadInput exception if no i'th element or k &lt; 0.
+ // Throw NoMem exception if inadequate space.
+   if (k &lt; 0 || i &lt; 0 || i &gt; length)
+       throw BadInput();
+   if (length + k &gt; MaxSize) throw NoMem();
+
+   // move k positions up
+   for (int j = length-1; j &gt;= i; j--)
+      element[j+k] = element[j];
+
+   // fill with zeroes
+   for (int j = i; j &lt; i + k; j++)
+      element[j] = 0;
+
+   length += k;
+   return *this;
+}
+<hr class=coderule>
+</pre>
+<dl compact>
+<dt>(b)
+<dd>
+When an exception is thrown the complexity is Theta(1).
+Otherwise, the first <code class=var>for</code> loop takes
+O(<code class=var>length</code>) time, and the second
+loop takes
+Theta(<code class=var>k</code>) time.  Therefore, when
+an exception is not thrown, the complexity is O(<code class=var>length+k</code>).
+Combining the complexities for the cases when an exception is and is not
+thrown, the complexity becomes
+O(<code class=var>length+k</code>).
+</dl>
+<br><br>
+<br><br>
+<br><br>
+<br><br>
+<br><br>
+<li>
+(a) The code is given below.
+The relevant files are <code class=var>kchain.*</code>.
+<pre class=code>
+<hr class=coderule>
+template&lt;class T&gt;
+bool Chain&lt;T&gt;::Bitonic() const
+{// Return the true iff the chain is bitonic.
+   // empty chain is bitonic
+   if (!first) return true;
+   
+   // find first adjacent pair of unequal elements
+   T e = first-&gt;data;
+   ChainNode&lt;T&gt; *c = first-&gt;link;  // cursor
+   while (c &amp;&amp; e == c-&gt;data)
+      c = c-&gt;link;
+
+   // did we find an element different from e?
+   if (!c) // all elements are equal
+      return true;
+
+   // elements e and c-&gt;data are different
+   if (e &lt; c-&gt;data) {// first part is nondecreasing
+      // bypass nondecreasing part
+      T last = c-&gt;data;
+      c = c-&gt;link;
+      while (c &amp;&amp; last &lt;= c-&gt;data) {
+         last = c-&gt;data;
+         c = c-&gt;link;
+         }
+      if (!c) // all are nondecreasing
+         return true;
+      // elements remain, rest must be nonincreasing
+      last = c-&gt;data;
+      c = c-&gt;link;
+      while (c &amp;&amp; last &gt;= c-&gt;data) {
+         last = c-&gt;data;
+         c = c-&gt;link;
+         }
+      // list is bitonic iff c = 0
+      if (c) return false;
+      else return true;
+      }
+   else {// first part is nonincreasing
+      // bypass nonincreasing part
+      T last = c-&gt;data;
+      c = c-&gt;link;
+      while (c &amp;&amp; last &gt;= c-&gt;data) {
+         last = c-&gt;data;
+         c = c-&gt;link;
+         }
+      if (!c) // all are nonincreasing
+         return true;
+      // elements remain, rest must be nondecreasing
+      last = c-&gt;data;
+      c = c-&gt;link;
+      while (c &amp;&amp; last &lt;= c-&gt;data) {
+         last = c-&gt;data;
+         c = c-&gt;link;
+         }
+      // list is bitonic iff c = 0
+      if (c) return false;
+      else return true;
+      }
+}
+<hr class=coderule>
+</pre>
+<dl compact>
+<dt>(b)
+<dd>
+The <code class=var>while</code> loops iterate at
+most <code class=var>length</code>
+times and each iteration takes Theta(1) time.  The remaining lines take
+Theta(1) time.  Therefore, the overall complexity
+is O(<code class=var>length</code>).
+</dl>
+<br>
+<li>
+(a) A sample 4 x 4 Z-matrix is given below.
+<pre class=figure>
+                    1 2 3 4
+                    0 0 5 0
+                    0 6 0 0
+                    7 8 9 0
+</pre>
+The compact representation is [1,2,3,4,7,8,9,0,5,6].
+<br>
+(b) The code is given below.
+The relevant files are <code class=var>zmatrix.*</code>.
+<pre class=code>
+<hr class=coderule>
+template&lt;class T&gt;
+ZMatrix&lt;T&gt;&amp; ZMatrix&lt;T&gt;::
+     Store(const T&amp; x, int i, int j)
+{// Store x as N(i,j).
+   if ( i &lt; 1 || j &lt; 1 || i &gt; n || j &gt; n)
+       throw OutOfBounds();
+   if (i == 1) t[j-1] = x;          // first row
+   else if (i == n) t[n+j-1] = x;   // last row
+        else if (i+j == n+1) t[2*n+i-2] = x;
+                   // rest of cross diagonal
+             else if (x != 0) throw MustBeZero();
+   return *this;
+}
+<hr class=coderule>
+</pre>
+</ol>
+<CENTER><a href="q97b.mhtml">BACK</a></CENTER>
+<p>
+<!--crfooter.mhtml-->
+
+<CENTER>
+<IMG SRC="/catalogs/img/space.gif" WIDTH="10" HEIGHT="20" BORDER="0">
+<P>
+<font class="smalltext">
+<A HREF="/catalogs/cust_serv/feedback.mhtml" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">feedback form</font></A> |   
+<A HREF="/catalogs/cust_serv/permissions.mhtml" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">permissions</font></A> |   
+<A HREF="/catalogs/international" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">international</font></A> |
+<A HREF="/catalogs/rep/" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">locate your campus rep</font></A> |  
+<A HREF="/catalogs/cust_serv/review1.mhtml" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">request a review copy</font></A>
+<BR>
+<BR>
+<A HREF="/catalogs/solutions/" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">digital solutions</font></A> | 
+<A HREF="/catalogs/work/" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">publish with us</font></A> | 
+<A HREF="/catalogs/cust_serv/" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">customer service</font></A> |   
+<A HREF="/catalogs/index.mhtml" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">mhhe home</font></A>
+<P>
+<HR>
+<P>
+<font face="verdana, arial, helvetica" size="1">
+Copyright &copy;2001 The McGraw-Hill Companies.<BR>
+Any use is subject to the <A HREF="http://www.mcgraw-hill.com/copyrttm.htm" CLASS="link" TARGET="_new">
+<font face="verdana, arial, helvetica" size="1">Terms of Use</font></A> and <A HREF="/catalogs/privacy_notice.mhtml" 
+CLASS="link" TARGET="_new"><font face="verdana, arial, helvetica" size="1">Privacy Policy</font></A>.<BR>
+McGraw-Hill Higher Education is one of the many fine businesses of the 
+<A HREF="http://www.mcgraw-hill.com" CLASS="link" TARGET="_new"><font face="verdana, arial, helvetica" size="1">
+The McGraw-Hill Companies</font></A>.
+</font>
+</font>
+
+</CENTER>
+
+

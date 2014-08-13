@@ -1,0 +1,203 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H2>Exam 2</H2>
+<H2>Sample 1, 50 Minutes</H2>
+<H2>Solutions</H2>
+<BR>
+</H1>
+<ol>
+<li>
+<dl compact>
+<dt>(a)
+<dd>
+To perform the operation, we can do a postorder
+traversal of the binary tree.  During the visit step, we
+exachange the left and right children of the node being
+visited.  To implement this strategy we need to define
+a public and a private <code class=var>SwapTree</code> function.
+The public function can be defined inline as below:<br>
+<pre class=code>
+BinaryTree&lt;T&gt;&amp; SwapChildren()
+      {SwapChildren(root); return *this;}
+</pre>
+The private function that does the actual swapping of children
+by performing a postorder traversal is given below.
+The relevant files are <code class=var>bbinary.*</code>.
+</dl>
+<pre class=code>
+<hr class=coderule>
+template&lt;class T&gt;
+void BinaryTree&lt;T&gt;::SwapChildren(BinaryTreeNode&lt;T&gt; * &amp;t)
+{// Swap the children of every node in the subtree t.
+ // Do a postorder traversal; swap left and right child
+ // pointers in the visit step.
+   if (t) {// t is not null
+           SwapChildren(t-&gt;LeftChild);
+           SwapChildren(t-&gt;RightChild);
+           Swap(t-&gt;LeftChild, t-&gt;RightChild);
+          }
+}
+<hr class=coderule>
+</pre>
+<dl compact>
+<dt>(b)
+<dd>
+Each node of the binary tree is visited once and a constant
+amount of work is done during each visit.  Therefore, the complexity
+is Theta(<code class=var>n</code>), where <code class=var>n</code>
+is the number of nodes in the binary tree.
+</dl>
+<br><br>
+<br><br>
+<li>
+<dl compact>
+<dt>(a)
+<dd>
+The strategy is the same as for a max heap.
+The code is given below and in
+the files <code class=var>minheap.*</code>.
+</dl>
+<pre class=code>
+<hr class=coderule>
+template&lt;class T&gt;
+MinHeap&lt;T&gt;&amp; MinHeap&lt;T&gt;::Insert(const T&amp; x)
+{// Insert x into the min heap.
+   if (CurrentSize == MaxSize)
+      throw NoMem(); // no space
+
+   // find place for x
+   // i starts at new leaf and moves up tree
+   int i = ++CurrentSize;
+   while (i != 1 &amp;&amp; x &lt; heap[i/2]) {
+      // cannot put x in heap[i]
+      heap[i] = heap[i/2]; // move element down
+      i /= 2; // move to parent
+      }
+   heap[i] = x;
+
+   return *this;
+}
+<hr class=coderule>
+</pre>
+<dl compact>
+<dt>(b)
+<dd>
+Since a heap is a complete binary tree, the height of a min heap
+that has <code class=var>CurrentSize</code> =
+<code class=var>n</code> elements is
+Theta(<code class=var>log n</code>).  The insert algorithm spends constant
+time at a level and goes through at most as many levels as the
+height of the min heap.  So the complexity is
+O(<code class=var>log n</code>).
+</dl>
+<br>
+<li>
+<dl compact>
+<dt> (a)
+<dd>
+Since
+<em class=var>
+S <SUB>n</sub> = 1 + alpha/2 &lt;= 4, 
+alpha &lt;= 6</em><br>
+Also, since
+<em class=var>
+U <SUB>n</sub> = (1 + alpha)/2 &lt;= 2,
+alpha &lt;= 3</em>.<br>
+So <em class=var>alpha &lt;= min{6, 3} = 3</em>.<br>
+Hence <em class=var>n/b = alpha &lt;= 3</em> and so
+<em class=var>b &gt;= n/3 = 81/3 = 27.<br><br></em>
+
+When division is used, the number of buckets equals the
+divisor <em class=var>D</em>.  So
+<em class=var>D</em> &gt;= 27.  Also
+since <em class=var>D</em> should be a prime number
+or should have no prime divisors
+less than 20, we choose <em class = var>D</em> = 29, which is a prime number.
+<br><br>
+
+<dt> (b)
+<dd>
+Following path compaction, all nodes on the original
+path from the find element
+<code class=var>e</code> to the root are children of the original root.
+
+<dt> (c)
+<dd>
+Examine the postorder output from right to left.  In this order,
+the first element <code class=var>F</code>
+is the root of the binary tree.
+Also <code class=var>F</code> comes between the left and right subtree in
+inorder.  So <code class=var>ABCDE</code> is the inorder output of the
+left subtree and <code class=var>GHIJ</code> is the inorder output of the
+right subtree.  The next element in postorder
+<code class=var>I</code> is the root of the right subtree
+unless the right subtree is empty (in which case it is the root
+of the left subtree).  Using this information
+and what we have already learnt from the inorder sequence, we
+see that <code class=var>I</code> is the root of the right subtree
+and <code class=var>GH</code> are in the left subtree of
+<code class=var>I</code> and <code class=var>J</code> in its right subtree.
+Proceeding in this way we can construct the entire binary tree.
+The unique binary tree from which the given inorder and postorder outputs
+came is:
+<br><br>
+<pre class=figure>
+                    F
+               /        \
+             E             I
+          /             /    \
+        A             G        J
+         \             \
+           C             H
+         /  \
+        B    D
+</pre>
+</dl>
+</ol>
+<CENTER><a href="q97.mhtml">BACK</a></CENTER>
+<!--crfooter.mhtml-->
+
+<CENTER>
+<IMG SRC="/catalogs/img/space.gif" WIDTH="10" HEIGHT="20" BORDER="0">
+<P>
+<font class="smalltext">
+<A HREF="/catalogs/cust_serv/feedback.mhtml" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">feedback form</font></A> |   
+<A HREF="/catalogs/cust_serv/permissions.mhtml" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">permissions</font></A> |   
+<A HREF="/catalogs/international" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">international</font></A> |
+<A HREF="/catalogs/rep/" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">locate your campus rep</font></A> |  
+<A HREF="/catalogs/cust_serv/review1.mhtml" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">request a review copy</font></A>
+<BR>
+<BR>
+<A HREF="/catalogs/solutions/" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">digital solutions</font></A> | 
+<A HREF="/catalogs/work/" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">publish with us</font></A> | 
+<A HREF="/catalogs/cust_serv/" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">customer service</font></A> |   
+<A HREF="/catalogs/index.mhtml" TARGET="_top" CLASS="link">
+<font face="verdana, arial, helvetica" size="1">mhhe home</font></A>
+<P>
+<HR>
+<P>
+<font face="verdana, arial, helvetica" size="1">
+Copyright &copy;2001 The McGraw-Hill Companies.<BR>
+Any use is subject to the <A HREF="http://www.mcgraw-hill.com/copyrttm.htm" CLASS="link" TARGET="_new">
+<font face="verdana, arial, helvetica" size="1">Terms of Use</font></A> and <A HREF="/catalogs/privacy_notice.mhtml" 
+CLASS="link" TARGET="_new"><font face="verdana, arial, helvetica" size="1">Privacy Policy</font></A>.<BR>
+McGraw-Hill Higher Education is one of the many fine businesses of the 
+<A HREF="http://www.mcgraw-hill.com" CLASS="link" TARGET="_new"><font face="verdana, arial, helvetica" size="1">
+The McGraw-Hill Companies</font></A>.
+</font>
+</font>
+
+</CENTER>
+

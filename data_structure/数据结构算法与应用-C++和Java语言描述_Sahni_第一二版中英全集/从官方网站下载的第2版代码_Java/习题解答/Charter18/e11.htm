@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 18, Exercise 11<BR>
+<BR>
+</H1>
+
+<dl compact>
+<dt> (a)
+<dd>
+To implement the greedy strategy, we first sort the tasks by
+task time using any
+<code class=var>n log n</code> sorting algorithm, and then assign the
+tasks to the <code class=var>m</code> persons in round-robin fashion.
+The task assignment takes linear time.
+So the overall complexity is
+<code class=var>O(n log n)</code>.
+The code for the ACT method is given below. A test program and
+output are given in the files
+<code class=var>AverageCompletionTime3.*</code>.
+
+<HR class = coderule>
+<pre class = code>
+public class AverageCompletionTime3
+{
+   // top-level nested class
+   static class Task implements Comparable
+   {
+      // instance data members
+      int time;                  // task length
+      int id;                    // task id
+      int person;                // person who is to do the task
+
+      // constructor
+      Task(int theTime, int theId)
+      {
+         time = theTime;
+         id = theId;
+      }
+
+     // method of Comparable
+     /** return true iff this &lt; x */
+     public int compareTo(Object x)
+     {
+        int xTime = ((Task) x).time;
+        if (time &lt; xTime)
+           return -1;
+        if (time == xTime)
+           return 0;
+        return 1;
+      }
+
+      /** return true iff this == x */
+      public boolean equals(Object x)
+         {return time == ((Task) x).time;}
+   }
+
+   /** reorder the tasks task[1:task.length-1] so that the
+     * average completeion time is minimized
+     * param m is the number of persons available to do tasks */
+   public static void minimizeAverageCompletionTime(Task [] task, int m)
+   {
+      HeapSort.heapSort(task);
+      // assign tasks to persons in round-robin fashion
+      for (int i = 1; i <= task.length - 1; i++)
+         task[i].person = (i-1) % m + 1;
+   }
+}
+<hr class=coderule>
+</pre>
+<br><br>
+
+<dt>(b)
+<dd>
+The greedy startegy implemented by method <codeclass=code>minimizeAverageCompletionTime</code>
+always minimize the ACT.  To see this, let the task times, in nondecreasing
+order, be <code class=var>t<sub>1</sub></code>,
+<code class=var>t<sub>2</sub></code>, ...,
+<code class=var>t<sub>n</sub></code>.  The ACT of the task assignment
+constructed by the greedy algorithm is the sum of
+<code class=var>floor((n-i+1)/m)t<sub>i</sub></code> for <code class=var>i</code>
+equal to <code class=var>1</code> to <code class=var>n</code> divided by <code class=var>n</code>.
+In the sum, we see that the <code class=var>m</code>
+largest times are multiplied by <code class=var>1</code>,
+the next <code class=var>m</code> by <code class=var>2</code>, the next <code class=var>m</code> by <code class=var>3</code>, etc.
+In every task assignment, the last task assigned to each person is multiplied
+by <code class=var>1</code>; the second last task by <code class=var>2</code>; etc.  Therefore, we cannot get a smaller
+sum than obtained by the greedy algorithm.
+
+</FONT>
+</BODY>
+</HTML>

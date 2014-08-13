@@ -1,0 +1,150 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 8, Exercise 25<BR>
+<BR>
+</H1>
+
+The code is given below.
+<HR class = coderule>
+<PRE class = code>
+public class TridiagonalAsIrregularArray
+{
+   // data members
+   int rows;              // matrix dimension
+   Object zero;           // zero element
+   Object [][] element;   // element array
+
+   // constructor
+   public TridiagonalAsIrregularArray(int theRows, Object theZero)
+   {
+      // validate theRows
+      if (theRows &lt; 1)
+         throw new IllegalArgumentException
+                   ("number of rows must be &gt; 0");
+   
+      rows = theRows;
+      zero = theZero;
+
+      // create and initialize the irregular array
+      element = new Object [rows][];
+      // do row 1 of the matrix
+      element[0] = new Object [2];
+      element[0][0] = element[0][1] = zero;
+      // do row rows of the matrix
+      element[rows - 1] = new Object [2];
+      element[rows - 1][0] = element[rows - 1][1] = zero;
+      // do the remaining ros
+      for (int i = 1; i &lt; rows - 1; i++)
+      {
+         element[i] = new Object[3];
+         element[i][0] = element[i][1] = element[i][2] = zero;
+      }
+
+   }
+   
+   // methods
+   /** throws IndexOutOfBoundsException when i &lt; 1
+     * or j &lt; 1 or i &gt; rows or j &gt; rows */
+   void checkIndex(int i, int j)
+   {
+      if (i &lt; 1 || j &lt; 1 || i &gt; rows || j &gt; rows)
+         throw new IndexOutOfBoundsException
+                   ("i = " + i + " j = " + j +
+                    " rows = " + rows + " cols = " + rows);
+   }
+
+   /** return the element this(i,j)
+     * throws IndexOutOfBoundsException when i or j invalid */
+   public Object get(int i, int j)
+   {
+      checkIndex(i, j);
+
+      // determine element to return
+      if (i - j >= -1 && i - j <= 1)
+      {// in the tridiagonal
+         if (i == 1)
+            return element[i - 1][j - 1];
+         else
+            return element[i - 1][j - i + 1];
+       }
+       else
+         // not in the tridiagonal
+         return zero;
+   }
+   
+   /** set this(i,j) = newValue
+     * throws IndexOutOfBoundsException when i or j invalid */
+   public void set(int i, int j, Object newValue)
+   {
+      checkIndex(i, j);
+
+      // store newValue
+      if (i - j >= -1 && i - j <= 1)
+      {// in the tridiagonal
+         if (i == 1)
+            element[i - 1][j - 1] = newValue;
+         else
+            element[i - 1][j - i + 1] = newValue;
+      }
+      else
+         // not in the tridiagonal
+         if (!((Zero) newValue).equalsZero())
+                   throw new IllegalArgumentException
+                         ("elements not on tridiagonal must be zero");
+   }
+}
+</pre>
+<HR class=coderule><BR><br>
+
+<dl compact>
+<dt> (a)
+<dd>
+The test program and output appear in the files
+<code class=code>TridiagonalAsIrregularArray.*</code>.
+<br><br>
+<dt> (b)
+<dd>
+The irregular array representation needs space for the <code class=code>rows</code>
+entries of <code class=code>element[]</code> in addition to space for
+the
+<code class=code>3*rows-2</code> entries of the tridiagonal.
+Therefore, approximately <code class=var>33%</code> extra space is required.
+The differential is higher if we represent a boolean matrix
+rather than a generic matrix.  In this case, <code class=code>4rows</code>
+bytes are needed for the references in the boolean array
+<code class=code>element[][]</code> and
+<code class=code>(3rows - 2)/8</code> bytes are needed for the
+boolean entries of the tridiagonal.  When using the one-dimensional
+array representation, the <code class=code>3rows - 2</code>
+entries of the boolean array <code class=code>element</code>
+require only <code class=code>(3rows - 2)/8</code> bytes of space.
+So the irregular array representation takes almost <code class=var>12</code>
+times as much space
+as does the one-dimensional array representation.
+<br><br>
+When representing a matrix of type <code class=code>double</code> or
+<code class=code>long</code>, rather than a generic matrix,
+the relative space overhead incurred by the irregular array scheme is less
+because each matrix element takes <code class=var>8</code> bytes, whereas
+each reference of <code class=code>element[]</code> still takes
+<code class=var>4</code> bytes.
+<br><br>
+With respect to run time, methods such as input, output, add, etc. can
+be implemented using a single <code class=code>for</code> loop
+when the one-dimensional array representation is used (see Exercise 15).
+When the irregular array representation is used, two nested
+<code class=code>for</code> loops are needed.  Because of the added
+overheads of having two loops rather than one and of having
+to index into a two-dimensional array rather than into a one-dimensional
+array,
+we expect the
+one-dimensional array representation to be faster than the irregular
+array representation.
+</FONT>
+</BODY>
+</HTML>

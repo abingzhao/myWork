@@ -1,0 +1,96 @@
+
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 12, Exercise 43<BR>
+<BR>
+</H1>
+We assume that the permissible operators are:
+<br>
+   + (addition, binary)
+<br>
+   - (subtraction, binary)
+<br>
+   * (multiplication, binary)
+<br>
+   / (division, binary)
+<br><br>
+The postfix form is given as an array. Each element of the array is either an
+operator or an operand. Operators use the wrapper type
+<code class=code>Character</code> while operands use the wrapper type <code class=code>Integer</code>.
+<br><br>
+The postfix expression is evaluated by scanning the expression from left
+to right. Operands are stacked as they are encountered; operators are evaluated
+using operands from the stack top; the result of an operator evaluation
+is stacked.
+
+<br><br>
+The code is given below.
+<br>
+<HR class = coderule>
+<pre class = code>
+public class EvaluatePostfix
+{
+   public static Object evaluatePostfix(Object [] postfix)
+   {
+      int length = postfix.length;
+      if (length == 0) throw new IllegalArgumentException
+                     ("Empty expression");
+      ArrayStack stack = new ArrayStack(); // operand stack
+
+      // scan postfix from left to right
+      for (int i = 0; i &lt; length; i++)
+      {
+         // determine whether postfix[i] is an operand or operator
+         if (postfix[i].getClass() == Integer.class)
+            // its an operand, stack the operand
+            stack.push(postfix[i]);
+         else {// its an operator
+            // get its two operands from the stack
+            int op1 = 0, op2 = 0;
+            if (!stack.empty())
+               op2 = ((Integer) stack.pop()).intValue();
+            if (!stack.empty())
+               op1 = ((Integer) stack.pop()).intValue();
+            else throw new IllegalArgumentException
+                    ("Bad postfix form"); // not enough arguments
+
+            // evaluate the operator and stack result
+            switch (((Character) postfix[i]).charValue())
+            {
+               case '*': stack.push(new Integer(op1 * op2));
+                         break;
+               case '/': stack.push(new Integer(op1 / op2));
+                         break;
+               case '+': stack.push(new Integer(op1 + op2));
+                         break;
+               case '-': stack.push(new Integer(op1 - op2));
+                         break;
+               default: throw new IllegalArgumentException
+                  ("Operator " + postfix[i] + " not supported");
+            }
+               } // end of else
+      }
+
+      // result is on top of stack
+      Object result = stack.pop();
+      if (!stack.empty())
+          throw new IllegalArgumentException
+                 ("Bad postfix form");
+
+      return result;
+   }
+}
+<hr class=coderule>
+</pre>
+
+
+
+</FONT>
+</BODY>
+</HTML>

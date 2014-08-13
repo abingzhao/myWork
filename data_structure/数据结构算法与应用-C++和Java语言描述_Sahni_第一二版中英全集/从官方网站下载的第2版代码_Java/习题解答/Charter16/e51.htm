@@ -1,0 +1,34 @@
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 16, Exercise 51<BR>
+<BR>
+</H1>
+
+The operation <code class=code>split(theKey, lessThan, greaterThan)</code>
+can be done by first doing a <code class=code>get(theKey)</code>.
+If the splay tree
+has an element with key equal to <code class=code>theKey</code>,
+then following the
+<code class=code>get</code>, the element with key <code class=code>theKey</code>
+is in the root of the splay tree.  The left subtree of the splay tree
+becomes the tree <code class=code>lessThan</code> and the right subtree
+becomes the tree <code class=code>greaterThan</code>.
+<br><br>
+
+When the splay tree has no element with key equal to <code class=code>theKey</code>,
+then following the <code class=code>get</code> either the
+root node and its left subtree define the
+tree <code class=code>lessThan</code> and the right subtree of the root
+defines <code class=code>greaterThan</code>, or the left subtree
+of the root defines <code class=code>lessThan</code> and
+the root together with its right subtree define <code class=code>greaterThan</code>.
+
+
+</FONT>
+</BODY>
+</HTML>

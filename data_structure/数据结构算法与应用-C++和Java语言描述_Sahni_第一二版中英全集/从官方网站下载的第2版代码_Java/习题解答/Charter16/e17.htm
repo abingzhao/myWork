@@ -1,0 +1,883 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 16, Exercise 17<BR>
+<BR>
+</H1>
+
+Please read the solutions to Exercises 15.19 and 16.15 before you proceed.
+We shall combine the ideas used in these solutions
+to arrive at our
+implementation of an indexed AVL tree.
+<br><br>
+
+Although we can develop <code class=code>IndexedAVLtree</code>
+as a subclass of
+<code class=code>AVLtree</code>, we shall
+develop <code class=code>IndexedAVLtree</code> as a subclass of
+<code class=code>BinarySearchTree</code>.
+<br><br>
+The shortest and simplest codes result from the use of recursion.
+However, since our primary motivation to use AVL trees is run time
+efficiency, we shall develop the codes as iterative ones.
+<br><br>
+First we develop a class <code class=code>IAVLElement</code>
+for the element field of a binry search tree.  The code is given below.
+
+<HR class = coderule>
+<pre class = code>
+// top-level nested class
+static class IAVLElement
+{
+   // data members
+   Object element;        // element in node
+   int leftSize;          // number of elements in left subtree
+   int bf;                // balance factor of node
+
+   // constructors
+   IAVLElement(int theLeftSize, int theBalanceFactor, Object theElement)
+   {
+      leftSize = theLeftSize;
+      bf = theBalanceFactor;
+      element = theElement;
+   }
+
+   IAVLElement(Object theElement)
+      {element = theElement;}
+
+   /** @return equivalent string suitable for output */
+   public String toString()
+      {return element.toString();}
+}
+<hr class=coderule>
+</pre>
+<br><br>
+
+
+The code to search for an element invokes the search method
+for the super class and then extracts the element from the
+object returned by the super class' search method.
+
+<HR class = coderule>
+<pre class = code>
+/** @return element whose key is theKey
+  * @return null if there is no element with key theKey */
+public Object get(Object theKey)
+{
+   Object theElement = super.get(theKey);
+   if (theElement == null)
+      // no matching element
+      return null;
+   else
+      return ((IAVLElement) theElement).element;
+}
+</pre>
+<HR class=coderule><BR><br>
+
+
+
+To facilitate the implementation of the method <code class=code>get(theIndex)</code>,
+we first develop the method <code class=code>getDataElement(theIndex)</code>,
+which returns the <code class=code>element</code> field (this is of type
+<code class=code>Data</code>) of the node whose index is
+<code class=code>theIndex</code>.
+
+<HR class = coderule>
+<PRE class = code>
+/** @return Data object of element whose index is theIndex
+  * @return null if there is no element with index theIndex */
+Data getDataElement(int theIndex)
+{
+   BinaryTreeNode p = root;
+   while (p != null)
+   {
+      IAVLElement q = (IAVLElement) ((Data) p.element).element;
+      if (theIndex &lt; q.leftSize)
+         // desired element is in left subtree
+         p = p.leftChild;
+      else
+         if (theIndex &gt; q.leftSize)
+         {// desired element is in right subtree
+   	        theIndex -= q.leftSize + 1;
+             p = p.rightChild;
+         }
+         else 
+            // found desired element
+            return (Data) p.element; 
+   }
+
+   // no element with index equal to theIndex
+   return null;
+}
+</pre>
+<HR class=coderule><BR><br>
+Now we use the method <code class=code>getDataElement</code> to arrive
+at the code for <code class=code>get(theIndex)</code>.
+
+
+<HR class = coderule>
+<PRE class = code>
+/** @return element whose index is theIndex
+  * @return null if there is no element with index theIndex */
+public Object get(int theIndex)
+{
+   Data theData = getDataElement(theIndex);
+   if (theData == null)
+      // no element with index theIndex
+      return null;
+   else
+      return ((IAVLElement) theData.element).element;
+}
+<hr class=coderule>
+</pre>
+<br><br>
+
+To assist in the development of the code for the insert operation,
+we first develop methods to adjust balance factors
+and to perform the different types of rotations
+needed to restore balance.
+The method <code class=code>fixBF</code> is used to
+change the balance factors of nodes on the path form
+a node <code class=var>q</code> to (but not including) the newly inserted node
+<code class=var>r</code>.  The balance factors of all these nodes
+were 0 prior to the insertion.
+<code class=code>theKey</code> is the key of the newly inserted element.
+It is used to construct the path to the newly inserted node.
+
+<HR class = coderule>
+<pre class = code>
+/** set balance factors on path from q to r */
+static void fixBF(BinaryTreeNode q, BinaryTreeNode r, Comparable theKey)
+{// Balance factors from q to r were originally 0.
+ // They need to be changed to +1 or -1.
+ // Use theKey to find path from q to r.
+
+   while (q != r)
+      if (theKey.compareTo(((Data) q.element).key) &lt; 0)
+      {// height of left subtree has increased
+         ((IAVLElement) ((Data) q.element).element).bf = 1;
+         q = q.leftChild;
+      }
+      else
+      {// height of right subtree has increased
+         ((IAVLElement) ((Data) q.element).element).bf = -1;
+         q = q.rightChild;
+      }
+}
+<hr class=coderule>
+</pre>
+<br><br>
+
+The methods to perform the four different types of rotations
+are given below.  They do the pointer and balance factor changes
+required by Figures 16.4 (LL rotation), 16.5 (LR rotation),
+and the corresponding figures for RR and RL rotations (see solution to
+Exercise 12).
+
+
+<HR class = coderule>
+<pre class = code>
+/** LL rotation around a, pa is parent of a and b is left child of a */
+void llRotate(BinaryTreeNode pa, BinaryTreeNode a, BinaryTreeNode b)
+{
+   // restructure subtree at a
+   a.leftChild = b.rightChild;
+   b.rightChild = a;
+   ((IAVLElement) ((Data) a.element).element).leftSize -=
+                  ((IAVLElement) ((Data) b.element).element).leftSize + 1;
+   if (pa != null)
+      // a is not the root
+      if (a == pa.leftChild)
+         pa.leftChild = b;
+      else
+         pa.rightChild = b;
+   else
+      root = b;
+
+   // set balance factors
+   ((IAVLElement) ((Data) a.element).element).bf = 0;
+   ((IAVLElement) ((Data) b.element).element).bf = 0;
+}
+
+/** RR rotation around a, pa is parent of a and b is right child of a */
+void rrRotate(BinaryTreeNode pa, BinaryTreeNode a, BinaryTreeNode b)
+{
+   // restructure subtree at a
+   a.rightChild = b.leftChild;
+   b.leftChild = a;
+   ((IAVLElement) ((Data) b.element).element).leftSize +=
+                  ((IAVLElement) ((Data) a.element).element).leftSize + 1;
+   if (pa != null)
+      // a is not the root
+      if (a == pa.leftChild)
+         pa.leftChild = b;
+      else
+         pa.rightChild = b;
+   else
+      root = b;
+
+   // set balance factors
+   ((IAVLElement) ((Data) a.element).element).bf = 0;
+   ((IAVLElement) ((Data) b.element).element).bf = 0;
+}
+
+/** LR rotation around a, pa is parent of a and b is left child of a */
+void lrRotate(BinaryTreeNode pa, BinaryTreeNode a, BinaryTreeNode b)
+{
+   BinaryTreeNode c = b.rightChild;
+
+   // restructure subtree at a
+   a.leftChild = c.rightChild;
+   b.rightChild = c.leftChild;
+   c.leftChild = b;
+   c.rightChild = a;
+   ((IAVLElement) ((Data) a.element).element).leftSize -=
+                  ((IAVLElement) ((Data) b.element).element).leftSize +
+                  ((IAVLElement) ((Data) c.element).element).leftSize + 2;
+   ((IAVLElement) ((Data) c.element).element).leftSize +=
+                  ((IAVLElement) ((Data) b.element).element).leftSize + 1;
+   if (pa != null)
+      // a is not the root
+      if (a == pa.leftChild)
+         pa.leftChild = c;
+      else 
+         pa.rightChild = c;
+   else 
+      root = c;
+
+   // set balance factors
+   int bfOfC = ((IAVLElement) ((Data) c.element).element).bf;
+   if (bfOfC == 1)
+   {   
+      ((IAVLElement) ((Data) a.element).element).bf = -1;
+      ((IAVLElement) ((Data) b.element).element).bf = 0;
+   }
+   else
+      if (bfOfC == -1)
+      {
+         ((IAVLElement) ((Data) a.element).element).bf = 0;
+         ((IAVLElement) ((Data) b.element).element).bf = 1;
+      }
+      else
+      {// bfOfC = 0
+         ((IAVLElement) ((Data) a.element).element).bf = 0;
+         ((IAVLElement) ((Data) b.element).element).bf = 0;
+      }
+   ((IAVLElement) ((Data) c.element).element).bf = 0;
+}
+
+/** RL rotation around a, pa is parent of a and b is right child of a */
+void rlRotate(BinaryTreeNode pa, BinaryTreeNode a, BinaryTreeNode b)
+{
+   BinaryTreeNode c = b.leftChild;
+
+   // restructure subtree at a
+   a.rightChild = c.leftChild;
+   b.leftChild = c.rightChild;
+   c.leftChild = a;
+   c.rightChild = b;
+   ((IAVLElement) ((Data) b.element).element).leftSize -=
+                  ((IAVLElement) ((Data) c.element).element).leftSize + 1;
+   ((IAVLElement) ((Data) c.element).element).leftSize +=
+                  ((IAVLElement) ((Data) a.element).element).leftSize + 1;
+   if (pa != null)
+      // a is not the root
+      if (a == pa.leftChild)
+         pa.leftChild = c;
+      else 
+         pa.rightChild = c;
+   else 
+      root = c;
+
+   // set balance factors
+   int bfOfC = ((IAVLElement) ((Data) c.element).element).bf;
+   if (bfOfC == 1)
+   {   
+      ((IAVLElement) ((Data) a.element).element).bf = 0;
+      ((IAVLElement) ((Data) b.element).element).bf = -1;
+   }
+   else
+      if (bfOfC == -1)
+      {
+         ((IAVLElement) ((Data) a.element).element).bf = 1;
+         ((IAVLElement) ((Data) b.element).element).bf = 0;
+      }
+      else
+      {// bfOfC = 0
+         ((IAVLElement) ((Data) a.element).element).bf = 0;
+         ((IAVLElement) ((Data) b.element).element).bf = 0;
+      }
+   ((IAVLElement) ((Data) c.element).element).bf = 0;
+}
+<hr class=coderule>
+</pre>
+<br><br>
+The code for the insert operation is given below.
+The first part of the code searches for the place to insert
+the new element using a process identical to that used
+to insert an element into an unbalanced search tree.
+The left size values are adjusted under the assumption that the
+insert will succeed.  In case it fails, we reset the
+left size values using the method <code class=code>resetLeftSize</code>.
+When we search for the place to insert
+the new element, we also keep track of the most recently
+seen node whose current balance factor is +1 or -1.
+Following the insertion, this node is the candidate node
+for the <em class=var>A</em> node around which a rotation
+(if necessary) is to be performed.
+The nature of the imbalance (if any) at <em class=var>A</em>
+is determined, and the appropriate rotation performed.
+
+
+<HR class = coderule>
+<pre class = code>
+/** insert an element with the specified key
+  * overwrite old element if there is already an
+  * element with the given key
+  * @return old element (if any) with key = theKey */
+public Object put(Object theKey, Object theElement)
+{
+   BinaryTreeNode p = root,     // search pointer
+                  pp = null,    // parent of p
+                  a = null,     // node with bf != 0
+                  pa = null;    // parent of a
+
+   // find place to insert theElement
+   // also record most recent node with bf != 0
+   // in a and its parent in pa
+   Comparable elementKey = (Comparable) theKey;
+   while (p != null)
+   {// examine p.element.key
+      Data pData = (Data) p.element;
+      if (((IAVLElement) pData.element).bf != 0)
+      {// new candidate for a node
+         a = p;
+         pa = pp;
+      }
+      pp = p;
+      // move p to a child
+      if (elementKey.compareTo(pData.key) &lt; 0)
+      {// assume the insert will add a new node in left subtree
+         ((IAVLElement) ((Data) p.element).element).leftSize += 1;
+         p = p.leftChild;
+      }
+      else if (elementKey.compareTo(pData.key) &gt; 0)
+              p = p.rightChild;
+           else
+           {// overwrite element with same key
+              Object elementToReturn =
+                     ((IAVLElement) pData.element).element;
+              ((IAVLElement) pData.element).element = theElement;
+              resetLeftSize(-1, elementKey);
+              return elementToReturn;
+           }
+   }
+
+   // get a node for theElement and attach to pp
+   IAVLElement q = new IAVLElement(0, 0, theElement);
+   BinaryTreeNode r = new BinaryTreeNode
+                          (new Data(elementKey, q));
+   if (root != null)
+      // the tree is not empty
+      if (elementKey.compareTo(((Data) pp.element).key) &lt; 0)
+         pp.leftChild = r;
+      else
+         pp.rightChild = r;
+   else
+   {// insertion into empty tree
+      root = r;
+      return null;
+   }
+
+   // see if we must rebalance or simply change balance factors
+   if (a != null)
+   {// possible rebalancing needed
+      Data aData = (Data) a.element;
+      if (((IAVLElement) aData.element).bf &lt; 0)
+         // bf = -1 before insertion
+         if (elementKey.compareTo(aData.key) &lt; 0)
+         {// insertion in left subtree
+            // height of left subtree has increased by 1
+            // new bf of a is 0, no rebalancing
+            ((IAVLElement) aData.element).bf = 0;
+            // fix bf on path from a to r
+            fixBF(a.leftChild, r, elementKey);
+         }
+         else
+         {// insertion in right subtree
+            // bf of a is -2, rebalance
+            BinaryTreeNode b = a.rightChild;
+            if (elementKey.compareTo(((Data) b.element).key) &gt; 0)
+            {// RR case
+               fixBF(b.rightChild, r, elementKey);
+               rrRotate(pa, a, b);
+            }
+            else
+            {// RL case
+               fixBF(b.leftChild, r, elementKey);
+               rlRotate(pa, a, b);
+            }
+         }
+      else // bf = +1 before insertion
+         if (elementKey.compareTo(aData.key) &gt; 0)
+         {// insertion in right subtree
+            // height of right subtree has increased by 1
+            // new bf of a is 0, no rebalancing
+            ((IAVLElement) aData.element).bf = 0;
+            // fix bf on path from a to r
+            fixBF(a.rightChild, r, elementKey);
+         }
+         else
+         {// insertion in left subtree
+            // bf of a is +2, rebalance
+            BinaryTreeNode b = a.leftChild;
+            if (elementKey.compareTo(((Data) b.element).key) &lt; 0)
+            {// LL case
+               fixBF(b.leftChild, r, elementKey);
+               llRotate(pa, a, b);
+            }
+            else
+            {// LR case
+               fixBF(b.rightChild, r, elementKey);
+               lrRotate(pa, a, b);
+            }
+         }
+   }
+   else // a is nulL, no rebalancing
+      fixBF(root, r, elementKey);
+
+   return null;
+}
+<hr class=coderule>
+</pre>
+<br><br>
+
+The code to reset left size values when an insert fails is
+given below.
+
+<HR class = coderule>
+<pre class = code>
+/** add r to all leftSize values on the path from the root
+  * to the node with key = theKey */
+void resetLeftSize(int r, Comparable theKey)
+{
+   BinaryTreeNode p = root;
+   while (p != null)
+      if (theKey.compareTo(((Data) p.element).key) &lt; 0)
+      {
+         ((IAVLElement) ((Data) p.element).element).leftSize += r;
+         p = p.leftChild;
+      }
+      else if (theKey.compareTo(((Data) p.element).key) &gt; 0)
+              p = p.rightChild;
+           else return;
+}
+<hr class=coderule>
+</pre>
+<br><br>
+
+The code to remove/delete an element has two parts.  The first part
+assumes that the delete will succeed and decrements left size values as
+we move down the AVL tree searching for the element that is to be deleted.
+The path from the root
+to the parent of the physically deleted node is saved on a stack.
+<br><br>
+The rebalancing code follows the discussion in the text very closely.
+It also makes use of the fact that the following
+pairs of rotations are indentical LL and R1, LR and R-1,
+RR and L-1, and RL and L1.  It also uses the fact that
+LL and R0 and RR and L0 rotations differ only in the final balance
+factors.  See the solution to Exercise 14 for the figures
+for L0, L1, and L-1 rotations.
+
+
+<HR class = coderule>
+<pre class = code>
+/** @return matching element and remove it
+  * @return null if no matching element */
+public Object remove(Object theKey)
+{
+   Comparable searchKey = (Comparable) theKey;
+
+   // define a stack to hold path taken from root
+   // to physically deleted node
+   ArrayStack stack = new ArrayStack();
+
+   // p will eventually to point to node with key theKey
+   BinaryTreeNode p = root; // search pointer
+   while (p != null &amp;&amp; !theKey.equals(((Data) p.element).key))
+   {// move to a child of p
+      stack.push(p);
+      if (searchKey.compareTo(((Data) p.element).key) &lt; 0)
+      {// assume remove will succeed, decrease leftSize by 1
+         ((IAVLElement) ((Data) p.element).element).leftSize--;
+         p = p.leftChild;
+      }
+      else
+         p = p.rightChild;
+   }
+
+   if (p == null)
+   {// no element with key theKey, increment leftSize values
+    // that were decremented during search
+      resetLeftSize(1, searchKey);
+      return null;
+   }
+
+   // found the matching element, save this element
+   Object theElement = ((IAVLElement) ((Data) p.element).element).element;
+
+   // restructure tree
+   // handle case when p has two children
+   if (p.leftChild != null &amp;&amp; p.rightChild != null)
+   {// p has two children, convert to 0 or 1 child case
+      // find largest element in left subtree of p
+      stack.push(p);
+      BinaryTreeNode s = p.leftChild;
+      while (s.rightChild != null)
+      {// move to larger element
+         stack.push(s);
+         s = s.rightChild;
+      }
+
+      // move largest from s to p
+      Data pData = (Data) p.element;
+      pData.key = ((Data) s.element).key;
+      ((IAVLElement) pData.element).element =
+             ((IAVLElement) ((Data) s.element).element).element;
+      ((IAVLElement) pData.element).leftSize--;
+      p = s;
+   }
+
+   // p has at most one child
+   // save child pointer in c
+   BinaryTreeNode c;
+   if (p.leftChild != null)
+      c = p.leftChild;
+   else
+      c = p.rightChild;
+
+   // delete p
+   if (p == root)
+      root = c;
+   else
+      // is p a left or right child?
+      if (p == ((BinaryTreeNode) stack.peek()).leftChild)
+         ((BinaryTreeNode) stack.peek()).leftChild = c;
+      else
+         ((BinaryTreeNode) stack.peek()).rightChild = c;
+
+   Comparable pKey = ((Data) p.element).key;
+             // pKey may not equal theKey
+
+   // rebalance tree and correct balance factors
+   // use stack to retrace path to root
+   // set q to parent of deleted node
+   BinaryTreeNode q;
+   try {q = (BinaryTreeNode) stack.pop();}
+   catch (Exception e)
+      {return theElement;}  // root was deleted
+
+   while (q != null)
+   {
+      Data qData = (Data) q.element;
+      IAVLElement qAVL = (IAVLElement) qData.element;
+      if (pKey.compareTo(qData.key) &lt;= 0)
+      {// node p was deleted from the left subtree of q
+         // height of left subtree reduced by 1
+         qAVL.bf--;
+         if (qAVL.bf == -1)
+            // height of q is unchanged, nothing more to do
+            return theElement;
+         if (qAVL.bf == -2)
+         {// q is unbalanced, classify unbalance and rotate
+            BinaryTreeNode b = q.rightChild,
+                           pa;  // q is a node
+                                // pa is parent of a
+            try {pa = (BinaryTreeNode) stack.pop();}
+            catch (Exception e)
+               {pa = null;}     // stack empty
+            IAVLElement bAVL = (IAVLElement) ((Data) b.element).element;
+            switch (bAVL.bf)
+            {
+               case 0:           // L0 imbalance
+                  rrRotate(pa, q, b);
+                  bAVL.bf = 1;
+                  qAVL.bf = -1;  // q is a node
+                  return theElement;
+               case 1:           // L1 imbalance
+                  rlRotate(pa, q, b);
+                  break;         // must continue on path to root
+               case -1:          // L-1 imbalance
+                  rrRotate(pa, q, b);
+            }
+            q = pa;
+         }
+         else
+            // qAVL.bf is 0
+            try {q = (BinaryTreeNode) stack.pop();}
+            catch (Exception e)
+               {q = null;}     // stack empty
+      }
+      else
+      {// pKey &gt; qData.key
+         // deleted from right subtree of q
+         // height of right subtree reduced by 1
+         qAVL.bf++;
+         if (qAVL.bf == 1)
+            // height of q is unchanged, nothing more to do
+            return theElement;
+         if (qAVL.bf == 2)
+         {// q is unbalanced
+            // classify imbalance and rotate
+            BinaryTreeNode b = q.leftChild,
+                           pa;  // q is a node
+                                // pa is parent of a
+            try {pa = (BinaryTreeNode) stack.pop();}
+            catch (Exception e)
+               {pa = null;}     // stack empty
+            IAVLElement bAVL = (IAVLElement) ((Data) b.element).element;
+            switch (bAVL.bf)
+            {
+               case 0:                // R0 imbalance
+                  llRotate(pa, q, b);
+                  bAVL.bf = -1;
+                  qAVL.bf = 1;        // q is a node
+                  return theElement;
+               case 1:                // R1 imbalance
+                  llRotate(pa, q, b);
+                  break;              // must continue on path to root
+               case -1:               // R-1 imbalance
+                  lrRotate(pa, q, b);
+            }
+            q = pa;
+         }
+         else
+            // qAVL.bf is 0
+            try {q = (BinaryTreeNode) stack.pop();}
+            catch (Exception e)
+               {q = null;}     // stack empty
+      }   
+   }     
+
+   return theElement;
+}
+<hr class=coderule>
+</pre>
+<br><br>
+
+The code for an indexed delete is very similar and is given below.
+
+<HR class = coderule>
+<pre class = code>
+/** @return element with index theIndex and remove it
+  * @return null if no element has this index */
+public Object remove(int theIndex)
+{
+   if (root == null || theIndex &lt; 0)
+      // empty tree or invalid index
+      return null;
+
+   // define a stack to hold path taken from root
+   // to physically deleted node
+   java.util.Stack stack = new java.util.Stack();
+
+  // save theIndex
+  int savedIndex = theIndex;
+
+   // p will eventually to point to node with index'th element
+   BinaryTreeNode p = root; // search pointer
+   IAVLElement pIAVL = (IAVLElement) ((Data) p.element).element;
+   while (theIndex != pIAVL.leftSize)
+   {
+      stack.push(p);
+      if (theIndex &lt; pIAVL.leftSize)
+      {// desired element is in left subtree, assume remove will succeed
+         ((IAVLElement) ((Data) p.element).element).leftSize--;
+         p = p.leftChild;
+      }
+      else
+      {// desired element is in right subtree
+   	     theIndex -= pIAVL.leftSize + 1;
+          p = p.rightChild;
+      }
+      if (p == null) break;
+      pIAVL = (IAVLElement) ((Data) p.element).element;
+   }
+
+   if (p == null)
+      // theIndex &gt; number of elements - 1, must have made only right
+      // child moves, no leftSize values to reset
+      return null;
+
+   // found the matching element, save this element
+   Object theElement = ((IAVLElement) ((Data) p.element).element).element;
+
+   // restructure tree
+   // handle case when p has two children
+   if (p.leftChild != null &amp;&amp; p.rightChild != null)
+   {// p has two children, convert to 0 or 1 child case
+      // find largest element in left subtree of p
+      stack.push(p);
+      BinaryTreeNode s = p.leftChild;
+      while (s.rightChild != null)
+      {// move to larger element
+         stack.push(s);
+         s = s.rightChild;
+      }
+
+      // move largest from s to p
+      Data pData = (Data) p.element;
+      pData.key = ((Data) s.element).key;
+      ((IAVLElement) pData.element).element =
+             ((IAVLElement) ((Data) s.element).element).element;
+      ((IAVLElement) pData.element).leftSize--;
+      p = s;
+   }
+
+   // p has at most one child
+   // save child pointer in c
+   BinaryTreeNode c;
+   if (p.leftChild != null)
+      c = p.leftChild;
+   else
+      c = p.rightChild;
+
+   // delete p
+   if (p == root)
+      root = c;
+   else
+      // is p a left or right child?
+      if (p == ((BinaryTreeNode) stack.peek()).leftChild)
+         ((BinaryTreeNode) stack.peek()).leftChild = c;
+      else
+         ((BinaryTreeNode) stack.peek()).rightChild = c;
+
+   Comparable pKey = ((Data) p.element).key;
+             // pKey may not equal theKey
+
+   // rebalance tree and correct balance factors
+   // use stack to retrace path to root
+   // set q to parent of deleted node
+   BinaryTreeNode q;
+   try {q = (BinaryTreeNode) stack.pop();}
+   catch (Exception e)
+      {return theElement;}  // root was deleted
+
+   while (q != null)
+   {
+      Data qData = (Data) q.element;
+      IAVLElement qAVL = (IAVLElement) qData.element;
+      if (pKey.compareTo(qData.key) &lt;= 0)
+      {// node p was deleted from the left subtree of q
+         // height of left subtree reduced by 1
+         qAVL.bf--;
+         if (qAVL.bf == -1)
+            // height of q is unchanged, nothing more to do
+            return theElement;
+         if (qAVL.bf == -2)
+         {// q is unbalanced, classify unbalance and rotate
+            BinaryTreeNode b = q.rightChild,
+                           pa;  // q is a node
+                                // pa is parent of a
+            try {pa = (BinaryTreeNode) stack.pop();}
+            catch (Exception e)
+               {pa = null;}     // stack empty
+            IAVLElement bAVL = (IAVLElement) ((Data) b.element).element;
+            switch (bAVL.bf)
+            {
+               case 0:           // L0 imbalance
+                  rrRotate(pa, q, b);
+                  bAVL.bf = 1;
+                  qAVL.bf = -1;  // q is a node
+                  return theElement;
+               case 1:           // L1 imbalance
+                  rlRotate(pa, q, b);
+                  break;         // must continue on path to root
+               case -1:          // L-1 imbalance
+                  rrRotate(pa, q, b);
+            }
+            q = pa;
+         }
+         else
+            // qAVL.bf is 0
+            try {q = (BinaryTreeNode) stack.pop();}
+            catch (Exception e)
+               {q = null;}     // stack empty
+      }
+      else
+      {// pKey &gt; qData.key
+         // deleted from right subtree of q
+         // height of right subtree reduced by 1
+         qAVL.bf++;
+         if (qAVL.bf == 1)
+            // height of q is unchanged, nothing more to do
+            return theElement;
+         if (qAVL.bf == 2)
+         {// q is unbalanced
+            // classify imbalance and rotate
+            BinaryTreeNode b = q.leftChild,
+                           pa;  // q is a node
+                                // pa is parent of a
+            try {pa = (BinaryTreeNode) stack.pop();}
+            catch (Exception e)
+               {pa = null;}     // stack empty
+            IAVLElement bAVL = (IAVLElement) ((Data) b.element).element;
+            switch (bAVL.bf)
+            {
+               case 0:                // R0 imbalance
+                  llRotate(pa, q, b);
+                  bAVL.bf = -1;
+                  qAVL.bf = 1;        // q is a node
+                  return theElement;
+               case 1:                // R1 imbalance
+                  llRotate(pa, q, b);
+                  break;              // must continue on path to root
+               case -1:               // R-1 imbalance
+                  lrRotate(pa, q, b);
+            }
+            q = pa;
+         }
+         else
+            // qAVL.bf is 0
+            try {q = (BinaryTreeNode) stack.pop();}
+            catch (Exception e)
+               {q = null;}     // stack empty
+      }   
+   }     
+   return theElement;
+}
+<hr class=coderule>
+</pre>
+<br><br>
+
+
+
+The elements can be output in ascending order by performing
+an inorder traversal.
+The method for this is inherited from the super class
+<code class=code>BinarySearchTree</code>.
+
+<br><br>
+The complexity of both <code class=code>get</code> methods,
+<code class=code>put</code>,
+and both
+<code class=code>remove</code> methods is <code class=var>O(h)</code>,
+where <code class=var>h</code> is the height of the input tree.
+Since the tree is an AVL tree, its height is
+<code class=var>O(log n)</code>.
+The <code class=code>ascend</em> operation performs
+an inorder traversal which takes <code class=var>O(n)</em> time.
+
+<br><br>
+All codes, test data, and output can be found in the files
+<code class=code>IndexedAVLtree.*</code>.
+
+</FONT>
+</BODY>
+</HTML>

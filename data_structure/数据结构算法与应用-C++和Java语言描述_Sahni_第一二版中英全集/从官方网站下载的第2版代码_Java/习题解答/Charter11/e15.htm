@@ -1,0 +1,62 @@
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 11, Exercise 15<BR>
+<BR>
+</H1>
+The code is given below.
+<br><br>
+<HR class = coderule>
+<pre class = code>
+public class ConvertString2
+{
+   /** fold c into two 8-bit segments and add */
+   private static int fold(char c)
+   {
+      // convert into an integer
+      int i = (int) c;
+
+      // extract least significant 8 bits
+      int least8 = i % 256;
+
+      // extract most significant 8 bits
+      int most8 = i / 256;
+
+      return least8 + most8;
+   }
+
+   /** covert string s into an integer that depends on all
+     * characters of s */
+   public static int integer(String s)
+   {
+      int length = s.length();   // number of characters in s
+      int answer = 0;
+
+      for (int i = 0; i &lt; length; i += 4)
+      {// do four characters at a time
+         answer += fold(s.charAt(i));
+
+         try  // do three more characters if they exist
+         {
+            answer += fold(s.charAt(i + 1)) << 8;
+            answer += fold(s.charAt(i + 2)) << 16;
+            answer += fold(s.charAt(i + 3)) << 24;
+         }
+         catch (StringIndexOutOfBoundsException e)
+         {// ignore the exception
+         }
+      }
+
+      return (answer &lt; 0) ? -answer : answer;
+   }
+}
+<hr class=coderule>
+</pre><br><br>
+</FONT>
+</BODY>
+</HTML>

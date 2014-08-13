@@ -1,0 +1,63 @@
+
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" href="../exer.css">
+</HEAD>
+<BODY>
+<H1>
+Data Structures, Algorithms, & Applications in Java<BR>
+Chapter 1, Exercise 25<BR>
+<BR>
+</H1>
+<P ALIGN=LEFT>
+<dl compact>
+<dt>(a)
+<dd>
+<code class=var>f(5) = f(3 * 5 + 1) = f(16) = 16/2 = 8</code>.
+<br>
+<code class=var>f(7) = f(3 * 7 + 1) = f(22) = 22/2 = 11</code>.
+<br><br>
+<dt>(b)
+<dd>
+The base component is
+<code class=var>f(n) = n/2, n is even</code>
+and the recursive component is
+<code class=var>f(n) = f(3n + 1), n is odd</code>.
+<br><br>
+When <code class=var>n</code> is odd, one application
+of the recursive component transforms the occurrence of <code class=var>n</code>
+on the right hand side to the base component because
+<code class=var>3n + 1</code> is even whenever <code class=var>n</code>
+is odd.
+<br><br>
+<dt>(c)
+<dd>
+The recursive method <code class=code>misc.F.recursiveF</code>
+is given below.
+
+<BR>
+</P>
+<HR class = coderule>
+<PRE class = code>
+public static int recursiveF(int n)
+   {return (n % 2 == 0) ? n / 2 : recursiveF(3 * n + 1);}
+</pre>
+<HR class=coderule><BR>
+<br><br>
+<dt>(d)
+<dd>
+The iterative method <code class=code>misc.F.iterativeF</code>
+is given below.
+
+<BR>
+</P>
+<HR class = coderule>
+<PRE class = code>
+public static int iterativeF(int n)
+   {return (n % 2 == 0) ? n / 2 : (3 * n + 1) / 2;}
+</pre>
+<HR class=coderule><BR>
+</FONT>
+</BODY>
+</HTML>
