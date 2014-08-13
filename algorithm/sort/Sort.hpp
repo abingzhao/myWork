@@ -18,6 +18,15 @@ void Swap(T& lhs,T& rhs)
     rhs = tmp;
 }
 
+
+
+template <typename T>
+void PrintSeq(T *inPtr, int seqLen)
+{
+    copy(inPtr, inPtr + seqLen, std::ostream_iterator<int>(std::cout,", ")); 
+    std::cout<<std::endl;
+}
+
 template <typename T>
 bool IsUpOrdered(T* seqPtr, int seqLen)
 {
