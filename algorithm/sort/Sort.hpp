@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cassert>
-#include "../../CodeTiming.h"
+#include "../../general/CodeTiming.h"
 
 template <typename T>
 void Swap(T& lhs,T& rhs)
