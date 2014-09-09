@@ -16,6 +16,8 @@
 /*******************************************************************************
     Inlcude 
 *******************************************************************************/
+#ifndef INCLUDE_BINARY_SEARCH_TREE_H
+#define INCLUDE_BINARY_SEARCH_TREE_H
 #include <iostream>
 
 /*******************************************************************************
@@ -279,35 +281,4 @@ treeNode<T> *TreeDelete(treeNode<T> *rootNode, treeNode<T>* node)
     return rootNode;
 }
 
-
-
-
-int main(int argc, char const *argv[])
-{
-    int a[] = {1,15,5,16,9,18,30,2};
-    treeNode<int> *rootNode = CreateTree(a, sizeof(a)/sizeof(a[0]));
-    
-
-
-    // treeNode<int> *pp  = TreeMaximum(rootNode);
-    
-    // if(pp)
-    //     cout << pp->key << endl;
-    // pp = TreeMinimum(rootNode);
-    
-    // if(pp)
-    //     cout << pp->key << endl;
-
-    InorderTreeWalk(rootNode);
-    while(rootNode)
-    {
-        cout << "\norigin :"; 
-        InorderTreeWalk(rootNode);
-        rootNode = TreeDelete(rootNode,rootNode);
-        // TreeDelete(rootNode,rootNode);
-        cout << "\nafter  :"; 
-        InorderTreeWalk(rootNode);
-    }
-    std::cout << "\nMain Finished" << std::endl;
-    return 0;
-}
+#endif /*INCLUDE_BINARY_SEARCH_TREE_H*/
