@@ -30,11 +30,11 @@ typedef enum {
 template <typename T>
 struct AVLTreeNode
 {
-    T value;
+    T key;
     BalanceFactor bFactor;// 
     AVLTreeNode<T> * pLeftChild, *pRightChild;
     AVLTreeNode(T _val = 0)
-    : value(_val),
+    : key(_val),
       bFactor(BALANCED),
       pLeftChild(NULL),
       pRightChild(NULL)
@@ -179,12 +179,12 @@ bool AVLInsert(AVLTreeNode<T> **Tree, const T ele, bool &taller)
     }
     else
     {
-        if(ele == (*Tree)->value)
+        if(ele == (*Tree)->key)
         {
             taller = false;
             return false;
         }
-        if(ele < (*Tree)->value)
+        if(ele < (*Tree)->key)
         {
             if(!AVLInsert(&(*Tree)->pLeftChild, ele, taller))
                 return false;
@@ -261,11 +261,11 @@ bool AVLSearch( AVLTreeNode<T> *rootNode, const T ele,
     *targetNode = rootNode;
     while(*targetNode)
     {
-        if((*targetNode)->value == ele)
+        if((*targetNode)->key == ele)
             return true;
 
         (*pNode) = (*targetNode);
-        if(ele < (*targetNode)->value)
+        if(ele < (*targetNode)->key)
         {
             *targetNode = (*targetNode)->pLeftChild;
         }
@@ -275,6 +275,8 @@ bool AVLSearch( AVLTreeNode<T> *rootNode, const T ele,
         }
     }
 }
+
+
 
 
 #endif /*INCLUDE_AVLTREE_H*/
