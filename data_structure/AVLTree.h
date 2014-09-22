@@ -275,8 +275,4 @@ bool AVLSearch( AVLTreeNode<T> *rootNode, const T ele,
         }
     }
 }
-
-
-
-
 #endif /*INCLUDE_AVLTREE_H*/

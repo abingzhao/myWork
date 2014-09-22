@@ -69,7 +69,7 @@ void PostOrderTraverse(T pRoot)
 
 *******************************************************************************/
 template <typename T>
-void PreOrderNonrecursive(T rootNode)     //先序遍历的非递归  
+void PreOrderNonrecursive(T rootNode)  
 {
     if(!rootNode)  
         return ;  
@@ -88,7 +88,7 @@ void PreOrderNonrecursive(T rootNode)     //先序遍历的非递归
     }
 }
 template <typename T>
-void InOrderNonrecursive(T rootNode)     //先序遍历的非递归  
+void InOrderNonrecursive(T rootNode)  
 {  
     if (NULL == rootNode)  
         return;  
@@ -115,22 +115,31 @@ void InOrderNonrecursive(T rootNode)     //先序遍历的非递归
     }  
 }  
 template <typename T>
-void PostOrderNonrecursive(T rootNode)     //先序遍历的非递归  
+void PostOrderNonrecursive(T rootNode)  
 {
     if(!rootNode)  
         return ;  
  
     stack<T> s;
-    s.push(rootNode);
-    while(!s.empty())
+    T curNode  = rootNode;
+    T lastNode = NULL;
+    while(!s.empty() || curNode)
     {
-        T temp = s.top();
-        s.pop();
-        if(temp->pRightChild)
-            s.push(temp->pRightChild);
-        if(temp->pLeftChild)
-            s.push(temp->pLeftChild);
-        cout << (temp->key) << ", ";
+        while(curNode)
+        {
+            s.push(curNode);
+            curNode = curNode->pLeftChild;
+        }
+        curNode = s.top();
+        if(curNode->pRightChild == NULL || curNode->pRightChild == lastNode)
+        {
+            cout << curNode->key << ", ";
+            lastNode = curNode;
+            s.pop();
+            curNode  = NULL;
+        }
+        else 
+            curNode = curNode->pRightChild;
     }
 }
 /*******************************************************************************

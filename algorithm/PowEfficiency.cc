@@ -1,5 +1,4 @@
 #include <iostream>
-#include "../CodeTiming.h"
 using namespace std;
 
 /* Return m^n*/
@@ -25,11 +24,28 @@ long PowRecursion(long m, long n)
     else
         return PowRecursion(m*m, n/2) * m;
 }
-
+bool IsPOwerOfFour(int inPut)
+{
+    while(inPut)
+    {
+        if(inPut == 1)
+            return true;
+        else
+            inPut = inPut>>2;
+    }
+    return false;
+}
 int main(int argc, char const *argv[])
 {
-    cout<<PowCyclic(2,12)<<endl;
-    cout<<PowRecursion(2,12)<<endl;
+    cout << IsPOwerOfFour(16) << endl;
+    // cout<<PowCyclic(2,12)<<endl;
+    // cout<<PowRecursion(2,12)<<endl;
+    int  a[] = {1,2,3,4,5,6};
+    int *p = a;
+    int **q = &p;
+    cout << (*(p++)) << endl;
+    cout << **q << endl;
+
     cout<<"Main Done!"<<endl;
     return 0;
 }
